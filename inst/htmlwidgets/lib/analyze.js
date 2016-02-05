@@ -1,0 +1,1 @@
+../../../../triwise_server/triwise_server/static/js/analyze.js

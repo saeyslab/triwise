@@ -1,0 +1,29 @@
+dependencies:
+- name: jquery
+  version: 2.2.0
+  src: htmlwidgets/lib/bower_components/jquery/dist
+  script: jquery.js
+- name: d3
+  version: 3.5.12
+  src: htmlwidgets/lib/bower_components/d3
+  script: d3.js
+- name: mathjs
+  version: 2.6.0
+  src: htmlwidgets/lib/bower_components/mathjs/dist
+  script: math.js
+- name: underscore
+  version: 1.8.3
+  src: htmlwidgets/lib/bower_components/underscore
+  script: underscore.js
+- name: d3-tip
+  version: 0.6.7
+  src: htmlwidgets/lib/bower_components/d3-tip
+  script: index.js
+- name: triwise
+  version: 0.1
+  src: htmlwidgets/lib
+  script:
+    - visualize.js
+    - analyze.js
+    - util.js
+  stylesheet: css/triwise.css

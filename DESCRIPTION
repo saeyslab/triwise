@@ -1,0 +1,21 @@
+Package: triwise
+Title: Gene set enrichment in three biological conditions.
+Version: 0.0.0.9000
+Authors@R: person("Wouter", "Saelens", email = "wouter.saelens@gmail.com", role = c("aut", "cre"))
+Description: The triwise package provides function to analyze and visualize gene expression and gene set enrichment in three biological conditions. Gene expression is converted to a barycentric representation.
+Depends:
+    R (>= 3.2.3)
+License: What license is it under?
+LazyData: true
+Imports:
+    htmlwidgets,
+    GSEABase,
+    circular,
+    limma,
+    ggplot2,
+    plyr,
+    tidyr
+RoxygenNote: 5.0.1
+Suggests: testthat
+Imports: Rcpp
+LinkingTo: Rcpp, RcppArmadillo
