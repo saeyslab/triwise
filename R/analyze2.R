@@ -30,7 +30,7 @@ transformBarycentric = function(E, transfomatrix=NULL) {
 }
 
 #' @export
-transformReverseBarycentric = function(barycoords, transfomatrix=NULL) {
+transformReverseBarycentric = function(scores, transfomatrix=NULL) {
   if (is.null(transfomatrix)) {
     anglebase = 0
     transfomatrix = matrix(
@@ -44,7 +44,7 @@ transformReverseBarycentric = function(barycoords, transfomatrix=NULL) {
   }
 
   barycoords = do.call(cbind, list(x=cos(scores$angle), y=sin(scores$angle)))
-  enrichmat = barycoords3 %*% t(ginv(transfomatrix))
+  enrichmat = barycoords %*% t(MASS::ginv(transfomatrix))
   rownames(enrichmat) = scores$name
 
   enrichmat

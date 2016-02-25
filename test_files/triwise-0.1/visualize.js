@@ -1,4 +1,4 @@
-var Dotplot, Dots, Roseplot, Roses, drawCircleGrid, drawDirections, drawHexagonGrid;
+var Dotplot, Dots, Pvalplot, Roseplot, Roses, drawCircleGrid, drawDirections, drawHexagonGrid;
 
 drawHexagonGrid = function(ax, rmax, scale, rdelta, rmin, anglebase, color, alpha, lw) {
   var angle, grid, hexagon_points, l, m, point, r, ref, ref1, ref2, ref3, ref4, ref5;
@@ -201,6 +201,87 @@ Roseplot = (function() {
 
 })();
 
+Pvalplot = (function() {
+  function Pvalplot(ax1, w, h, scores, rmax1, labels1) {
+    var alldotsdata, pval, tip;
+    this.ax = ax1;
+    this.w = w;
+    this.h = h;
+    this.scores = scores;
+    this.rmax = rmax1;
+    this.labels = labels1;
+    this.scale = (function(_this) {
+      return function(x) {
+        return x * (_this.h - 0) / (_this.rmax * 2);
+      };
+    })(this);
+    this.grid = drawCircleGrid(this.ax, this.scale, (function() {
+      var l, len, ref, results;
+      ref = [0.1, 0.01, 0.001, 0.0001, 0.00001];
+      results = [];
+      for (l = 0, len = ref.length; l < len; l++) {
+        pval = ref[l];
+        results.push(-math.log10(pval));
+      }
+      return results;
+    })());
+    this.directions = drawDirections(this.ax, this.rmax, this.scale, this.labels, 0, "black", 0.025);
+    alldotsdata = this.generateDotsData();
+    this.alldots = new Dots(this.ax, alldotsdata, this.scale);
+    tip = d3.tip().html(function(d) {
+      return d.gsetname;
+    }).attr('class', 'd3-tip').offset([-10, 0]);
+    this.alldots.dots.call(tip);
+    this.alldots.dots.selectAll("g").on("mouseover", tip.show).on("mouseout", tip.hide).classed("pval", true);
+  }
+
+  Pvalplot.prototype.generateDotsData = function(filterflags) {
+    var angle, classes, dotsdata, l, len, newpoint, passed, r, ref, row, sizeScale;
+    if (filterflags == null) {
+      filterflags = {};
+    }
+    dotsdata = [];
+    sizeScale = function(d) {
+      return Math.pow(1 - d.redundancy, 2) * 5 + 1;
+    };
+    ref = this.scores;
+    for (l = 0, len = ref.length; l < len; l++) {
+      row = ref[l];
+      console.log(-row.logqval_unidir);
+      if (row.logqval_unidir !== void 0) {
+        r = math.min(this.rmax, -row.logqval_unidir);
+        console.log(-row.logqval_unidir);
+        angle = row.angle;
+        newpoint = polar2cart({
+          "angle": angle,
+          "r": r
+        });
+        classes = [];
+        passed = true;
+        if (filterflags.significant && r < -math.log10(0.1)) {
+          passed = false;
+        }
+        if (passed) {
+          dotsdata.push({
+            "x": newpoint.x,
+            "y": newpoint.y,
+            "angle": angle,
+            "r": r,
+            "gsetid": row.gsetid,
+            "gsetname": row.name,
+            "classes": classes,
+            "size": sizeScale(row)
+          });
+        }
+      }
+    }
+    return dotsdata;
+  };
+
+  return Pvalplot;
+
+})();
+
 Dotplot = (function() {
   function Dotplot(ax1, w, h, barycoords, rmax1, labels1, Glabels) {
     var goidotsdata, padding;
@@ -236,10 +317,28 @@ Dotplot = (function() {
       rmin: 4,
       rmax: null
     };
-    this.rings = this.ax.append("g").classed("rings", true);
-    this.pins = this.ax.append("g").classed("pins", true);
+    this.pins = this.ax.insert("g", ":first-child").classed("pins", true);
+    this.rings = this.ax.insert("g", ":first-child").classed("rings", true);
     this.ghover = this.ax.append("circle").classed("ghover", true).attr("r", 5).style("visibility", "hidden");
     this.logpval_scale = d3.scale.linear().domain(_.range(0, -5, -0.25)).range(["#fff5f0", "#ffede5", "#fee5d8", "#fed9c9", "#fdcab5", "#fcbba1", "#fcab8f", "#fc9b7c", "#fc8a6a", "#fb7a5a", "#fb694a", "#f6583e", "#f14432", "#e83429", "#d92523", "#ca181d", "#bc141a", "#ac1117", "#980c13", "#7e0610"]).clamp(true);
+    this.opts = {
+      visual: {
+        goi: {
+          "fill": d3.hsl(0, 0.7, 0.15)
+        },
+        goidiffexp: {
+          "fill": d3.hsl(0, 0.9, 0.45)
+        },
+        direction_label: {
+          "font-weight": "bold",
+          "font-size": "1em"
+        },
+        pin_label: {
+          "font-size": "0.8em"
+        }
+      }
+    };
+    this.updateVisual();
   }
 
   Dotplot.prototype.updateHover = function(gid) {
@@ -360,7 +459,8 @@ Dotplot = (function() {
       "diffexp": true,
       "goi": true
     });
-    return this.goidots.updateData(goidotsdata);
+    this.goidots.updateData(goidotsdata);
+    return this.updateVisual();
   };
 
   Dotplot.prototype.initGpin = function(Gpin) {
@@ -434,7 +534,7 @@ Dotplot = (function() {
       return d.va;
     }).style("text-anchor", function(d) {
       return d.ha;
-    }).attr("class", "pin_label").style("font-size", 10).on('mouseover', (function(_this) {
+    }).attr("class", "pin_label").on('mouseover', (function(_this) {
       return function(d) {
         return _this.updateHover(d.gid);
       };
@@ -465,7 +565,7 @@ Dotplot = (function() {
       return function(d) {
         return _this.scale(d.labely);
       };
-    })(this)).style("fill", "none").style("stroke", "#FF1E00").style("opacity", 0.3).style("stroke-width", 1);
+    })(this)).style("fill", "none").style("stroke", "#333").style("opacity", 0.6).style("stroke-width", 1);
   };
 
   Dotplot.prototype.optimizeGpin = function(padding, shrink) {
@@ -473,6 +573,7 @@ Dotplot = (function() {
     if (shrink == null) {
       shrink = false;
     }
+    this.updateVisual();
     forcedata = [];
     for (i = l = 0, ref = this.pindata.length - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       next = math.mod(i + 1, this.pindata.length);
@@ -568,23 +669,44 @@ Dotplot = (function() {
     }
   };
 
+  Dotplot.prototype.updateOptions = function(newopts) {
+    if ("visual" in newopts) {
+      $.extend(this.opts.visual, newopts.visual);
+      return this.updateVisual();
+    }
+  };
+
+  Dotplot.prototype.updateVisual = function() {
+    this.goidots.dots.selectAll("g").style(this.opts.visual.goi);
+    this.goidots.dots.selectAll("g.diffexp").style(this.opts.visual.goidiffexp);
+    this.directions.selectAll("text").style(this.opts.visual.direction_label);
+    return this.pins.selectAll("text").style(this.opts.visual.pin_label);
+  };
+
   return Dotplot;
 
 })();
 
 Dots = (function() {
   function Dots(ax1, dotsdata1, scale1) {
+    var individualdots;
     this.ax = ax1;
     this.dotsdata = dotsdata1;
     this.scale = scale1;
     this.dots = this.ax.append("g").classed("dots", true);
-    this.dots.selectAll("g").data(this.dotsdata).enter().append("g").attr("class", function(d) {
+    individualdots = this.dots.selectAll("g").data(this.dotsdata).enter().append("g").attr("class", function(d) {
       return d.classes;
     }).attr("transform", (function(_this) {
       return function(d) {
         return "translate(" + _this.scale(d.x) + ", " + _this.scale(d.y) + ")";
       };
-    })(this)).append("circle").attr("cx", 0).attr("cy", 0).attr("r", 1);
+    })(this)).append("circle").attr("cx", 0).attr("cy", 0).attr("r", 1).attr("transform", function(d) {
+      if (d.size != null) {
+        return "scale(" + d.size + ")";
+      } else {
+        return "scale(3)";
+      }
+    });
   }
 
   Dots.prototype.updateData = function(dotsdata1) {

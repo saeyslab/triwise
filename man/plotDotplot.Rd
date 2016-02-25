@@ -4,7 +4,8 @@
 \alias{plotDotplot}
 \title{Creating a dotplot}
 \usage{
-plotDotplot(E, Gdiffexp = NULL, Goi = NULL)
+plotDotplot(E, barycoords = NULL, Gdiffexp = NULL, Goi = NULL,
+  Coi = colnames(E), colorby = "diffexp")
 }
 \arguments{
 \item{E}{Expression matrix}

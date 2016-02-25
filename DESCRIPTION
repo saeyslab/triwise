@@ -14,8 +14,8 @@ Imports:
     limma,
     ggplot2,
     plyr,
-    tidyr
+    tidyr,
+    Rcpp
 RoxygenNote: 5.0.1
 Suggests: testthat
-Imports: Rcpp
 LinkingTo: Rcpp, RcppArmadillo

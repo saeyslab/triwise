@@ -6,18 +6,16 @@
 
 using namespace Rcpp;
 
-// backgroundModel
-List backgroundModel(NumericVector angles, int nsamples, int samplesize, int nangles, double bw);
-RcppExport SEXP triwise_backgroundModel(SEXP anglesSEXP, SEXP nsamplesSEXP, SEXP samplesizeSEXP, SEXP nanglesSEXP, SEXP bwSEXP) {
+// backgroundModel2
+List backgroundModel2(NumericMatrix P, int nsamples, int samplesize);
+RcppExport SEXP triwise_backgroundModel2(SEXP PSEXP, SEXP nsamplesSEXP, SEXP samplesizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericVector >::type angles(anglesSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type P(PSEXP);
     Rcpp::traits::input_parameter< int >::type nsamples(nsamplesSEXP);
     Rcpp::traits::input_parameter< int >::type samplesize(samplesizeSEXP);
-    Rcpp::traits::input_parameter< int >::type nangles(nanglesSEXP);
-    Rcpp::traits::input_parameter< double >::type bw(bwSEXP);
-    __result = Rcpp::wrap(backgroundModel(angles, nsamples, samplesize, nangles, bw));
+    __result = Rcpp::wrap(backgroundModel2(P, nsamples, samplesize));
     return __result;
 END_RCPP
 }
