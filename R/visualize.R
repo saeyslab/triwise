@@ -150,7 +150,7 @@ plotDotplot <- function(E, barycoords=NULL, Gdiffexp=NULL, Goi=NULL, Coi=colname
 
   rmax=5
 
-  colorpal = colorRamp(brewer.pal(9, "YlOrRd"))
+  colorpal = colorRamp(RColorBrewer::brewer.pal(9, "YlOrRd"))
 
   if (colorby == "diffexp") {
     color = rep("#888888", nrow(E))

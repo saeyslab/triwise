@@ -13,11 +13,13 @@ plotDotplot(E, barycoords = NULL, Gdiffexp = NULL, Goi = NULL,
 \item{Gdiffexp}{Differentially expressed genes}
 
 \item{Goi}{Genes of interest}
+
+\item{colorby}{Color by differential expression ("diffexp") or by log fold-change ("z")}
 }
 \value{
 Dataframe containing for every original point its new x and y coordinates in barycentric space
 }
 \description{
-Converts the expression matrix containing 3 biological conditions to barycentric coordinates.
+Plot a dotplot
 }
 
