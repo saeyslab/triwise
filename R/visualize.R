@@ -24,12 +24,17 @@ drawHexagonGrid <- function(rmax=5, color="#999999") {
 
 #' @import ggplot2
 #' @export
-drawCircleGrid <- function(rmax=5, color="#999999") {
+drawCircleGrid <- function(rmax=5, rstep=1, rbase=0, color="#999999") {
   circlepoints <- plyr::ldply(seq(0, pi*2-0.001, pi/100), function(angle) data.frame(x=cos(angle), y=sin(angle)))
-  gridData <- dplyr::bind_rows(lapply(seq_len(rmax), function(r) data.frame(r=r, x=circlepoints$x * r, y =circlepoints$y * r)))
+  gridData <- dplyr::bind_rows(lapply(seq(rbase, rmax+rbase, rstep), function(r) data.frame(r=r, x=circlepoints$x * r, y =circlepoints$y * r)))
+    geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
+}
 
+#' @import ggplot2
+#' @export
+drawGridBasis <- function() {
   ggplot() +
-    coord_equal() +
+  coord_equal() +
     theme_minimal() +
     theme(
       axis.title.x=element_blank(),
@@ -40,8 +45,56 @@ drawCircleGrid <- function(rmax=5, color="#999999") {
       panel.grid.minor=element_blank(),
       panel.grid.major=element_blank(),
       panel.background=element_blank()
-    ) +
-    geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
+    )
+}
+
+#' @import ggplot2
+#' @export
+#' @description hai liesbet
+plotRoseplot = function(Eoi, Gdiffexp, Goi=rownames(Eoi), labels=colnames(Eoi), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
+barycoords = triwise::transformBarycentric(Eoi)
+
+deltaalpha = pi*2/nbins
+
+Goidiffexp = intersect(Goi, Gdiffexp)
+percnochange = (1- length(Goidiffexp)/length(Goi))
+if(is.na(percnochange)) {percnochange=0}
+
+bins = seq(0, pi*2-0.0001, by=deltaalpha)
+if (length(Goidiffexp) > 0) {
+  binned = sapply(barycoords[Goidiffexp, "angle"], function(x) {
+    binid = which.min(abs(sapply(bins, diffCircular, x)))
+    if (is.na(binid)) {
+      binid = 1
+    }
+    binid
+  })
+
+  bincounts = tabulate(binned, nbins=nbins)
+
+} else {
+  bincounts = rep(0,nbins)
+}
+percschange = bincounts/length(Goidiffexp)
+
+plot = drawGridBasis()
+
+circlesect = function(angle1=0, angle2=pi*2, r=1) {
+  points = plyr::ldply(seq(angle1, angle2, (angle2-angle1)/100), function(angle) data.frame(x=cos(angle)*r, y=sin(angle)*r))
+  points = rbind(points, data.frame(x=0,y=0))
+}
+
+for (binid in 1:length(bins)) {
+  angle1 = bins[binid] - deltaalpha/2
+  angle2 = (angle1 + deltaalpha)
+
+  perchange = percschange[binid]
+
+  sector = circlesect(angle1, angle2, r = percnochange/nbins + perchange)
+
+  plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
+}
+plot + drawDirections(0.2, colnames(Eoi), type="circular") + drawCircleGrid(ceiling(max(percschange) * 10)/10, 0.1)
 }
 
 #' @import ggplot2
