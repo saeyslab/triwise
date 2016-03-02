@@ -49,6 +49,8 @@ drawGridBasis <- function() {
 }
 
 #' @import ggplot2
+#' @title plotRoseplot
+#' @name plotRoseplot
 #' @export
 #' @description hai liesbet
 plotRoseplot = function(Eoi, Gdiffexp, Goi=rownames(Eoi), labels=colnames(Eoi), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {

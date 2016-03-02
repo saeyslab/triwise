@@ -2,6 +2,7 @@
 % Please edit documentation in R/visualize.R
 \name{plotRoseplot}
 \alias{plotRoseplot}
+\title{plotRoseplot}
 \usage{
 plotRoseplot(Eoi, Gdiffexp, Goi = rownames(Eoi), labels = colnames(Eoi),
   nbins = 12, bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6))
