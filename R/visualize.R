@@ -96,7 +96,8 @@ for (binid in 1:length(bins)) {
 
   plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
 }
-plot + drawDirections(0.2, colnames(Eoi), type="circular") + drawCircleGrid(ceiling(max(percschange) * 10)/10, 0.1)
+rmax = ceiling(max(percschange) * 10)/10
+plot + drawDirections(rmax, colnames(Eoi), type="circular") + drawCircleGrid(rmax, 0.1)
 }
 
 #' @import ggplot2
