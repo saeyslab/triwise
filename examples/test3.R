@@ -18,6 +18,8 @@ Eraw = read.table("../../data/expression/mouse_immune/Eraw.tsv", sep="\t", check
 design = read.table("../../data/expression/mouse_immune/design.csv", sep="\t", check.names = F, stringsAsFactors = F)
 annot = read.table("../../data/expression/mouse_immune/annot.tsv", sep="\t", check.names = F, stringsAsFactors = F)
 
+design$condition = design$celltype
+
 library(limma)
 library(biomaRt)
 library(pheatmap)
@@ -27,8 +29,9 @@ Eraw = Eraw[!is.na(annot$entrezgene[match(rownames(Eraw), annot$mgi_id)]), ]
 Eraw = avereps(Eraw, ID=annot$entrezgene[match(rownames(Eraw), annot$mgi_id)])
 
 design = design[colnames(Eraw),]
-
 E = avearrays(Eraw, design$celltype)
+
+save(Eraw=Eraw, E, design, annot, file="../../data/expression/mouse_immune/E.RData")
 
 cellcors = cor(Eraw)
 pheatmap(cellcors)
@@ -83,7 +86,7 @@ interactiveDotplot(Eoi, Gdiffexp, Glabels, Goi)
 
 interactivePvalplot(scores, setNames(gsetindex$name, gsetindex$gsetid), Coi)
 
-plotDotplot(Eoi, Gdiffexp, Goi)
+plotDotplot(Eoi, Gdiffexp)
 
 scores$r = -log10(scores$qval)
 scores$x = cos(scores$angle) * scores$r

@@ -2,6 +2,7 @@ library(org.Mm.eg.db)
 library(org.Hs.eg.db)
 library(GO.db)
 gsets = as.list(org.Mm.egGO2ALLEGS)
+gsets = sapply(gsets, function(gset) as.character(org.Mm.egSYMBOL[gset]))
 gsetindex = dplyr::bind_rows(lapply(as.list(GOTERM[names(gsets)]), function(goinfo) {
   list(name=Term(goinfo), definition=Definition(goinfo), ontology=Ontology(goinfo), gsetid = GOID(goinfo))
 }))

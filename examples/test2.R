@@ -25,9 +25,13 @@ design = design[colnames(Eraw),]
 designmat = model.matrix(~condition, design)
 Eraw2 = voom(Eraw, designmat, normalize.method = "quantile")$E
 
-write.table(t(Eraw2), "../../data/expression/asthmaTh/Eraw2.tsv", sep="\t")
-
 E = avearrays(Eraw2, design$condition)
+
+Eraw = Eraw2
+
+save(Eraw, E, design, annot, file="../../data/expression/asthmaTh/E.RData")
+
+write.table(t(Eraw2), "../../data/expression/asthmaTh/Eraw2.tsv", sep="\t")
 
 cellcors = cor(Eraw2)
 pheatmap(cellcors)
@@ -47,7 +51,7 @@ fit <- lmFit(Eraw2,designmat)
 contrastmat <- makeContrasts("B-A", "C-A", "C-B", levels=designmat)
 fit = contrasts.fit(fit, contrastmat)
 fit = eBayes(fit)
-Gdiffexp = rownames(topTable(fit, p.value = 0.05, lfc = log2(2), number = Inf))
+Gdiffexp = rownames(topTable(fit, p.value = 0.1, lfc = log2(2), number = Inf))
 
 scores = testEnrichment(Gdiffexp, gsets, background)
 scores$name = dplyr::left_join(scores, gsetindex, "gsetid")$name
