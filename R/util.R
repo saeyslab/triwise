@@ -1,17 +1,24 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib triwise
 
+addPolar <- function(barypoints) {
+  barypoints$angle = atan2(barypoints$y, barypoints$x)
+  barypoints$r = sqrt(barypoints$x^2 + barypoints$y^2)
+
+  barypoints
+}
+
 hexagonPolar <- function(angle, radius=1) {
   delta <- 2*pi/6
   cos(delta/2)/cos((angle %% delta)-delta/2) * radius
 }
 
-clipHexagon <- function(barycoords, rmax) {
-  barycoords["rclip"] = apply(barycoords, 1, function(row) min(hexagonPolar(row["angle"], rmax), row["r"]))
-  barycoords["xclip"] = cos(barycoords["angle"]) * barycoords["rclip"]
-  barycoords["yclip"] = sin(barycoords["angle"]) * barycoords["rclip"]
+clipHexagon <- function(barypoints, rmax) {
+  barypoints["rclip"] = mapply(function(angle, r) {min(hexagonPolar(angle, rmax), r)}, barypoints$angle, barypoints$r)
+  barypoints["xclip"] = cos(barypoints["angle"]) * barypoints["rclip"]
+  barypoints["yclip"] = sin(barypoints["angle"]) * barypoints["rclip"]
 
-  barycoords
+  barypoints
 }
 
 areColors <- function(x) {
@@ -49,6 +56,8 @@ circularZ <- function(angles) {
 circularZ <- function(angles, rs) {
   sqrt(sum(cos(angles) * rs)**2 + sum(sin(angles) * rs)**2)/length(angles)
 }
+
+
 
 #' @export
 jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}

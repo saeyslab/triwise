@@ -51,53 +51,53 @@ drawGridBasis <- function() {
 #' @import ggplot2
 #' @title plotRoseplot
 #' @name plotRoseplot
-#' @description hai liesbet
+#' @description A rose plot shows the distribution of the differentially expressed genes in different directions.
 #' @export
 plotRoseplot = function(Eoi, Gdiffexp, Goi=rownames(Eoi), labels=colnames(Eoi), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
-barycoords = triwise::transformBarycentric(Eoi)
+  barycoords = triwise::transformBarycentric(Eoi)
 
-deltaalpha = pi*2/nbins
+  deltaalpha = pi*2/nbins
 
-Goidiffexp = intersect(Goi, Gdiffexp)
-percnochange = (1- length(Goidiffexp)/length(Goi))
-if(is.na(percnochange)) {percnochange=0}
+  Goidiffexp = intersect(Goi, Gdiffexp)
+  percnochange = (1- length(Goidiffexp)/length(Goi))
+  if(is.na(percnochange)) {percnochange=0}
 
-bins = seq(0, pi*2-0.0001, by=deltaalpha)
-if (length(Goidiffexp) > 0) {
-  binned = sapply(barycoords[Goidiffexp, "angle"], function(x) {
-    binid = which.min(abs(sapply(bins, diffCircular, x)))
-    if (is.na(binid)) {
-      binid = 1
-    }
-    binid
-  })
+  bins = seq(0, pi*2-0.0001, by=deltaalpha)
+  if (length(Goidiffexp) > 0) {
+    binned = sapply(barycoords[Goidiffexp, "angle"], function(x) {
+      binid = which.min(abs(sapply(bins, diffCircular, x)))
+      if (is.na(binid)) {
+        binid = 1
+      }
+      binid
+    })
 
-  bincounts = tabulate(binned, nbins=nbins)
+    bincounts = tabulate(binned, nbins=nbins)
 
-} else {
-  bincounts = rep(0,nbins)
-}
-percschange = bincounts/length(Goidiffexp)
+  } else {
+    bincounts = rep(0,nbins)
+  }
+  percschange = bincounts/length(Goidiffexp)
 
-plot = drawGridBasis()
+  plot = drawGridBasis()
 
-circlesect = function(angle1=0, angle2=pi*2, r=1) {
-  points = plyr::ldply(seq(angle1, angle2, (angle2-angle1)/100), function(angle) data.frame(x=cos(angle)*r, y=sin(angle)*r))
-  points = rbind(points, data.frame(x=0,y=0))
-}
+  circlesect = function(angle1=0, angle2=pi*2, r=1) {
+    points = plyr::ldply(seq(angle1, angle2, (angle2-angle1)/100), function(angle) data.frame(x=cos(angle)*r, y=sin(angle)*r))
+    points = rbind(points, data.frame(x=0,y=0))
+  }
 
-for (binid in 1:length(bins)) {
-  angle1 = bins[binid] - deltaalpha/2
-  angle2 = (angle1 + deltaalpha)
+  for (binid in 1:length(bins)) {
+    angle1 = bins[binid] - deltaalpha/2
+    angle2 = (angle1 + deltaalpha)
 
-  perchange = percschange[binid]
+    perchange = percschange[binid]
 
-  sector = circlesect(angle1, angle2, r = percnochange/nbins + perchange)
+    sector = circlesect(angle1, angle2, r = percnochange/nbins + perchange)
 
-  plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
-}
-rmax = ceiling(max(percschange) * 10)/10
-plot + drawDirections(rmax, colnames(Eoi), type="circular") + drawCircleGrid(rmax, 0.1)
+    plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
+  }
+  rmax = ceiling(max(percschange) * 10)/10
+  plot + drawDirections(rmax, colnames(Eoi), type="circular") + drawCircleGrid(rmax, 0.1)
 }
 
 #' @import ggplot2
@@ -160,20 +160,16 @@ drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal") {
 
 #' @import ggplot2
 #' @export
-drawDotplot <- function(barycoords, rmax=5, color="black", alpha=1, order=NULL) {
-  barycoords = clipHexagon(barycoords, rmax)
-  barycoords$color = color
-  barycoords$alpha = alpha
+drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=1, order=NULL) {
+
+  barypoints = clipHexagon(barypoints, rmax)
 
   if(!is.null(order)) {
-    barycoords = barycoords[order,]
+    barypoints = barypoints[order,]
   }
 
-  dotplot = geom_point(aes(x=xclip, y=yclip, color=color), data=barycoords, size=0.5)
-
-  if (all(areColors(barycoords$color))) {
-    dotplot = c(dotplot, scale_color_identity())
-  }
+  dotplot = geom_point(aes(x=xclip, y=yclip, color=colorby), data=barypoints, size=0.5)
+  dotplot = c(dotplot, color)
 
   dotplot
 }
@@ -184,42 +180,56 @@ drawDotplot <- function(barycoords, rmax=5, color="black", alpha=1, order=NULL) 
 #'
 #' @param E Expression matrix
 #' @param Gdiffexp Differentially expressed genes
-#' @param Goi Genes of interest
+#' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list to plot multiple gene lists
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
 #' @return Dataframe containing for every original point its new x and y coordinates in barycentric space
 #' @import ggplot2
 #' @export
-plotDotplot <- function(E, barycoords=NULL, Gdiffexp=NULL, Goi=NULL, Coi=colnames(E), colorby="diffexp") {
+plotDotplot <- function(E, barycoords=NULL, Gdiffexp=NULL, Goi=NULL, Coi=colnames(E), colorby="diffexp", colors=NULL, rmax=5) {
   if (is.null(barycoords)) {
     barycoords = transformBarycentric(E)
   }
 
-  barycoords$goi = rownames(barycoords) %in% Goi
-  barycoords$diffexp = rownames(barycoords) %in% Gdiffexp
-
-  order = with(barycoords, order(goi, diffexp))
-
-  alpha = rep(0.5, nrow(E))
-  alpha[barycoords$goi] = 1
-  alpha[barycoords$diffexp] = 1
-  alpha[barycoords$goi & barycoords$diffexp] = 1
-
-  rmax=5
-
-  colorpal = colorRamp(RColorBrewer::brewer.pal(9, "YlOrRd"))
-
-  if (colorby == "diffexp") {
-    color = rep("#888888", nrow(E))
-    color[barycoords$goi] = "green"
-    color[barycoords$diffexp] = "#111111"
-    color[barycoords$goi & barycoords$diffexp] = "blue"
-  } else if(colorby == "z") {
-    color = rgb(colorpal(barycoords$z/max(barycoords$z)), max=255)
+  if (!is.list(Goi)) {
+    Goi = list(goi=Goi)
   }
+
+  if(ncol(barycoords) != 2) {
+    stop("Can only plot a dotplot if there with 3 biological conditions")
+  }
+
+  barypoints = as.data.frame(barycoords)
+  colnames(barypoints) = c("x", "y")
+  barypoints = addPolar(barypoints)
+
+  barypoints$diffexp = rownames(barypoints) %in% Gdiffexp
+  barypoints$goi = F
+  barypoints$goiname = "all"
+  for (goiname in names(Goi)) {
+    barypoints[Goi[[goiname]], "goi"] = T
+    barypoints[Goi[[goiname]], "goiname"] = goiname
+  }
+
+  if (is.null(colors)) {
+    if (colorby == "diffexp") {
+      color = scale_colour_manual(
+        values=setNames(c("#888888", RColorBrewer::brewer.pal(length(Goi), "Set1")), c("all", names(Goi)))
+      )
+      barypoints$colorby = barypoints$goiname
+    } else if (colorby == "z") {
+      color = scale_colour_continuous()
+      barypoints$colorby = barypoints$z
+    } else {
+      color = scale_colour_continuous()
+      barypoints$colorby = barypoints$r
+    }
+  }
+
+  order = with(barypoints, order(goi, diffexp))
 
   plot = drawHexagonGrid() +
     drawDirections(rmax, Coi) +
-    drawDotplot(barycoords, color=color, order=order, alpha=alpha)
+    drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha)
 
   plot
 }
