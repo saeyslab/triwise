@@ -4,10 +4,11 @@
 \alias{plotRoseplot}
 \title{plotRoseplot}
 \usage{
-plotRoseplot(Eoi, Gdiffexp, Goi = rownames(Eoi), labels = colnames(Eoi),
-  nbins = 12, bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6))
+plotRoseplot(barycoords, Gdiffexp, Goi = rownames(barycoords),
+  conditions = attr(barycoords, "conditions"), nbins = 12,
+  bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6))
 }
 \description{
-hai liesbet
+A rose plot shows the distribution of the differentially expressed genes in different directions.
 }
 

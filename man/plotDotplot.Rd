@@ -4,17 +4,20 @@
 \alias{plotDotplot}
 \title{Creating a dotplot}
 \usage{
-plotDotplot(E, barycoords = NULL, Gdiffexp = NULL, Goi = NULL,
-  Coi = colnames(E), colorby = "diffexp")
+plotDotplot(barycoords, diffexp = NULL, gsets = NULL,
+  conditions = attr(barycoords, "conditions"), colorby = "diffexp",
+  colors = NULL, rmax = 5)
 }
 \arguments{
-\item{E}{Expression matrix}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}}
 
-\item{Gdiffexp}{Differentially expressed genes}
+\item{gsets}{Genes of interest, a character or numeric vector to plot one set of genes, a named list to plot multiple gene lists}
 
-\item{Goi}{Genes of interest}
+\item{conditions}{Character vector specifying the names of the three biological conditions}
 
 \item{colorby}{Color by differential expression ("diffexp") or by log fold-change ("z")}
+
+\item{Gdiffexp}{Differentially expressed genes}
 }
 \value{
 Dataframe containing for every original point its new x and y coordinates in barycentric space

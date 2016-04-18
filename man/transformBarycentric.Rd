@@ -4,7 +4,7 @@
 \alias{transformBarycentric}
 \title{Conversion to barycentric coordinates}
 \usage{
-transformBarycentric(E)
+transformBarycentric(E, transfomatrix = NULL)
 }
 \arguments{
 \item{E}{Expression matrix}

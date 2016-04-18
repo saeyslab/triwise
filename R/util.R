@@ -1,6 +1,21 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib triwise
 
+#' @title Barycentric transformation matrix
+#'
+#' @param anglebase Number of radians the first barycentric direction should be rotated anticlockwise
+#' @export
+getTransformationMatrix <- function(anglebase=0) {
+  matrix(
+    c(
+      cos(anglebase), sin(anglebase),
+      cos(pi*2/3+anglebase), sin(pi*2/3+anglebase),
+      cos(-pi*2/3+anglebase), sin(-pi*2/3+anglebase)
+    ),
+    nrow=2, ncol=3
+  )
+}
+
 addPolar <- function(barypoints) {
   barypoints$angle = atan2(barypoints$y, barypoints$x)
   barypoints$r = sqrt(barypoints$x^2 + barypoints$y^2)
@@ -61,3 +76,18 @@ circularZ <- function(angles, rs) {
 
 #' @export
 jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}
+
+
+#' make a named list using the variable names (avoids repeating the same name twice)
+#' @export
+named.list <- function(...) {
+  l <- list(...)
+  names(l) <- sapply(substitute(list(...)), deparse)[-1]
+  l
+}
+
+#'
+#' @export
+seqClosed <- function(a=0, b, length) {
+  head(seq(a, b, length=length+1), -1)
+}

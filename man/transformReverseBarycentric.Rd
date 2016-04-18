@@ -2,17 +2,19 @@
 % Please edit documentation in R/analyze.R
 \name{transformReverseBarycentric}
 \alias{transformReverseBarycentric}
-\title{Transform barycentric coordinates in `d-1` dimensions back to regular coordinates in `d` dimensions (centered around 0)}
+\title{Convert from barycentric coordinates back to original expression values}
 \usage{
-transformReverseBarycentric(barypoints)
+transformReverseBarycentric(scores, transfomatrix = NULL)
 }
 \arguments{
-\item{barypoints}{Barycentric coordinates}
+\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation}
+
+\item{barycoords}{Dataframe of barycentric coordinates with x and y in separate columns}
 }
 \value{
-E Expression matrix centered around zero
+Matrix containing for every gene
 }
 \description{
-Transform barycentric coordinates in `d-1` dimensions back to regular coordinates in `d` dimensions (centered around 0)
+Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant shift for each gene).
 }
 
