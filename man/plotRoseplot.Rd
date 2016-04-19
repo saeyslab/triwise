@@ -4,9 +4,25 @@
 \alias{plotRoseplot}
 \title{plotRoseplot}
 \usage{
-plotRoseplot(barycoords, Gdiffexp, Goi = rownames(barycoords),
-  conditions = attr(barycoords, "conditions"), nbins = 12,
-  bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6))
+plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
+  Goi = rownames(barycoords), size = "radius", Coi = attr(barycoords,
+  "conditions"), nbins = 12, bincolors = rainbow(nbins, start = 0, v = 0.8,
+  s = 0.6))
+}
+\arguments{
+\item{barycoords}{Dataframe contain barycentric coordinates as returned by `transformBarycentric`}
+
+\item{Gdiffexp}{List of differentially expressed genes}
+
+\item{Goi}{List of genes of interest}
+
+\item{size}{Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction}
+
+\item{Coi}{Names of the three biological conditions}
+
+\item{nbins}{Number of bins, should be a multiple of 3 to make sense}
+
+\item{bincolors}{Colors of every bin}
 }
 \description{
 A rose plot shows the distribution of the differentially expressed genes in different directions.

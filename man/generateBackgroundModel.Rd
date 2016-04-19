@@ -6,9 +6,9 @@
 \usage{
 generateBackgroundModel(barycoords, noi = seq(5, 100, 5),
   anglesoi = seqClosed(0, 2 * pi, 24), nsamples = 1e+05, bw = 20,
-  mc.cores = options("mc.cores"))
+  mc.cores = getOption("mc.cores", default = 1))
 }
 \description{
-Generates a background model by randomly resampling genes at different n and calculating z distributions at different n and angles
+Generates a background model by randomly resampling genes at different number of genes and calculating z distributions at different fixed angles
 }
 

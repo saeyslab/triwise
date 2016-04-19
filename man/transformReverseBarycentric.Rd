@@ -7,7 +7,7 @@
 transformReverseBarycentric(scores, transfomatrix = NULL)
 }
 \arguments{
-\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation}
+\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation matrix}
 
 \item{barycoords}{Dataframe of barycentric coordinates with x and y in separate columns}
 }
@@ -15,6 +15,6 @@ transformReverseBarycentric(scores, transfomatrix = NULL)
 Matrix containing for every gene
 }
 \description{
-Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant shift for each gene).
+Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant for each gene).
 }
 

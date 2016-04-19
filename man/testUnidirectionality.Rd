@@ -5,7 +5,8 @@
 \title{Test gene sets for unidirectional enrichment}
 \usage{
 testUnidirectionality(barycoords, gsets, bm = NULL, minknown = 5,
-  minfound = 5, maxknown = 500, mc.cores = options("mc.cores"))
+  minfound = 5, maxknown = 500, mc.cores = getOption("mc.cores", default =
+  1))
 }
 \arguments{
 \item{gsets}{list of character vectors, each containing a set of genes (gene identifiers)}

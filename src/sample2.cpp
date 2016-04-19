@@ -86,7 +86,7 @@ List backgroundModel2(NumericVector angles, NumericVector R, int nsamples, int s
     density = AD(id);
 
     for (int j=0;j<nangles; ++j) {
-      W(j, i) /= density;
+      //W(j, i) /= density;
     }
   }
 

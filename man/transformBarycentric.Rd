@@ -8,11 +8,13 @@ transformBarycentric(E, transfomatrix = NULL)
 }
 \arguments{
 \item{E}{Expression matrix}
+
+\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation matrix}
 }
 \value{
 Dataframe containing for every original point its new coordinates in `d-1` dimensions
 }
 \description{
-Converts the expression matrix containing two or more biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
+Converts the expression matrix containing three biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
 }
 

@@ -43,8 +43,15 @@ drawGridBasis <- function() {
 #' @title plotRoseplot
 #' @name plotRoseplot
 #' @description A rose plot shows the distribution of the differentially expressed genes in different directions.
+#' @param barycoords Dataframe contain barycentric coordinates as returned by `transformBarycentric`
+#' @param Gdiffexp List of differentially expressed genes
+#' @param Goi List of genes of interest
+#' @param size Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction
+#' @param Coi Names of the three biological conditions
+#' @param nbins Number of bins, should be a multiple of 3 to make sense
+#' @param bincolors Colors of every bin
 #' @export
-plotRoseplot = function(barycoords, Gdiffexp, Goi=rownames(barycoords), conditions=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
+plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
   barycoords = triwise::transformBarycentric(Eoi)
 
   deltaalpha = pi*2/nbins
@@ -72,7 +79,8 @@ plotRoseplot = function(barycoords, Gdiffexp, Goi=rownames(barycoords), conditio
 
   rmax = 1#ceiling(max(percschange) * 10)/10
 
-  plot = drawCircleGrid(rmax, 0.1, squared=T)
+
+  plot = drawCircleGrid(rmax, 0.2, squared=(size=="surface"))
 
   circlesect = function(angle1=0, angle2=pi*2, r=1) {
     points = plyr::ldply(seq(angle1, angle2, (angle2-angle1)/100), function(angle) data.frame(x=cos(angle)*r, y=sin(angle)*r))
@@ -85,13 +93,13 @@ plotRoseplot = function(barycoords, Gdiffexp, Goi=rownames(barycoords), conditio
 
     perchange = percschange[binid]
 
-    radius = sqrt(perchange)
+    radius = ifelse(size=="radius", perchange, sqrt(perchange))
 
     sector = circlesect(angle1, angle2, r = radius)
 
     plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
   }
-  plot + drawDirections(rmax, conditions, type="circular")
+  plot + drawDirections(rmax, Coi, type="circular")
 }
 
 #' @import ggplot2
@@ -173,77 +181,91 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
 #'
 #' @param barycoords Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}
 #' @param Gdiffexp Differentially expressed genes
-#' @param gsets Genes of interest, a character or numeric vector to plot one set of genes, a named list to plot multiple gene lists
-#' @param conditions Character vector specifying the names of the three biological conditions
+#' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list to plot multiple gene lists
+#' @param Coi Character vector specifying the names of the three biological conditions
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
+#' @param colorvalues Colors used according to colorby
+#' @param sizevalues List with the size of each dot if differentially expressed (`T`) or not (`F`)
 #' @return Dataframe containing for every original point its new x and y coordinates in barycentric space
 #' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, diffexp=NULL, gsets=NULL, conditions=attr(barycoords, "conditions"), colorby="diffexp", colors=NULL, rmax=5) {
-  if (!is.list(gsets)) {
-    gsets = list(gset=gsets)
+plotDotplot <- function(barycoords, Gdiffexp=NULL, Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8)) {
+  if (!is.list(Goi)) {
+    Goi = list(gset=Goi)
   }
 
   barypoints = as.data.frame(barycoords)
   colnames(barypoints) = c("x", "y")
   barypoints = addPolar(barypoints)
 
-  barypoints$diffexp = rownames(barypoints) %in% diffexp
+  barypoints$diffexp = rownames(barypoints) %in% Gdiffexp
   barypoints$ingset = F
   barypoints$gsetname = "all"
-  for (gsetname in names(gsets)) {
-    barypoints[gsets[[gsetname]], "ingset"] = T
-    barypoints[gsets[[gsetname]], "gsetname"] = gsetname
+  for (gsetname in names(Goi)) {
+    barypoints[Goi[[gsetname]], "ingset"] = T
+    barypoints[Goi[[gsetname]], "gsetname"] = gsetname
   }
   barypoints$type = paste0(ifelse(barypoints$diffexp, "diff", "nodiff"), barypoints$gsetname)
 
-  if (is.null(colors)) {
-    if (colorby == "diffexp") {
+  if (colorby == "diffexp") {
+    if (is.null(colorvalues)) {
       # make colorvalues in two steps so that extra colors (eg. if 1 gene set) are filled with nas
-      
+
       # different palletes for diffexp and nodiffexp
-      colorvalues = setNames(c("#333333", RColorBrewer::brewer.pal(max(length(gsets), 3), "Set1")), c("diffall", paste0("diff",names(gsets))))
-      colorvalues = c(colorvalues, setNames(c("#AAAAAA", RColorBrewer::brewer.pal(max(length(gsets), 3), "Pastel1")), c("nodiffall", paste0("nodiff", names(gsets)))))
-      
-      # sample palette
-      #colorvalues = setNames(c("#222222", RColorBrewer::brewer.pal(max(length(gsets), 3), "Set1")), c("all", names(gsets)))
-      color = scale_colour_manual(
-        values=colorvalues
-      ,name="type")
-      barypoints$colorby = barypoints$type
-      barypoints$alphaby = barypoints$diffexp
-      barypoints$sizeby = barypoints$ingset
-      alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
-      size = scale_size_manual(values=setNames(c(0.5, 2), c(F,T)), name="ingset")
-    } else if (colorby == "z") {
-      color = scale_colour_continuous()
-      barypoints$colorby = barypoints$z
-      barypoints$alphaby = T
-      alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
-    } else {
-      color = scale_colour_continuous()
-      barypoints$colorby = barypoints$r
-      barypoints$alphaby = T
-      alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
+      colorvalues = setNames(c("#333333", RColorBrewer::brewer.pal(max(length(Goi), 3), "Set1")), c("diffall", paste0("diff",names(Goi))))
+      colorvalues = c(colorvalues, setNames(c("#AAAAAA", RColorBrewer::brewer.pal(max(length(Goi), 3), "Pastel1")), c("nodiffall", paste0("nodiff", names(Goi)))))
     }
+
+    # sample palette
+    #colorvalues = setNames(c("#222222", RColorBrewer::brewer.pal(max(length(gsets), 3), "Set1")), c("all", names(gsets)))
+    color = scale_colour_manual(
+      values=colorvalues
+    ,name="type")
+    barypoints$colorby = barypoints$type
+    barypoints$alphaby = barypoints$diffexp
+    barypoints$sizeby = barypoints$ingset
+    alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
+    size = scale_size_manual(values=setNames(c(0.5, 2), c(F,T)), name="ingset")
+  } else if (colorby == "z") {
+    color = scale_colour_continuous()
+    barypoints$colorby = barypoints$z
+    barypoints$alphaby = T
+    alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
+  } else {
+    color = scale_colour_continuous()
+    barypoints$colorby = barypoints$r
+    barypoints$alphaby = T
+    alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
   }
 
   order = with(barypoints, order(ingset, diffexp))
 
   plot = drawHexagonGrid() +
-    drawDirections(rmax, conditions) +
+    drawDirections(rmax, Coi) +
     drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha, size=size)
 
   plot
 }
 
+#' Plot results from unidirectional enrichment
+#' @param scores Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle
+#' @param Coi Names of the three biological conditions
+#' @param colorby Column in scores used for coloring
 #' @export
-plotPvalplot <- function(scores, Coi=c("", "", "")) {
-  plot = drawCircleGrid() + drawDirections(5, Coi, type="circular")
+plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL) {
+  plot = drawCircleGrid(5, 1) + drawDirections(5, Coi, type="circular")
 
   scores$r = pmin(-log10(scores$qval), 5)
   scores$x = cos(scores$angle) * scores$r
   scores$y = sin(scores$angle) * scores$r
 
-  plot + geom_point(aes(x=x, y=y), data=scores, size=0.5)
+  if (!is.null(colorby)) {
+    scores$colorby = scores[,colorby]
+  } else {
+    scores$colorby = 1
+  }
+
+  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=5)
+
+  plot
 }

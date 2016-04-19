@@ -1,8 +1,9 @@
 #' Conversion to barycentric coordinates
 #'
-#' Converts the expression matrix containing two or more biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
+#' Converts the expression matrix containing three biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
 #'
 #' @param E Expression matrix
+#' @param transfomatrix \code{NULL} (default) or a numeric matrix containing the transformation matrix
 #' @return Dataframe containing for every original point its new coordinates in `d-1` dimensions
 #' @export
 transformBarycentric = function(E, transfomatrix=NULL) {
@@ -22,10 +23,10 @@ transformBarycentric = function(E, transfomatrix=NULL) {
 
 #' Convert from barycentric coordinates back to original expression values
 #'
-#' Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant shift for each gene).
+#' Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant for each gene).
 #'
 #' @param barycoords Dataframe of barycentric coordinates with x and y in separate columns
-#' @param transfomatrix \code{NULL} (default) or a numeric matrix containing the transformation
+#' @param transfomatrix \code{NULL} (default) or a numeric matrix containing the transformation matrix
 #' @return Matrix containing for every gene
 #' @export
 transformReverseBarycentric = function(scores, transfomatrix=NULL) {
@@ -105,8 +106,6 @@ testRayleigh = function(angles) {
 
 #' Simple test for enrichment in a given set of genes of interest (Goi)
 #'
-#'
-#'
 #' @param Goi character vector containing the genes tested for enrichment
 #' @param gsets a GeneSetCollection or a
 #' @param background character vector
@@ -144,18 +143,10 @@ testEnrichment = function(Goi, gsets, background, minknown=2, minfound=2, maxkno
   scores
 }
 
-
-
-
-
-
-
-#####
-
 #' Generate background models
-#' @description Generates a background model by randomly resampling genes at different n and calculating z distributions at different n and angles
+#' @description Generates a background model by randomly resampling genes at different number of genes and calculating z distributions at different fixed angles
 #' @export
-generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=options("mc.cores")) {
+generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=getOption("mc.cores", default =1)) {
   barycoords$z = barycoords$r#rank(barycoords$r)
 
   if (length(noi) == 1) {
@@ -176,7 +167,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 
 
 #' @export
-testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfound=5, maxknown=500, mc.cores=options("mc.cores")) {
+testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfound=5, maxknown=500, mc.cores=getOption("mc.cores", default =1)) {
   barycoords$z = barycoords$r#rank(barycoords$r)
 
   if(is.null(bm)) {
@@ -202,7 +193,7 @@ testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfoun
       return(NULL)
     }
 
-    data.frame(pval=empiricalPvalue(angles_gset,rs_gset, bm), angle=angle, n=sum(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=F)
+    data.frame(pval=empiricalPvalue(angles_gset,rs_gset, bm), angle=angle, n=length(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=F)
   }, mc.cores = mc.cores))
   if (nrow(scores) > 0) {
     scores$qval = p.adjust(scores$pval, method="fdr")
