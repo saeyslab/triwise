@@ -52,8 +52,6 @@ drawGridBasis <- function() {
 #' @param bincolors Colors of every bin
 #' @export
 plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
-  barycoords = triwise::transformBarycentric(Eoi)
-
   deltaalpha = pi*2/nbins
 
   Goidiffexp = intersect(Goi, Gdiffexp)

@@ -1,3 +1,5 @@
+w=0
+h=0
 HTMLWidgets.widget({
     name: 'dotplot',
     type: 'output',

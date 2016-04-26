@@ -219,3 +219,29 @@ empiricalPvalue = function(angles, rs, bm) {
   sum(backmodel$weights[angleid,higher]) * backmodel$basepval# * backmodel$anglesp[[angleid]]
 }
 
+#' Test Locality
+#' Test local upregulation
+#' @export
+testLocality = function(Goi, Gdiffexp, angles, deltangle=pi/24, bandwidth=pi/3) {
+  if (is.data.frame(angles)) {
+    angles = setNames(angles$angle, rownames(angles))
+  }
+
+  Gdiffexp = names(angles) %in% Gdiffexp
+  Goi = names(angles) %in% Goi
+
+  localpvals = lapply(seq(0, pi*2-0.001, deltangle), function(angle) {
+    angle1 = angle - bandwidth/2
+    angle2 = angle + bandwidth/2
+
+    p = betweenCircular(angles, angle1, angle2) & Gdiffexp
+    n = !p
+
+    contingency = table(p, Goi)
+
+    fisher_result = fisher.test(contingency, alternative="greater")
+    fisher_result$p.value
+  })
+
+  p.adjust(localpvals, method="fdr")
+}

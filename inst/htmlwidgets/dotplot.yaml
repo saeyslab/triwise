@@ -23,3 +23,7 @@ dependencies:
     - analyze.js
     - util.js
   stylesheet: css/triwise.css
+- name: d3-tip
+  version: 1.0
+  src: htmlwidgets/lib/bower_components/d3-tip
+  script: index.js

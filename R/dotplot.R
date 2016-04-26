@@ -1,15 +1,20 @@
-#' <Add Title>
+#' Interactive triwise dotplot
 #'
-#' <Add Description>
+#' Draw an interactive triwise dotplot in which genes can be interactively
 #'
 #' @import htmlwidgets
 #'
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp, Glabels, Goi, Gpin = NULL, width = NULL, height = NULL) {
+interactiveDotplot <- function(Eoi, Gdiffexp=c(), Glabels=rownames(barycoords), Goi=c(), Gpin = c(), width = NULL, height = NULL) {
+
   barycoords = transformBarycentric(Eoi)
 
-  # calculate local pvalues
-  localpvals = testLocality(Goi, Gdiffexp, barycoords)
+  if(!is.null(Goi)) {
+    # calculate local pvalues
+    localpvals = testLocality(Goi, Gdiffexp, barycoords)
+  } else {
+    localpvals = rep(0, 100)
+  }
 
   # automatically choose pinned genes if not given
   if (is.null(Gpin)) {
@@ -25,7 +30,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp, Glabels, Goi, Gpin = NULL, width =
     Eoi = list(
       data=Eoi,
       columns=Gmap,
-      index=colnames(Eoi)
+      index=attr(barycoords, "conditions")
     ),
     Gdiffexp = names(Gmap) %in% Gdiffexp,
     Glabels = Glabels,
