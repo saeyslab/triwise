@@ -11,7 +11,6 @@
 #' @param Gpin Pinned genes
 #' @export
 interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), plotLocalEnrichment=T, width = NULL, height = NULL) {
-
   Eoi = Eoi[,c(1,3,2)]
 
   barycoords = transformBarycentric(Eoi)
