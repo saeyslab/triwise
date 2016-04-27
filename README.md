@@ -1,4 +1,4 @@
-# [Triwise](logo.png): analyzing and visualizing gene expression differences in three conditions
+# <img src="logo.png" height="200" width="200" style="margin: 0 auto;display:block;">
 
 ![interactive triwise plot](interactive.png "Interactive triwise plot")
 
