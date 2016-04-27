@@ -4,3 +4,4 @@
 tmp/*
 examples/*
 .Rproj.user
+inst/doc

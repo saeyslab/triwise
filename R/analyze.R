@@ -147,8 +147,6 @@ testEnrichment = function(Goi, gsets, background, minknown=2, minfound=2, maxkno
 #' @description Generates a background model by randomly resampling genes at different number of genes and calculating z distributions at different fixed angles
 #' @export
 generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=getOption("mc.cores", default =1)) {
-  barycoords$z = barycoords$r#rank(barycoords$r)
-
   if (length(noi) == 1) {
     noi = seq(5, 100, length=noi)
   }
@@ -167,10 +165,18 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 
 
 #' @export
-testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfound=5, maxknown=500, mc.cores=getOption("mc.cores", default =1)) {
-  if(is.null(barycoords$z)) {
+testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=5, maxknown=1500, mc.cores=getOption("mc.cores", default =1)) {
+  if(!is.null(Gdiffexp)) {
+    barycoords$diffexp = rownames(barycoords) %in% Gdiffexp
+  }
+
+  if(statistic == "diffexp") {
+    if(is.null(Gdiffexp)) stop("Gdiffexp should be given if statistic == \"diffexp\"")
+    barycoords$z = rownames(barycoords) %in% Gdiffexp
+  } else if(statistic == "rank") {
     barycoords$z = rank(barycoords$r)
-    barycoords$r = barycoords$r
+  } else {
+    barycoords$z = barycoords$r
   }
 
   if(is.null(bm)) {
@@ -192,7 +198,7 @@ testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfoun
     rs_gset = as.numeric(subbarycoords$z)
     angle = as.numeric(circularMean(angles_gset, rs_gset)) %% (2*pi)
 
-    if (length(rs_gset) < minfound) {
+    if (sum(subbarycoords$diffexp) < mindiffexp) {
       return(NULL)
     }
 

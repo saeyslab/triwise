@@ -17,5 +17,8 @@ Imports:
     tidyr,
     Rcpp
 RoxygenNote: 5.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 LinkingTo: Rcpp, RcppArmadillo
+VignetteBuilder: knitr

@@ -1,0 +1,96 @@
+---
+title: "Using triwise to study functional diversity of macrophage progenitors"
+author: "Wouter Saelens"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Studying functional diversity of macrophage progenitors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from this [study](http://www.ncbi.nlm.nih.gov/pubmed/26992565).
+
+```{r, message=FALSE}
+library(triwise)
+library(limma)
+data(vandelaar)
+```
+
+This dataset contains log2 gene expression values from, among others, the three progenitors (`YS_MF`, `FL_mono` and `BM_mono`) as an `ExpressionSet` object, each with four biological replicates (samples). We first filter this dataset on only those samples in which we are interested (`Eoi_replicates`) and then calculate the average expression in the three biological conditions (`Eoi`).
+
+```{r, message=FALSE}
+Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF", "FL_mono", "BM_mono")]
+dim(Eoi_replicates)
+
+Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+dim(Eoi)
+colnames(Eoi)
+```
+
+# Plotting gene expression of three conditions
+
+We now transform this gene expression matrix to barycentric coordinates. This transformation will in essence reduce the dimensionality of the gene expression data by one, by only retaining the information of differential expression.
+```{r}
+barycoords = transformBarycentric(Eoi)
+str(barycoords)
+```
+
+These barycentric coordinates can then be plotted in a 2D dotplot. In this plot every gene is represented by a single dot. The direction of a dot indicates in which condition(s) the gene is upregulated anThe differentially expressed genes, while the distance from the origin represents the strength of upregulation (in the same order of magnitude as a log fold-change). The differentially expressed genes are shown in black.
+```{r, fig.width=8, fig.height=5}
+plotDotplot(barycoords)
+```
+Overall, the main differences in expression seem to be between the two monocytes (`FL_mono` and `BM_mono`) and the yolk sac macrophage (`YS_MF`). However, one can also appreciate the number of genes which are specifically upregulated in one of the two monocytes, or are shared between one monocyte and the yolk sac macrophage.
+
+We can use limma to determine which genes are differentially expressed in any of the three conditions and visualize these genes on the dotplot.
+```{r}
+design = as(phenoData(Eoi_replicates), "data.frame")
+design$celltype = factor(as.character(design$celltype))
+design <- model.matrix(~0+celltype, design)
+fit <- lmFit(Eoi_replicates, design)
+fit = contrasts.fit(fit, matrix(c(1, -1, 0, 0, 1, -1, 1, 0, -1), ncol=3))
+fit = eBayes(fit)
+
+top = topTable(fit, p.value=0.05, lfc=1, number=Inf, sort.by = "none")
+Gdiffexp = rownames(top)
+```
+
+```{r, fig.width=8, fig.height=5}
+plotDotplot(barycoords, Gdiffexp)
+```
+
+We can also plot this as a rose plot, a polar histogram.
+```{r}
+plotRoseplot(barycoords, Gdiffexp)
+```
+
+The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`.
+```{r, fig.width=8, fig.height=5}
+dotplot = interactiveDotplot(Eoi, Gdiffexp)
+dotplot
+```
+
+
+# Analyzing functional diversity of three biological conditions
+
+We will now test whether genes annotated with a particular function through GO are significantly more upregulated in a particular direction than can be expected by chance.
+```{r}
+library(org.Mm.eg.db)
+library(GO.db)
+library(dplyr)
+gsets = as.list(org.Mm.egGO2ALLEGS)
+gsets = sapply(gsets, function(gset) unique(as.character(gset)))
+gsetindex = dplyr::bind_rows(lapply(as.list(GOTERM[names(gsets)]), function(goinfo) {
+  list(name=Term(goinfo), definition=Definition(goinfo), ontology=Ontology(goinfo), gsetid = GOID(goinfo))
+}))
+```
+
+```{r}
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp")
+scores = left_join(scores, gsetindex, by="gsetid")
+```
+
+```{r}
+plotPvalplot(scores)
+```
+
