@@ -346,9 +346,7 @@ Dotplot = (function() {
       };
     })(this)).attr('class', 'd3-tip').offset([-10, 0]);
     this.alldots.dots.call(tip);
-    this.alldots.dots.selectAll("g").on("mouseover", tip.show).on("mouseout", tip.hide);
     this.goidots.dots.call(tip);
-    this.goidots.dots.selectAll("g").on("mouseover", tip.show).on("mouseout", tip.hide);
     this.alldots.dots.selectAll("g").on("click", (function(_this) {
       return function(d) {
         var ref;
@@ -358,6 +356,16 @@ Dotplot = (function() {
         } else {
           return _this.updateGpin([d.gid]);
         }
+      };
+    })(this)).on("mouseover", (function(_this) {
+      return function(d) {
+        _this.updateHover(d.gid);
+        return tip.show(d);
+      };
+    })(this)).on("mouseout", (function(_this) {
+      return function(d) {
+        _this.updateHover(void 0);
+        return tip.hide(d);
       };
     })(this));
     this.goidots.dots.selectAll("g").on("click", (function(_this) {
@@ -370,6 +378,16 @@ Dotplot = (function() {
           return _this.updateGpin([d.gid]);
         }
       };
+    })(this)).on("mouseover", (function(_this) {
+      return function(d) {
+        _this.updateHover(d.gid);
+        return tip.show(d);
+      };
+    })(this)).on("mouseout", (function(_this) {
+      return function(d) {
+        _this.updateHover(void 0);
+        return tip.hide(d);
+      };
     })(this));
   }
 
@@ -377,7 +395,7 @@ Dotplot = (function() {
     var point;
     if (gid != null) {
       point = this.alldotsdata[gid];
-      return this.ghover.attr("cx", this.scale(point.x)).attr("cy", this.scale(point.y)).style("visibility", "visible");
+      return this.ghover.attr("cx", this.scale(point.x)).attr("cy", this.scale(point.y)).style("visibility", "visible").style("pointer-events", "none");
     } else {
       return this.ghover.style("visibility", "hidden");
     }
@@ -575,6 +593,10 @@ Dotplot = (function() {
     })(this)).on('mouseout', (function(_this) {
       return function(d) {
         return _this.updateHover(void 0);
+      };
+    })(this)).on('click', (function(_this) {
+      return function(d) {
+        return _this.updateGpin([], [d.gid]);
       };
     })(this));
     pins.order();
