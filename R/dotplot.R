@@ -4,10 +4,16 @@
 #'
 #' @import htmlwidgets
 #'
+#' @param Eoi Expression matrix with the three conditions in the columns
+#' @param Gdiffexp Differentially expressed genes
+#' @param Goi List with genes of interest
+#' @param Glabels Labels for every gene if different from the rownames of `Eoi`
+#' @param Gpin Pinned genes
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=c(), Glabels=rownames(barycoords), Goi=c(), Gpin = c(), width = NULL, height = NULL) {
+interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), width = NULL, height = NULL) {
 
   barycoords = transformBarycentric(Eoi)
+  barycoords$y = -barycoords$y
 
   if(!is.null(Goi)) {
     # calculate local pvalues

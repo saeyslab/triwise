@@ -2,12 +2,23 @@
 % Please edit documentation in R/dotplot.R
 \name{interactiveDotplot}
 \alias{interactiveDotplot}
-\title{<Add Title>}
+\title{Interactive triwise dotplot}
 \usage{
-interactiveDotplot(Eoi, Gdiffexp, Glabels, Goi, Gpin = NULL, width = NULL,
-  height = NULL)
+interactiveDotplot(Eoi, Gdiffexp = c(), Goi = c(),
+  Glabels = rownames(Eoi), Gpin = c(), width = NULL, height = NULL)
+}
+\arguments{
+\item{Eoi}{Expression matrix with the three conditions in the columns}
+
+\item{Gdiffexp}{Differentially expressed genes}
+
+\item{Goi}{List with genes of interest}
+
+\item{Glabels}{Labels for every gene if different from the rownames of `Eoi`}
+
+\item{Gpin}{Pinned genes}
 }
 \description{
-<Add Description>
+Draw an interactive triwise dotplot in which genes can be interactively
 }
 

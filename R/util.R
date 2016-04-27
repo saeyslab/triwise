@@ -1,7 +1,10 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib triwise
 
+
 #' @title Barycentric transformation matrix
+#'
+#' @description Get the matrix for the barycentric transformation
 #'
 #' @param anglebase Number of radians the first barycentric direction should be rotated anticlockwise
 #' @export
