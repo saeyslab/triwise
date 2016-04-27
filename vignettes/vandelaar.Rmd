@@ -95,6 +95,5 @@ plotPvalplot(scores)
 ```
 
 ```{r}
-\citation(triwise)
+citation(triwise)
 ```
-
