@@ -173,6 +173,25 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
   dotplot
 }
 
+#' @import ggplot2
+#' @export
+drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL) {
+  barypoints = clipHexagon(barypoints, rmax)
+  barypoints2 = clipHexagon(barypoints2, rmax)
+
+  colnames(barypoints2) = paste0(colnames(barypoints2), "2")
+
+  allbarypoints =data.frame(barypoints, barypoints2)
+
+  if(!is.null(order)) {
+    allbarypoints = allbarypoints[order,]
+  }
+
+  dotplot = geom_segment(aes(x=xclip, y=yclip, xend=xclip2, yend=yclip2, color=colorby), data=allbarypoints, arrow=arrow(type="closed", length=unit(0.05, "inches")))
+
+  dotplot
+}
+
 #' Creating a dotplot
 #'
 #' Plot a dotplot
@@ -184,17 +203,19 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
 #' @param colorvalues Colors used according to colorby
 #' @param sizevalues List with the size of each dot if differentially expressed (`T`) or not (`F`)
+#' @param alphavalues List with the alpha value of each dot if differentially expressed or not
+#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
 #' @return Dataframe containing for every original point its new x and y coordinates in barycentric space
 #' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8)) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), barycoords2=NULL) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
 
   barypoints = as.data.frame(barycoords)
-  colnames(barypoints) = c("x", "y")
-  barypoints = addPolar(barypoints)
+  #colnames(barypoints) = c("x", "y")
+  #barypoints = addPolar(barypoints)
 
   barypoints$diffexp = rownames(barypoints) %in% Gdiffexp
   barypoints$ingset = F
@@ -241,6 +262,14 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   plot = drawHexagonGrid() +
     drawDirections(rmax, Coi) +
     drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha, size=size)
+
+  if(!is.null(barycoords2) && sum(barypoints$ingset) > 0) {
+    barypoints2 = as.data.frame(barycoords2)
+    #colnames(barypoints2) = c("x", "y")
+    #barypoints2 = addPolar(barypoints2)
+
+    plot = plot + drawConnectionplot(barypoints[barypoints$ingset, ], barypoints2[barypoints$ingset, ], rmax)
+  }
 
   plot
 }

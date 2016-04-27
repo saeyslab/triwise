@@ -4,16 +4,16 @@
 \alias{testUnidirectionality}
 \title{Test gene sets for unidirectional enrichment}
 \usage{
-testUnidirectionality(barycoords, gsets, bm = NULL, minknown = 5,
-  minfound = 5, maxknown = 500, mc.cores = getOption("mc.cores", default =
-  1))
+testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
+  statistic = "diffexp", bm = NULL, minknown = 5, mindiffexp = 5,
+  maxknown = 1500, mc.cores = getOption("mc.cores", default = 1))
 }
 \arguments{
 \item{gsets}{list of character vectors, each containing a set of genes (gene identifiers)}
 
-\item{angles}{either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names}
-
 \item{Gdiffexp}{differentially expressed genes}
+
+\item{angles}{either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names}
 }
 \value{
 Dataframe containing for every gene set which passed the filtering: \itemize{

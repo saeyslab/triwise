@@ -94,6 +94,40 @@ scores = left_join(scores, gsetindex, by="gsetid")
 plotPvalplot(scores)
 ```
 
+# Visualizing changes in differential expression between pairs of biological conditions
+
 ```{r}
-citation(triwise)
+diffexp <- function(E_replicates, c1, c2) {
+  design = as(phenoData(E_replicates)[phenoData(E_replicates)$celltype %in% c(c1,c2),], "data.frame")
+  design$celltype = as.character(design$celltype)
+  designmat = model.matrix(~0+celltype, design)
+  colnames(designmat) <- c("A","B")
+  fit <- lmFit(E_replicates[,rownames(design)[design$celltype %in% c(c1,c2)]],designmat)
+  contrastmat <- makeContrasts("B-A", levels=designmat)
+  fit = contrasts.fit(fit, contrastmat)
+  fit = eBayes(fit)
+  top = topTable(fit, p.value=0.1, lfc=1, number=Inf, sort.by = "none")
+  
+  list(up = rownames(top)[top$logFC > 1], down=rownames(top)[top$logFC < -1])
+}
+
+Goi = list(
+  YSup = intersect(diffexp(vandelaar, "YS_MF_AMF", "FL_mono_AMF")$up, diffexp(vandelaar, "YS_MF_AMF", "BM_mono_AMF")$up),
+  YSdown = intersect(diffexp(vandelaar, "YS_MF_AMF", "FL_mono_AMF")$down, diffexp(vandelaar, "YS_MF_AMF", "BM_mono_AMF")$down),
+  FLup = intersect(diffexp(vandelaar, "FL_mono_AMF", "BM_mono_AMF")$up, diffexp(vandelaar, "FL_mono_AMF", "YS_MF_AMF")$up),
+  FLdown = intersect(diffexp(vandelaar, "FL_mono_AMF", "BM_mono_AMF")$down, diffexp(vandelaar, "FL_mono_AMF", "YS_MF_AMF")$down),
+  BMup = intersect(diffexp(vandelaar, "BM_mono_AMF", "FL_mono_AMF")$up, diffexp(vandelaar, "BM_mono_AMF", "YS_MF_AMF")$up),
+  BMdown = intersect(diffexp(vandelaar, "BM_mono_AMF", "FL_mono_AMF")$down, diffexp(vandelaar, "BM_mono_AMF", "YS_MF_AMF")$down)
+)
+Goi = Filter(function(x) length(x>0), Goi)
 ```
+
+```{r, fig.width=8, fig.height=5}
+Eoi2_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
+Eoi2 <- avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
+barycoords2 <- transformBarycentric(Eoi2)
+
+plotDotplot(barycoords, Goi=Goi, barycoords2 = barycoords2)
+```
+
+
