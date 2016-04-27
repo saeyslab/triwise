@@ -140,12 +140,45 @@ drawDirections = function(ax, rmax, scale, labels, anglebase, color, padding, lw
     } else {
       ha = "start";
     }
-    directions.append("text").attr("x", scale(point.x)).attr("y", scale(point.y)).text(label).style("baseline-shift", va).style("text-anchor", ha).attr("class", "direction_label").style("font-weight", "bold");
+    directions.append("text").attr("x", scale(point.x)).attr("y", scale(point.y)).text(label).style("baseline-shift", va).style("text-anchor", ha).attr("class", "direction_label").style("font-weight", "bold").attr("originalx", scale(point.x)).attr("originaly", scale(point.y));
   }
   return directions;
 };
 
-repositionDirections = function(directions, bboxes) {};
+repositionDirections = function(directions, bbox) {
+  var xmax, xmin, ymax, ymin;
+  ymin = bbox.y;
+  ymax = bbox.y + bbox.height;
+  xmin = bbox.x;
+  xmax = bbox.x + bbox.width;
+  return directions.selectAll("text").each(function(d) {
+    var labelbbox, newx, newy, x, y;
+    labelbbox = this.getBBox();
+    x = newx = Number(this.getAttribute("originalx"));
+    y = newy = Number(this.getAttribute("originaly"));
+    if (x < 0) {
+      x = x + labelbbox.width;
+    }
+    if (y < 0) {
+      y = y + labelbbox.height;
+    }
+    if (math.abs(y) > 10) {
+      if (y < 0 && y > ymin) {
+        newy = ymin;
+      } else if (y > 0 && y < ymax) {
+        newy = ymax;
+      }
+    } else {
+      if (x > 0 && x < xmax) {
+        newx = xmax;
+      }
+    }
+    return d3.select(this).attr({
+      x: newx,
+      y: newy
+    });
+  });
+};
 
 Roseplot = (function() {
   function Roseplot(ax1, w, h, barycoords, labels1, binner, colorDirection1) {
@@ -295,7 +328,7 @@ Dotplot = (function() {
     this.rmax = rmax1;
     this.labels = labels1;
     this.Glabels = Glabels;
-    padding = 20;
+    padding = 40;
     this.scale = (function(_this) {
       return function(x) {
         return x * (_this.h - padding) / (_this.rmax * 2);
@@ -607,7 +640,7 @@ Dotplot = (function() {
       shrink = true;
     }
     this.optimizeGpin(padding, shrink);
-    return pins.selectAll("line").attr("x1", (function(_this) {
+    pins.selectAll("line").attr("x1", (function(_this) {
       return function(d) {
         return _this.scale(d.x);
       };
@@ -624,6 +657,7 @@ Dotplot = (function() {
         return _this.scale(d.labely);
       };
     })(this)).style("fill", "none").style("stroke", "#000").style("opacity", 0.6).style("stroke-width", 1);
+    return repositionDirections(this.directions, this.pins[0][0].getBBox());
   };
 
   Dotplot.prototype.optimizeGpin = function(padding, shrink) {

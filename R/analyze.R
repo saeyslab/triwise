@@ -168,7 +168,10 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 
 #' @export
 testUnidirectionality = function(barycoords, gsets, bm=NULL, minknown=5, minfound=5, maxknown=500, mc.cores=getOption("mc.cores", default =1)) {
-  barycoords$z = barycoords$r#rank(barycoords$r)
+  if(is.null(barycoords$z)) {
+    barycoords$z = rank(barycoords$r)
+    barycoords$r = barycoords$r
+  }
 
   if(is.null(bm)) {
     bm = generateBackgroundModel(barycoords)

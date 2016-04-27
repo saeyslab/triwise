@@ -60,22 +60,22 @@ HTMLWidgets.widget({
         if data.plotLocalEnrichment
             dotplot.updateRings(logpvals)
 
-        svg = document.querySelector( "svg" )
-        svgData = new XMLSerializer().serializeToString( svg )
-
-        canvas = document.createElement( "canvas" );
-        svgSize = svg.getBoundingClientRect();
-        canvas.width = svgSize.width;
-        canvas.height = svgSize.height;
-        ctx = canvas.getContext( "2d" );
-
-        img = document.createElement("img");
-        img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
-
-        img.onload = () ->
-            ctx.drawImage( img, 0, 0 );
-            console.log( canvas.toDataURL( "image/png" ) )
-            window.open(canvas.toDataURL( "image/png" ));
+        # svg = document.querySelector( "svg" )
+        # svgData = new XMLSerializer().serializeToString( svg )
+        #
+        # canvas = document.createElement( "canvas" );
+        # svgSize = svg.getBoundingClientRect();
+        # canvas.width = svgSize.width;
+        # canvas.height = svgSize.height;
+        # ctx = canvas.getContext( "2d" );
+        #
+        # img = document.createElement("img");
+        # img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
+        #
+        # img.onload = () ->
+        #     ctx.drawImage( img, 0, 0 );
+        #     console.log( canvas.toDataURL( "image/png" ) )
+        #     window.open(canvas.toDataURL( "image/png" ));
 
         window.dotplot = dotplot
 

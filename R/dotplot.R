@@ -16,7 +16,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi)
   barycoords = transformBarycentric(Eoi)
   barycoords = addPolar(barycoords)
 
-  if(!is.null(Goi)) {
+  if(!is.null(Goi) && plotLocalEnrichment) {
     # calculate local pvalues
     localpvals = testLocality(Goi, Gdiffexp, barycoords)
   } else {

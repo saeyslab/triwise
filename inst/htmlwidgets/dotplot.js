@@ -13,7 +13,7 @@ HTMLWidgets.widget({
     return h = height;
   },
   renderValue: function(el, data, instance) {
-    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, canvas, ctx, dotplot, i, img, labels, len, logpvals, ref, rmax, row, scale, svg, svgData, svgSize, transformation;
+    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, i, labels, len, logpvals, ref, rmax, row, scale, transformation;
     window.data = data;
     Eoi = data.Eoi;
     Gdiffexp = data.Gdiffexp;
@@ -62,20 +62,6 @@ HTMLWidgets.widget({
     if (data.plotLocalEnrichment) {
       dotplot.updateRings(logpvals);
     }
-    svg = document.querySelector("svg");
-    svgData = new XMLSerializer().serializeToString(svg);
-    canvas = document.createElement("canvas");
-    svgSize = svg.getBoundingClientRect();
-    canvas.width = svgSize.width;
-    canvas.height = svgSize.height;
-    ctx = canvas.getContext("2d");
-    img = document.createElement("img");
-    img.setAttribute("src", "data:image/svg+xml;base64," + btoa(svgData));
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0);
-      console.log(canvas.toDataURL("image/png"));
-      return window.open(canvas.toDataURL("image/png"));
-    };
     return window.dotplot = dotplot;
   },
   resize: function(el, width, height, instance) {}

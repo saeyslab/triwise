@@ -77,10 +77,39 @@ drawDirections = (ax, rmax, scale, labels, anglebase=0, color="black", padding=0
             .style("text-anchor", ha)
             .attr("class", "direction_label")
             .style("font-weight", "bold")
+            .attr("originalx", scale(point.x))
+            .attr("originaly", scale(point.y))
     return directions
 
-repositionDirections = (directions, bboxes) ->
-    
+repositionDirections = (directions, bbox) ->
+    ymin = bbox.y
+    ymax = bbox.y + bbox.height
+    xmin = bbox.x
+    xmax = bbox.x + bbox.width
+    directions.selectAll("text")
+        .each((d) ->
+            labelbbox = this.getBBox()
+            x = newx = this.getAttribute("originalx")
+            y = newy = this.getAttribute("originaly")
+
+            if x < 0
+                x = x + labelbbox.width
+            if y < 0
+                y = y + labelbbox.height
+
+            if math.abs(y) > 10
+                if y<0 and y > ymin
+                    newy = ymin
+                else if y>0 and y < ymax
+                    newy = ymax
+            else
+                if x>0 and x < xmax
+                    newx = xmax
+            d3.select(this).attr({
+              x: newx,
+              y: newy
+            });
+        )
 
 class Roseplot
     constructor: (@ax, @w, @h, @barycoords, @labels, @binner, @colorDirection) ->
@@ -158,7 +187,7 @@ class Pvalplot
 
 class Dotplot
     constructor: (@ax, @w, @h, @barycoords, @rmax, @labels, @Glabels) ->
-        padding = 20
+        padding = 40
         @scale = (x) => x * (@h-padding)/(@rmax*2)
 
         @grid = drawHexagonGrid(@ax, @rmax, @scale)
@@ -402,6 +431,8 @@ class Dotplot
             .style("stroke", "#000")
             .style("opacity", 0.6)
             .style("stroke-width", 1)
+
+        repositionDirections(@directions, @pins[0][0].getBBox())
 
     optimizeGpin: (padding, shrink=false) ->
         @updateVisual()
