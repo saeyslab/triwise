@@ -5,7 +5,8 @@
 \title{Interactive triwise dotplot}
 \usage{
 interactiveDotplot(Eoi, Gdiffexp = c(), Goi = c(),
-  Glabels = rownames(Eoi), Gpin = c(), width = NULL, height = NULL)
+  Glabels = rownames(Eoi), Gpin = c(), plotLocalEnrichment = T,
+  width = NULL, height = NULL)
 }
 \arguments{
 \item{Eoi}{Expression matrix with the three conditions in the columns}

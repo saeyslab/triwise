@@ -187,7 +187,7 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
 #' @return Dataframe containing for every original point its new x and y coordinates in barycentric space
 #' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=NULL, Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8)) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8)) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
