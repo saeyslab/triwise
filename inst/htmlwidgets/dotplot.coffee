@@ -23,6 +23,22 @@ HTMLWidgets.widget({
         Gpin = data.Gpin
         logpvals = data.logpvals
 
+        ## add searchbar
+        d3.select("div.dotplot")
+            .append("div")
+            .style("position", "absolute")
+            .style("left", "10px")
+            .style("top", "50px")
+            .classed("awesomplete", true)
+            .append("input")
+            .attr("id", "genesearch")
+            .attr("placeholder", "search gene...")
+
+        genesearch_input = document.getElementById("genesearch")
+        genesearch = new Awesomplete(genesearch_input, {list:_.zip(Glabels, G), minChars:1, filter:Awesomplete.FILTER_STARTSWITH, autoFirst:true})
+
+        ## add dotplot
+
         ## transform to barycentric coordinates
         anglebase = 0
         transformation = [
@@ -78,6 +94,12 @@ HTMLWidgets.widget({
         #     window.open(canvas.toDataURL( "image/png" ));
 
         window.dotplot = dotplot
+
+        genesearch_input.addEventListener("awesomplete-selectcomplete", (e) ->
+            dotplot.updateHover(this.value)
+            if this.value not in dotplot.Gpin
+                dotplot.updateGpin([this.value])
+        )
 
     ,
     resize: (el, width, height, instance) ->

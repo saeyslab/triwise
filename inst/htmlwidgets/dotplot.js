@@ -13,7 +13,7 @@ HTMLWidgets.widget({
     return h = height;
   },
   renderValue: function(el, data, instance) {
-    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, i, labels, len, logpvals, ref, rmax, row, scale, transformation;
+    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, genesearch, genesearch_input, i, labels, len, logpvals, ref, rmax, row, scale, transformation;
     window.data = data;
     Eoi = data.Eoi;
     Gdiffexp = data.Gdiffexp;
@@ -24,6 +24,14 @@ HTMLWidgets.widget({
     Goi = data.Goi;
     Gpin = data.Gpin;
     logpvals = data.logpvals;
+    d3.select("div.dotplot").append("div").style("position", "absolute").style("left", "10px").style("top", "50px").classed("awesomplete", true).append("input").attr("id", "genesearch").attr("placeholder", "search gene...");
+    genesearch_input = document.getElementById("genesearch");
+    genesearch = new Awesomplete(genesearch_input, {
+      list: _.zip(Glabels, G),
+      minChars: 1,
+      filter: Awesomplete.FILTER_STARTSWITH,
+      autoFirst: true
+    });
     anglebase = 0;
     transformation = [[math.cos(0 + anglebase), math.cos(math.pi * 2 / 3 + anglebase), math.cos(math.pi * 2 / 3 + anglebase)], [math.sin(0 + anglebase), math.sin(math.pi * 2 / 3 + anglebase), math.sin(-math.pi * 2 / 3 + anglebase)]];
     barycoords = transform_barycentric(Eoi.data, transformation);
@@ -62,7 +70,14 @@ HTMLWidgets.widget({
     if (data.plotLocalEnrichment) {
       dotplot.updateRings(logpvals);
     }
-    return window.dotplot = dotplot;
+    window.dotplot = dotplot;
+    return genesearch_input.addEventListener("awesomplete-selectcomplete", function(e) {
+      var ref1;
+      dotplot.updateHover(this.value);
+      if (ref1 = this.value, indexOf.call(dotplot.Gpin, ref1) < 0) {
+        return dotplot.updateGpin([this.value]);
+      }
+    });
   },
   resize: function(el, width, height, instance) {}
 });

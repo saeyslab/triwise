@@ -27,3 +27,8 @@ dependencies:
   version: 1.0
   src: htmlwidgets/lib/bower_components/d3-tip
   script: index.js
+- name: awesomplete
+  version: 1.1.0
+  src: htmlwidgets/lib/bower_components/awesomplete
+  script: awesomplete.js
+  stylesheet: awesomplete.css
