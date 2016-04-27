@@ -1,4 +1,4 @@
-var Dotplot, Dots, Pvalplot, Roseplot, Roses, drawCircleGrid, drawDirections, drawHexagonGrid,
+var Dotplot, Dots, Pvalplot, Roseplot, Roses, drawCircleGrid, drawDirections, drawHexagonGrid, repositionDirections,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 drawHexagonGrid = function(ax, rmax, scale, rdelta, rmin, anglebase, color, alpha, lw) {
@@ -144,6 +144,8 @@ drawDirections = function(ax, rmax, scale, labels, anglebase, color, padding, lw
   }
   return directions;
 };
+
+repositionDirections = function(directions, bboxes) {};
 
 Roseplot = (function() {
   function Roseplot(ax1, w, h, barycoords, labels1, binner, colorDirection1) {

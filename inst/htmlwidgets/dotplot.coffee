@@ -69,12 +69,15 @@ HTMLWidgets.widget({
         canvas.height = svgSize.height;
         ctx = canvas.getContext( "2d" );
 
-        img = document.createElement( "img" );
+        img = document.createElement("img");
         img.setAttribute( "src", "data:image/svg+xml;base64," + btoa( svgData ) );
 
         img.onload = () ->
             ctx.drawImage( img, 0, 0 );
             console.log( canvas.toDataURL( "image/png" ) )
+            window.open(canvas.toDataURL( "image/png" ));
+
+        window.dotplot = dotplot
 
     ,
     resize: (el, width, height, instance) ->

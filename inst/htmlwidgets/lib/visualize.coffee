@@ -79,8 +79,8 @@ drawDirections = (ax, rmax, scale, labels, anglebase=0, color="black", padding=0
             .style("font-weight", "bold")
     return directions
 
-# repositionDirections(directions, bboxes) ->
-#     console.log("nope")
+repositionDirections = (directions, bboxes) ->
+    
 
 class Roseplot
     constructor: (@ax, @w, @h, @barycoords, @labels, @binner, @colorDirection) ->

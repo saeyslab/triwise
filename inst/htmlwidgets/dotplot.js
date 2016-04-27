@@ -71,10 +71,12 @@ HTMLWidgets.widget({
     ctx = canvas.getContext("2d");
     img = document.createElement("img");
     img.setAttribute("src", "data:image/svg+xml;base64," + btoa(svgData));
-    return img.onload = function() {
+    img.onload = function() {
       ctx.drawImage(img, 0, 0);
-      return console.log(canvas.toDataURL("image/png"));
+      console.log(canvas.toDataURL("image/png"));
+      return window.open(canvas.toDataURL("image/png"));
     };
+    return window.dotplot = dotplot;
   },
   resize: function(el, width, height, instance) {}
 });
