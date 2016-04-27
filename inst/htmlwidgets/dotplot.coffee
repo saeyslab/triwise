@@ -26,7 +26,7 @@ HTMLWidgets.widget({
         ## add searchbar
         d3.select("div.dotplot")
             .append("div")
-            .style("position", "absolute")
+            .style("position", "relative")
             .style("left", "10px")
             .style("top", "50px")
             .classed("awesomplete", true)
@@ -99,6 +99,7 @@ HTMLWidgets.widget({
             dotplot.updateHover(this.value)
             if this.value not in dotplot.Gpin
                 dotplot.updateGpin([this.value])
+            this.value = Glabels[this.value]
         )
 
     ,

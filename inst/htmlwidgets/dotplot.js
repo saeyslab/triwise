@@ -24,7 +24,7 @@ HTMLWidgets.widget({
     Goi = data.Goi;
     Gpin = data.Gpin;
     logpvals = data.logpvals;
-    d3.select("div.dotplot").append("div").style("position", "absolute").style("left", "10px").style("top", "50px").classed("awesomplete", true).append("input").attr("id", "genesearch").attr("placeholder", "search gene...");
+    d3.select("div.dotplot").append("div").style("position", "relative").style("left", "10px").style("top", "50px").classed("awesomplete", true).append("input").attr("id", "genesearch").attr("placeholder", "search gene...");
     genesearch_input = document.getElementById("genesearch");
     genesearch = new Awesomplete(genesearch_input, {
       list: _.zip(Glabels, G),
@@ -75,8 +75,9 @@ HTMLWidgets.widget({
       var ref1;
       dotplot.updateHover(this.value);
       if (ref1 = this.value, indexOf.call(dotplot.Gpin, ref1) < 0) {
-        return dotplot.updateGpin([this.value]);
+        dotplot.updateGpin([this.value]);
       }
+      return this.value = Glabels[this.value];
     });
   },
   resize: function(el, width, height, instance) {}

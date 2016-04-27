@@ -4,10 +4,10 @@
 \alias{plotDotplot}
 \title{Creating a dotplot}
 \usage{
-plotDotplot(barycoords, Gdiffexp = NULL, Goi = NULL,
+plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
   Coi = attr(barycoords, "conditions"), colorby = "diffexp",
   colorvalues = NULL, rmax = 5, sizevalues = c(T = 2, F = 0.5),
-  alphavalues = c(T = 0.8, F = 0.8))
+  alphavalues = c(T = 0.8, F = 0.8), barycoords2 = NULL)
 }
 \arguments{
 \item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}}
@@ -23,6 +23,10 @@ plotDotplot(barycoords, Gdiffexp = NULL, Goi = NULL,
 \item{colorvalues}{Colors used according to colorby}
 
 \item{sizevalues}{List with the size of each dot if differentially expressed (`T`) or not (`F`)}
+
+\item{alphavalues}{List with the alpha value of each dot if differentially expressed or not}
+
+\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
 }
 \value{
 Dataframe containing for every original point its new x and y coordinates in barycentric space
