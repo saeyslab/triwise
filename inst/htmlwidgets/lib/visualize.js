@@ -145,10 +145,6 @@ drawDirections = function(ax, rmax, scale, labels, anglebase, color, padding, lw
   return directions;
 };
 
-repositionDirections(directions, bboxes)(function() {
-  return console.log("nope");
-});
-
 Roseplot = (function() {
   function Roseplot(ax1, w, h, barycoords, labels1, binner, colorDirection1) {
     var surface;
