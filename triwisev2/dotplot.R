@@ -1,26 +1,15 @@
-#' Interactive triwise dotplot
+#' <Add Title>
 #'
-#' Draw an interactive triwise dotplot in which genes can be interactively
+#' <Add Description>
 #'
 #' @import htmlwidgets
 #'
-#' @param Eoi Expression matrix with the three conditions in the columns
-#' @param Gdiffexp Differentially expressed genes
-#' @param Goi List with genes of interest
-#' @param Glabels Labels for every gene if different from the rownames of `Eoi`
-#' @param Gpin Pinned genes
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), plotLocalEnrichment=T, width = NULL, height = NULL) {
-
+interactiveDotplot <- function(Eoi, Gdiffexp, Glabels, Goi, Gpin = NULL, width = NULL, height = NULL) {
   barycoords = transformBarycentric(Eoi)
-  barycoords = addPolar(barycoords)
 
-  if(!is.null(Goi)) {
-    # calculate local pvalues
-    localpvals = testLocality(Goi, Gdiffexp, barycoords)
-  } else {
-    localpvals = rep(0, 100)
-  }
+  # calculate local pvalues
+  localpvals = testLocality(Goi, Gdiffexp, barycoords)
 
   # automatically choose pinned genes if not given
   if (is.null(Gpin)) {
@@ -36,14 +25,13 @@ interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi)
     Eoi = list(
       data=Eoi,
       columns=Gmap,
-      index=attr(barycoords, "conditions")
+      index=colnames(Eoi)
     ),
     Gdiffexp = names(Gmap) %in% Gdiffexp,
     Glabels = Glabels,
     Goi = Gmap[Goi],
     Gpin = Gmap[Gpin],
-    logpvals=log10(localpvals),
-    plotLocalEnrichment=plotLocalEnrichment
+    logpvals=log10(localpvals)
   )
   attr(params, 'TOJSON_FUNC') <- function(x) {jsonlite::toJSON(x, matrix="columnmajor")}
 

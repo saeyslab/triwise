@@ -359,6 +359,14 @@ Dotplot = (function() {
           return _this.updateGpin([d.gid]);
         }
       };
+    })(this)).on("mouseover", (function(_this) {
+      return function(d) {
+        return _this.updateHover(d.gid);
+      };
+    })(this)).on("mouseout", (function(_this) {
+      return function(d) {
+        return _this.updateHover(void 0);
+      };
     })(this));
     this.goidots.dots.selectAll("g").on("click", (function(_this) {
       return function(d) {
@@ -370,6 +378,14 @@ Dotplot = (function() {
           return _this.updateGpin([d.gid]);
         }
       };
+    })(this)).on("mouseover", (function(_this) {
+      return function(d) {
+        return _this.updateHover(d.gid);
+      };
+    })(this)).on("mouseout", (function(_this) {
+      return function(d) {
+        return _this.updateHover(void 0);
+      };
     })(this));
   }
 
@@ -377,7 +393,7 @@ Dotplot = (function() {
     var point;
     if (gid != null) {
       point = this.alldotsdata[gid];
-      return this.ghover.attr("cx", this.scale(point.x)).attr("cy", this.scale(point.y)).style("visibility", "visible");
+      return this.ghover.attr("cx", this.scale(point.x)).attr("cy", this.scale(point.y)).style("visibility", "visible").style("pointer-events", "none");
     } else {
       return this.ghover.style("visibility", "hidden");
     }
@@ -575,6 +591,10 @@ Dotplot = (function() {
     })(this)).on('mouseout', (function(_this) {
       return function(d) {
         return _this.updateHover(void 0);
+      };
+    })(this)).on('click', (function(_this) {
+      return function(d) {
+        return _this.updateGpin([], [d.gid]);
       };
     })(this));
     pins.order();

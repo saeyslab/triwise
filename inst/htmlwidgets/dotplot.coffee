@@ -56,10 +56,12 @@ HTMLWidgets.widget({
         dotplot = new Dotplot(ax, w, h, barycoords, rmax, labels, Glabels)
         dotplot.updateGoi()
         dotplot.initGpin(Gpin)
-        dotplot.updateRings(logpvals)
 
-        svg = document.querySelector( "svg" );
-        svgData = new XMLSerializer().serializeToString( svg );
+        if data.plotLocalEnrichment
+            dotplot.updateRings(logpvals)
+
+        svg = document.querySelector( "svg" )
+        svgData = new XMLSerializer().serializeToString( svg )
 
         canvas = document.createElement( "canvas" );
         svgSize = svg.getBoundingClientRect();
