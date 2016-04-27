@@ -5,7 +5,7 @@
 \title{plotRoseplot}
 \usage{
 plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
-  Goi = rownames(barycoords), size = "radius", Coi = attr(barycoords,
+  Goi = rownames(barycoords), size = "surface", Coi = attr(barycoords,
   "conditions"), nbins = 12, bincolors = rainbow(nbins, start = 0, v = 0.8,
   s = 0.6))
 }

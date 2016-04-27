@@ -9,4 +9,7 @@ getTransformationMatrix(anglebase = 0)
 \arguments{
 \item{anglebase}{Number of radians the first barycentric direction should be rotated anticlockwise}
 }
+\description{
+Get the matrix for the barycentric transformation
+}
 
