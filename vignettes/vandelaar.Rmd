@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from this [study](http://www.ncbi.nlm.nih.gov/pubmed/26992565).
+In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from [this study](http://www.ncbi.nlm.nih.gov/pubmed/26992565).
 
 ```{r, message=FALSE}
 library(triwise)
@@ -86,8 +86,9 @@ gsetindex = dplyr::bind_rows(lapply(as.list(GOTERM[names(gsets)]), function(goin
 ```
 
 ```{r}
-scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 8)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "r", mc.cores = 8)
 scores = left_join(scores, gsetindex, by="gsetid")
+scores = scores[scores$qval < 0.05, ]
 
 redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
 scores$redundancy = redundancy[scores$gsetid]
@@ -98,7 +99,13 @@ scores = scores[scores$redundancy < 0.2, ]
 plotPvalplot(scores)
 interactivePvalplot(scores, gsetindex$name, colnames(Eoi))
 
-plotDotplot(barycoords, Gdiffexp, gsets[["GO:0046697"]])
+scores = scores[order(scores$qval),]
+
+row = scores[3,]
+print(row$name)
+plotDotplot(barycoords, Gdiffexp, gsets[[row$gsetid]])
+
+interactiveDotplot(Eoi, Gdiffexp, gsets[[row$gsetid]], Glabels = featureData(vandelaar)$symbol)
 ```
 
 # Visualizing changes in differential expression between pairs of biological conditions

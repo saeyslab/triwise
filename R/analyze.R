@@ -175,12 +175,12 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
     barycoords$z = rownames(barycoords) %in% Gdiffexp
   } else if(statistic == "rank") {
     barycoords$z = rank(barycoords$r)
-  } else {
+  } else if(statistic == "r"){
     barycoords$z = barycoords$r
   }
 
   if(is.null(bm)) {
-    bm = generateBackgroundModel(barycoords)
+    bm = generateBackgroundModel(barycoords, mc.cores=mc.cores)
   }
 
   background = rownames(barycoords)
