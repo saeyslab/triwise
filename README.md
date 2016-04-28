@@ -1,4 +1,4 @@
-# <img src="logo.png" width="200" style="margin: 0 auto;display:block;height:auto">
+# <img src="logo.png" width="200">
 
 ![interactive triwise plot](interactive.png "Interactive triwise plot")
 
