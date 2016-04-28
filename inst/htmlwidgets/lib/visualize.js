@@ -639,7 +639,9 @@ Dotplot = (function() {
     if (remove.length > 0) {
       shrink = true;
     }
-    this.optimizeGpin(padding, shrink);
+    if (this.Gpin.length > 0) {
+      this.optimizeGpin(padding, shrink);
+    }
     pins.selectAll("line").attr("x1", (function(_this) {
       return function(d) {
         return _this.scale(d.x);
@@ -705,22 +707,24 @@ Dotplot = (function() {
         }
         return results;
       }).call(this);
-      if ((shrink === true) && (i === 0)) {
-        for (j = o = 0, ref1 = this.pindata.length - 1; 0 <= ref1 ? o <= ref1 : o >= ref1; j = 0 <= ref1 ? ++o : --o) {
-          delta = difference_circular(this.pindata[j].labelangle, this.pindata[j].angle);
-          deltangle[j] = posneg(delta) * math.min(0.1, math.abs(delta));
-        }
-        moved += 1;
-      } else {
-        for (p = 0, len1 = forcedata.length; p < len1; p++) {
-          forcerow = forcedata[p];
-          j = forcerow[0], k = forcerow[1];
-          overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1);
-          if (overlap) {
-            force = 0.01;
-            deltangle[j] -= force;
-            deltangle[k] += force;
-            moved += 1;
+      if (this.pindata.length > 1) {
+        if ((shrink === true) && (i === 0)) {
+          for (j = o = 0, ref1 = this.pindata.length - 1; 0 <= ref1 ? o <= ref1 : o >= ref1; j = 0 <= ref1 ? ++o : --o) {
+            delta = difference_circular(this.pindata[j].labelangle, this.pindata[j].angle);
+            deltangle[j] = posneg(delta) * math.min(0.1, math.abs(delta));
+          }
+          moved += 1;
+        } else {
+          for (p = 0, len1 = forcedata.length; p < len1; p++) {
+            forcerow = forcedata[p];
+            j = forcerow[0], k = forcerow[1];
+            overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1);
+            if (overlap) {
+              force = 0.01;
+              deltangle[j] -= force;
+              deltangle[k] += force;
+              moved += 1;
+            }
           }
         }
       }

@@ -89,8 +89,8 @@ repositionDirections = (directions, bbox) ->
     directions.selectAll("text")
         .each((d) ->
             labelbbox = this.getBBox()
-            x = newx = this.getAttribute("originalx")
-            y = newy = this.getAttribute("originaly")
+            x = newx = Number(this.getAttribute("originalx"))
+            y = newy = Number(this.getAttribute("originaly"))
 
             if x < 0
                 x = x + labelbbox.width
@@ -419,7 +419,9 @@ class Dotplot
         shrink=false
         if remove.length > 0
             shrink=true
-        @optimizeGpin(padding, shrink)
+
+        if @Gpin.length > 0
+            @optimizeGpin(padding, shrink)
 
         # add lines
         pins.selectAll("line")
@@ -451,33 +453,35 @@ class Dotplot
         #console.log(forcedata)
 
         labelbboxes = (label.getBBox() for label in @directions.selectAll("text")[0])
+
         for i in [0..1000]
             pinbboxes = (label.getBBox() for label in @pins.selectAll("text")[0])
             moved = 0
             deltangle = (0 for j in [1..@pindata.length])
 
-            if (shrink==true) and (i == 0)
-                for j in [0..@pindata.length-1]
-                    delta =  difference_circular(@pindata[j].labelangle, @pindata[j].angle)
-                    deltangle[j] = posneg(delta) * math.min(0.1, math.abs(delta))
-                moved += 1
-            else
-                for forcerow in forcedata
-                    [j, k] = forcerow
-                    overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1)
-                    if overlap# || !angles_increase(@pindata[forcerow[0]].labelangle, @pindata[forcerow[1]].labelangle)
-                        #weight = 1 - (@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle) * 2 # allow bigger changes if the difference is larger
-                        #console.log(weight)
-                        #weight=1
-                        #if @pindata[forcerow[0]].edge > 2
-                        force = 0.01
-                        deltangle[j] -= force
-                        deltangle[k] += force
-                        #if forcerow[0] == goi || forcerow[1] == goi
-                            #console.log(force)
-                            #console.log((@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle))
+            if @pindata.length > 1
+                if (shrink==true) and (i == 0)
+                    for j in [0..@pindata.length-1]
+                        delta =  difference_circular(@pindata[j].labelangle, @pindata[j].angle)
+                        deltangle[j] = posneg(delta) * math.min(0.1, math.abs(delta))
+                    moved += 1
+                else
+                    for forcerow in forcedata
+                        [j, k] = forcerow
+                        overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1)
+                        if overlap# || !angles_increase(@pindata[forcerow[0]].labelangle, @pindata[forcerow[1]].labelangle)
+                            #weight = 1 - (@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle) * 2 # allow bigger changes if the difference is larger
+                            #console.log(weight)
+                            #weight=1
+                            #if @pindata[forcerow[0]].edge > 2
+                            force = 0.01
+                            deltangle[j] -= force
+                            deltangle[k] += force
+                            #if forcerow[0] == goi || forcerow[1] == goi
+                                #console.log(force)
+                                #console.log((@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle))
 
-                        moved += 1
+                            moved += 1
             # force to origin
             #for j in [0..@pindata.length-1]
             #    delta = @pindata[j].labelangle - @pindata[j].angle

@@ -20,7 +20,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi)
     # calculate local pvalues
     localpvals = testLocality(Goi, Gdiffexp, barycoords)
   } else {
-    localpvals = rep(0, 100)
+    localpvals = rep(0, 48)
   }
 
   # automatically choose pinned genes if not given
@@ -44,7 +44,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi)
     Goi = Gmap[Goi],
     Gpin = Gmap[Gpin],
     logpvals=log10(localpvals),
-    plotLocalEnrichment=plotLocalEnrichment
+    options = list(plotLocalEnrichment=plotLocalEnrichment)
   )
   attr(params, 'TOJSON_FUNC') <- function(x) {jsonlite::toJSON(x, matrix="columnmajor")}
 

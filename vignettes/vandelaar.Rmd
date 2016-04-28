@@ -66,7 +66,7 @@ plotRoseplot(barycoords, Gdiffexp)
 
 The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`.
 ```{r, fig.width=8, fig.height=5}
-dotplot = interactiveDotplot(Eoi, Gdiffexp)
+dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol)
 dotplot
 ```
 
@@ -86,12 +86,19 @@ gsetindex = dplyr::bind_rows(lapply(as.list(GOTERM[names(gsets)]), function(goin
 ```
 
 ```{r}
-scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp")
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 8)
 scores = left_join(scores, gsetindex, by="gsetid")
+
+redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
+scores$redundancy = redundancy[scores$gsetid]
+scores = scores[scores$redundancy < 0.2, ]
 ```
 
 ```{r}
 plotPvalplot(scores)
+interactivePvalplot(scores, gsetindex$name, colnames(Eoi))
+
+plotDotplot(barycoords, Gdiffexp, gsets[["GO:0046697"]])
 ```
 
 # Visualizing changes in differential expression between pairs of biological conditions
@@ -99,7 +106,7 @@ plotPvalplot(scores)
 ```{r}
 diffexp <- function(E_replicates, c1, c2) {
   design = as(phenoData(E_replicates)[phenoData(E_replicates)$celltype %in% c(c1,c2),], "data.frame")
-  design$celltype = as.character(design$celltype)
+  design$celltype = factor(as.character(design$celltype), levels=c(c2, c1)) # relevel so that contrast is in the right direction
   designmat = model.matrix(~0+celltype, design)
   colnames(designmat) <- c("A","B")
   fit <- lmFit(E_replicates[,rownames(design)[design$celltype %in% c(c1,c2)]],designmat)
@@ -127,7 +134,7 @@ Eoi2_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF_AMF",
 Eoi2 <- avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
 barycoords2 <- transformBarycentric(Eoi2)
 
-plotDotplot(barycoords, Goi=Goi, barycoords2 = barycoords2)
+plotDotplot(barycoords2, unlist(Goi), Goi=Goi, barycoords2 = barycoords)
 ```
 
 

@@ -23,6 +23,8 @@ HTMLWidgets.widget({
         Gpin = data.Gpin
         logpvals = data.logpvals
 
+        options = data.options
+
         ## add searchbar
         d3.select("div.dotplot")
             .append("div")
@@ -73,13 +75,14 @@ HTMLWidgets.widget({
         dotplot.updateGoi()
         dotplot.initGpin(Gpin)
 
-        if data.plotLocalEnrichment
+        console.log(data)
+        if options.plotLocalEnrichment[0]
             dotplot.updateRings(logpvals)
 
         # svg = document.querySelector( "svg" )
         # svgData = new XMLSerializer().serializeToString( svg )
         #
-        # canvas = document.createElement( "canvas" );
+        # canvas = document.createElement( "canvas" )
         # svgSize = svg.getBoundingClientRect();
         # canvas.width = svgSize.width;
         # canvas.height = svgSize.height;

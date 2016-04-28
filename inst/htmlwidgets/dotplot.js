@@ -13,7 +13,7 @@ HTMLWidgets.widget({
     return h = height;
   },
   renderValue: function(el, data, instance) {
-    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, genesearch, genesearch_input, i, labels, len, logpvals, ref, rmax, row, scale, transformation;
+    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, genesearch, genesearch_input, i, labels, len, logpvals, options, ref, rmax, row, scale, transformation;
     window.data = data;
     Eoi = data.Eoi;
     Gdiffexp = data.Gdiffexp;
@@ -24,6 +24,7 @@ HTMLWidgets.widget({
     Goi = data.Goi;
     Gpin = data.Gpin;
     logpvals = data.logpvals;
+    options = data.options;
     d3.select("div.dotplot").append("div").style("position", "relative").style("left", "10px").style("top", "50px").classed("awesomplete", true).append("input").attr("id", "genesearch").attr("placeholder", "search gene...");
     genesearch_input = document.getElementById("genesearch");
     genesearch = new Awesomplete(genesearch_input, {
@@ -67,7 +68,8 @@ HTMLWidgets.widget({
     dotplot = new Dotplot(ax, w, h, barycoords, rmax, labels, Glabels);
     dotplot.updateGoi();
     dotplot.initGpin(Gpin);
-    if (data.plotLocalEnrichment) {
+    console.log(data);
+    if (options.plotLocalEnrichment[0]) {
       dotplot.updateRings(logpvals);
     }
     window.dotplot = dotplot;
