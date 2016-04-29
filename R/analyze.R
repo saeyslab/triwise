@@ -51,42 +51,42 @@ transformReverseBarycentric = function(scores, transfomatrix=NULL) {
 #'  \item average angle
 #' }
 #' @export
-testUnidirectionality = function(angles, gsets, Gdiffexp=NULL, minknown=2, minfound=2, maxknown=500, weight=T, angleweights = NULL) {
-  if (is.data.frame(angles)) {
-    angles = setNames(angles$angle, rownames(angles))
-  }
-
-  if (!is.null(Gdiffexp)) {
-    angles = angles[Gdiffexp]
-  }
-  background = names(angles)
-
-  scores = do.call(rbind.data.frame, lapply(names(gsets), function(gsetid){
-    gset = gsets[[gsetid]]
-    if (length(gset) < minknown | length(gset) > maxknown) {
-      return(NULL)
-    }
-
-    gset_filtered = intersect(gset, background)
-
-    if (length(gset_filtered) < minfound){
-      return(NULL)
-    }
-
-    angles_gset = circular::circular(angles[gset_filtered], type="angles", units="radians")
-
-    angle = as.numeric(circularMean(angles_gset)) %% (2*pi)
-
-    rayleigh_result = circular::rayleigh.test(angles_gset)
-
-    list(pval=testRayleigh(angles_gset), angle=angle, n=length(gset_filtered), gsetid=gsetid)
-  }))
-
-  if (nrow(scores) > 0) {
-    scores$qval = p.adjust(scores$pval, method="fdr")
-  }
-  scores
-}
+# testUnidirectionality = function(angles, gsets, Gdiffexp=NULL, minknown=2, minfound=2, maxknown=500, weight=T) {
+#   if (is.data.frame(angles)) {
+#     angles = setNames(angles$angle, rownames(angles))
+#   }
+#
+#   if (!is.null(Gdiffexp)) {
+#     angles = angles[Gdiffexp]
+#   }
+#   background = names(angles)
+#
+#   scores = do.call(rbind.data.frame, lapply(names(gsets), function(gsetid){
+#     gset = gsets[[gsetid]]
+#     if (length(gset) < minknown | length(gset) > maxknown) {
+#       return(NULL)
+#     }
+#
+#     gset_filtered = intersect(gset, background)
+#
+#     if (length(gset_filtered) < minfound){
+#       return(NULL)
+#     }
+#
+#     angles_gset = circular::circular(angles[gset_filtered], type="angles", units="radians")
+#
+#     angle = as.numeric(circularMean(angles_gset)) %% (2*pi)
+#
+#     rayleigh_result = circular::rayleigh.test(angles_gset)
+#
+#     list(pval=testRayleigh(angles_gset), angle=angle, n=length(gset_filtered), gsetid=gsetid)
+#   }))
+#
+#   if (nrow(scores) > 0) {
+#     scores$qval = p.adjust(scores$pval, method="fdr")
+#   }
+#   scores
+# }
 
 #' Rayleigh z-test
 #'
@@ -177,7 +177,12 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
     barycoords$z = rank(barycoords$r)
   } else if(statistic == "r"){
     barycoords$z = barycoords$r
+  } else if(statistic == "z"){
+    # otherwise use the z column from the user
+  } else {
+    stop("provide valid statistic (diffexp, rank, r or z)")
   }
+
 
   if(is.null(bm)) {
     bm = generateBackgroundModel(barycoords, mc.cores=mc.cores)

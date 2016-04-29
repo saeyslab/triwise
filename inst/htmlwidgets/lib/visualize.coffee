@@ -460,6 +460,7 @@ class Dotplot
             deltangle = (0 for j in [1..@pindata.length])
 
             if @pindata.length > 1
+                console.log(@pindata)
                 if (shrink==true) and (i == 0)
                     for j in [0..@pindata.length-1]
                         delta =  difference_circular(@pindata[j].labelangle, @pindata[j].angle)
@@ -469,7 +470,7 @@ class Dotplot
                     for forcerow in forcedata
                         [j, k] = forcerow
                         overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1)
-                        if overlap# || !angles_increase(@pindata[forcerow[0]].labelangle, @pindata[forcerow[1]].labelangle)
+                        if overlap || (angles_increase(@pindata[j].angle, @pindata[k].angle) && !angles_increase(@pindata[j].labelangle, @pindata[k].labelangle))
                             #weight = 1 - (@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle) * 2 # allow bigger changes if the difference is larger
                             #console.log(weight)
                             #weight=1
@@ -482,6 +483,9 @@ class Dotplot
                                 #console.log((@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle))
 
                             moved += 1
+
+                            if @pindata.length == 2
+                                break # special case when there are two genes to avoid them canceling eachother if they overlap
             # force to origin
             #for j in [0..@pindata.length-1]
             #    delta = @pindata[j].labelangle - @pindata[j].angle
@@ -513,6 +517,7 @@ class Dotplot
                 .style("text-anchor", (d) -> d.ha)
 
             if moved == 0
+                # you could end here, but there is a chance that lines (of two neighbouring labels) intersect
                 console.log("Automatic pin positioning converged after " + i + " iterations")
                 break
 

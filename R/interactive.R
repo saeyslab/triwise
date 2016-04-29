@@ -10,7 +10,7 @@
 #' @param Glabels Labels for every gene if different from the rownames of `Eoi`
 #' @param Gpin Pinned genes
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), plotLocalEnrichment=T, width = NULL, height = NULL) {
+interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=attr(barycoords, "conditions"), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=T, width = NULL, height = NULL) {
   Eoi = Eoi[,c(1,3,2)]
 
   barycoords = transformBarycentric(Eoi)
@@ -20,14 +20,14 @@ interactiveDotplot <- function(Eoi, Gdiffexp=c(), Goi=c(), Glabels=rownames(Eoi)
     # calculate local pvalues
     localpvals = testLocality(Goi, Gdiffexp, barycoords)
   } else {
-    localpvals = rep(0, 48)
+    localpvals = rep(1, 48)
   }
 
   # automatically choose pinned genes if not given
   if (is.null(Gpin)) {
     Gpin = intersect(Goi, Gdiffexp)
     if (length(Gpin) > 20) {
-      Gpin = Gpin[order(barycoords[Gpin,"r"])[1:20]]
+      Gpin = Gpin[order(barycoords[Gpin,"r"], decreasing=T)[1:20]]
     }
   }
 

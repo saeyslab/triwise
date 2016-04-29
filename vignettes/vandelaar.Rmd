@@ -68,6 +68,8 @@ The dotplots can also be explored interactively using an htmlwidget. These can b
 ```{r, fig.width=8, fig.height=5}
 dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol)
 dotplot
+
+interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol)
 ```
 
 
@@ -102,6 +104,7 @@ interactivePvalplot(scores, gsetindex$name, colnames(Eoi))
 scores = scores[order(scores$qval),]
 
 row = scores[3,]
+row = scores[scores$name == "positive regulation of smooth muscle cell proliferation", ]
 print(row$name)
 plotDotplot(barycoords, Gdiffexp, gsets[[row$gsetid]])
 

@@ -258,13 +258,14 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   }
 
   order = with(barypoints, order(ingset, diffexp))
+  barypoints = barypoints[order,]
 
   plot = drawHexagonGrid() +
     drawDirections(rmax, Coi) +
     drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha, size=size)
 
   if(!is.null(barycoords2) && sum(barypoints$ingset) > 0) {
-    barypoints2 = as.data.frame(barycoords2)
+    barypoints2 = as.data.frame(barycoords2)[rownames(barypoints),]
     #colnames(barypoints2) = c("x", "y")
     #barypoints2 = addPolar(barypoints2)
 

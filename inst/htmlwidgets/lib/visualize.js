@@ -708,6 +708,7 @@ Dotplot = (function() {
         return results;
       }).call(this);
       if (this.pindata.length > 1) {
+        console.log(this.pindata);
         if ((shrink === true) && (i === 0)) {
           for (j = o = 0, ref1 = this.pindata.length - 1; 0 <= ref1 ? o <= ref1 : o >= ref1; j = 0 <= ref1 ? ++o : --o) {
             delta = difference_circular(this.pindata[j].labelangle, this.pindata[j].angle);
@@ -719,11 +720,14 @@ Dotplot = (function() {
             forcerow = forcedata[p];
             j = forcerow[0], k = forcerow[1];
             overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1);
-            if (overlap) {
+            if (overlap || (angles_increase(this.pindata[j].angle, this.pindata[k].angle) && !angles_increase(this.pindata[j].labelangle, this.pindata[k].labelangle))) {
               force = 0.01;
               deltangle[j] -= force;
               deltangle[k] += force;
               moved += 1;
+              if (this.pindata.length === 2) {
+                break;
+              }
             }
           }
         }
