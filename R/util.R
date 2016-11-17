@@ -26,15 +26,23 @@ addPolar <- function(barypoints) {
   barypoints
 }
 
-hexagonPolar <- function(angle, radius=1) {
+addCartesian <- function(barypoints, baseangle=0) {
+  barypoints$x = cos(barypoints$angle + baseangle) * barypoints$r
+  barypoints$y = sin(barypoints$angle + baseangle) * barypoints$r
+
+  barypoints
+}
+
+hexagonPolar <- function(angle, radius=1, baseangle=0) {
   delta <- 2*pi/6
   cos(delta/2)/cos((angle %% delta)-delta/2) * radius
 }
 
-clipHexagon <- function(barypoints, rmax) {
-  barypoints["rclip"] = mapply(function(angle, r) {min(hexagonPolar(angle, rmax), r)}, barypoints$angle, barypoints$r)
-  barypoints["xclip"] = cos(barypoints["angle"]) * barypoints["rclip"]
-  barypoints["yclip"] = sin(barypoints["angle"]) * barypoints["rclip"]
+# will also rotate points given the baseangle
+clipHexagon <- function(barypoints, rmax, baseangle=0) {
+  barypoints["rclip"] = mapply(function(angle, r) {min(hexagonPolar(angle, rmax, baseangle), r)}, barypoints$angle, barypoints$r)
+  barypoints["xclip"] = cos(barypoints["angle"]+baseangle) * barypoints["rclip"]
+  barypoints["yclip"] = sin(barypoints["angle"]+baseangle) * barypoints["rclip"]
 
   barypoints
 }
@@ -94,3 +102,12 @@ named.list <- function(...) {
 seqClosed <- function(a=0, b, length) {
   head(seq(a, b, length=length+1), -1)
 }
+
+
+
+roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10)) {
+  if(length(x) != 1) stop("'x' must be of length 1")
+  10^floor(log10(x)) * nice[[which(x <= 10^floor(log10(x)) * nice)[[1]]]]
+}
+
+itself = function(x) x

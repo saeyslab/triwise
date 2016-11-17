@@ -1,24 +1,38 @@
 #' @import ggplot2
 #' @export
-drawHexagonGrid <- function(rmax=5, color="#999999") {
-  hexagonpoints <- plyr::ldply(seq(0, pi*2-0.001, pi/3), function(angle) data.frame(x=cos(angle), y=sin(angle)))
-  gridData <- dplyr::bind_rows(lapply(seq_len(rmax), function(r) data.frame(r=r, x=hexagonpoints$x * r, y =hexagonpoints$y * r)))
+drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) {
+  radii = seq_len(rmax)
+  hexagonpoints <- plyr::ldply(seq(0, pi*2-0.001, pi/3), function(angle) data.frame(x=cos(angle+baseangle), y=sin(angle+baseangle)))
+  gridData <- dplyr::bind_rows(lapply(radii, function(r) data.frame(r=r, x=hexagonpoints$x * r, y =hexagonpoints$y * r)))
 
-    drawGridBasis() +
+  plot =  drawGridBasis() +
     geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color) +
     scale_x_continuous(expand = c(0.1, 0.1))
+
+  if (showlabels) {
+    labelData <- data.frame(r=radii, label=2^radii, y=sapply(radii, function(x) hexagonPolar(pi/2, x)), x=0)
+    plot = plot + geom_label(aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
+  }
+  plot
 }
 
 #' @import ggplot2
 #' @export
-drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=0, color="#999999", squared=F) {
+drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squared=F, showlabels=T, labeller=function(x) x) {
   circlepoints <- plyr::ldply(seq(0, pi*2-0.001, pi/100), function(angle) data.frame(x=cos(angle), y=sin(angle)))
 
-  radii = seq(rbase, rmax+rbase, rstep)
+  radii = seq(rbase, rmax, rstep)
+  labels = labeller(radii)
   if(squared) radii = sqrt(radii)
   gridData <- dplyr::bind_rows(lapply(radii, function(r) data.frame(r=r, x=circlepoints$x * r, y =circlepoints$y * r)))
 
-  drawGridBasis() + geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
+  plot = drawGridBasis() + geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
+
+  if (showlabels) {
+    labelData <- data.frame(r=radii, label=unlist(labels), y=radii, x=0)
+    plot = plot + geom_label(aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
+  }
+  plot
 }
 
 #' @import ggplot2
@@ -42,16 +56,20 @@ drawGridBasis <- function() {
 #' @import ggplot2
 #' @title plotRoseplot
 #' @name plotRoseplot
-#' @description A rose plot shows the distribution of the differentially expressed genes in different directions.
-#' @param barycoords Dataframe contain barycentric coordinates as returned by `transformBarycentric`
+#' @description A rose plot shows the distribution of a given set of genes in different directions.
+#' @param barycoords Dataframe containing barycentric coordinates as returned by `transformBarycentric`
 #' @param Gdiffexp List of differentially expressed genes
 #' @param Goi List of genes of interest
 #' @param size Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction
-#' @param Coi Names of the three biological conditions
+#' @param relative Whether to show the relative number of genes or the absolute number of genes
+#' @param showlabels Whether to label the grid
+#' @param Coi Names of the three biological conditions, used for labelling
 #' @param nbins Number of bins, should be a multiple of 3 to make sense
-#' @param bincolors Colors of every bin
+#' @param bincolors Colors of every bin, defaults to a rainbow palette
+#' @param rmax Number or "auto" (default), denotes the maximal radius of the grid.
+#' @return A ggplot2 object, which can be used to further customize the plot
 #' @export
-plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6)) {
+plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
   deltaalpha = pi*2/nbins
 
   Goidiffexp = intersect(Goi, Gdiffexp)
@@ -73,12 +91,22 @@ plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(
   } else {
     bincounts = rep(0,nbins)
   }
-  percschange = bincounts/length(Goidiffexp)
+  if(relative) {
+    percschange = bincounts/length(Goidiffexp)
+  } else {
+    percschange = bincounts
+  }
 
-  rmax = 1#ceiling(max(percschange) * 10)/10
+  if (rmax == "auto") {
+    #rmax = 10^(ceiling(log10(max(percschange))))
+    rmax = roundUpNice(max(percschange))
+    ticks = grDevices::axisTicks(c(0, rmax), F, nint=4)
+    rmax = ticks[length(ticks)]
+  }
+  ticks = grDevices::axisTicks(c(0, rmax), F, nint=4)
 
-
-  plot = drawCircleGrid(rmax, 0.2, squared=(size=="surface"))
+  labeller = if(relative) {scales::percent} else {itself}
+  plot = drawCircleGrid(rmax, ticks[[2]] - ticks[[1]], squared=(size=="surface"), showlabels=showlabels, labeller=labeller)
 
   circlesect = function(angle1=0, angle2=pi*2, r=1) {
     points = plyr::ldply(seq(angle1, angle2, (angle2-angle1)/100), function(angle) data.frame(x=cos(angle)*r, y=sin(angle)*r))
@@ -93,17 +121,19 @@ plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(
 
     radius = ifelse(size=="radius", perchange, sqrt(perchange))
 
-    sector = circlesect(angle1, angle2, r = radius)
+    sector = circlesect(angle1+baseangle, angle2+baseangle, r = radius)
 
     plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
   }
-  plot + drawDirections(rmax, Coi, type="circular")
+  plot + drawDirections(ifelse(size=="surface", sqrt(rmax), rmax), Coi, type="circular", baseangle=baseangle)
 }
 
 #' @import ggplot2
+#' @title drawDirections
 #' @export
-drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal") {
+drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal", baseangle=0) {
   directionsData = plyr::ldply(seq(0, pi*2-0.001, pi/3*2), function(angle) {
+    angle = angle + baseangle
     x = cos(angle) * rmax
     y = sin(angle) * rmax
 
@@ -123,30 +153,17 @@ drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal") {
     }
 
     rot = 0
-    if(cos(angle) > 0.8) {
-      rot = -90
-      ha2 = ha
-      ha=va
-      va = ha2
+    if(sin(angle) >= 0) {
+      rot = angle - pi/2
+      va = 0
+      ha = 0.5
     } else {
-      if(type == "hexagonal") {
-         if((cos(angle) < 0) & (sin(angle) > 0)) {
-          rot = 60
-        } else if ((cos(angle) < 0) & (sin(angle) < 0)) {
-          rot = -60
-        }
-      } else if (type == "circular") {
-        if((cos(angle) < 0) & (sin(angle) > 0)) {
-          rot = 30
-          va = 0
-          ha = 0.5
-        } else if ((cos(angle) < 0) & (sin(angle) < 0)) {
-          rot = -30
-          va = 1
-          ha = 0.5
-        }
-      }
+      rot = angle + pi/2
+      va = 1
+      ha = 0.5
     }
+
+    rot = rot / pi * 180
 
     data.frame(x=x, y=y, va=va, ha=ha, xlabel=x*(1+labelmargin),ylabel=y*(1+labelmargin), rot=rot)
   })
@@ -160,8 +177,8 @@ drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal") {
 
 #' @import ggplot2
 #' @export
-drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scale_alpha(), size=scale_size(), order=NULL) {
-  barypoints = clipHexagon(barypoints, rmax)
+drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scale_alpha(), size=scale_size(), order=NULL, baseangle=0) {
+  barypoints = clipHexagon(barypoints, rmax, baseangle)
 
   if(!is.null(order)) {
     barypoints = barypoints[order,]
@@ -175,13 +192,13 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
 
 #' @import ggplot2
 #' @export
-drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL) {
-  barypoints = clipHexagon(barypoints, rmax)
-  barypoints2 = clipHexagon(barypoints2, rmax)
+drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, baseangle=0) {
+  barypoints = clipHexagon(barypoints, rmax, baseangle)
+  barypoints2 = clipHexagon(barypoints2, rmax, baseangle)
 
   colnames(barypoints2) = paste0(colnames(barypoints2), "2")
 
-  allbarypoints =data.frame(barypoints, barypoints2)
+  allbarypoints = data.frame(barypoints, barypoints2)
 
   if(!is.null(order)) {
     allbarypoints = allbarypoints[order,]
@@ -198,17 +215,26 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL) {
 #'
 #' @param barycoords Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}
 #' @param Gdiffexp Differentially expressed genes
-#' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list to plot multiple gene lists
-#' @param Coi Character vector specifying the names of the three biological conditions
+#' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
+#' @param Coi Character vector specifying the names of the three biological conditions, used for labelling
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
 #' @param colorvalues Colors used according to colorby
+#' @param rmax Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.
 #' @param sizevalues List with the size of each dot if differentially expressed (`T`) or not (`F`)
 #' @param alphavalues List with the alpha value of each dot if differentially expressed or not
-#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
-#' @return Dataframe containing for every original point its new x and y coordinates in barycentric space
+#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`.
+#' @examples
+#' data(vandelaar)
+#' Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
+#' Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+#' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
+#'
+#' barycoords = transformBarycentric(Eoi)
+#'
+#' @return A ggplot2 object, which can be used to further customize the plot
 #' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), barycoords2=NULL) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=setNames(c(0.5,2), c(F,T)), alphavalues=c(T=0.8, F=0.8), barycoords2=NULL, baseangle=0) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
@@ -220,6 +246,7 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   barypoints$diffexp = rownames(barypoints) %in% Gdiffexp
   barypoints$ingset = F
   barypoints$gsetname = "all"
+  if(is.null(names(Goi))) names(Goi) = 1:length(Goi)
   for (gsetname in names(Goi)) {
     barypoints[Goi[[gsetname]], "ingset"] = T
     barypoints[Goi[[gsetname]], "gsetname"] = gsetname
@@ -237,14 +264,12 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 
     # sample palette
     #colorvalues = setNames(c("#222222", RColorBrewer::brewer.pal(max(length(gsets), 3), "Set1")), c("all", names(gsets)))
-    color = scale_colour_manual(
-      values=colorvalues
-    ,name="type")
+    color = scale_colour_manual(values=colorvalues,name="type")
     barypoints$colorby = barypoints$type
     barypoints$alphaby = barypoints$diffexp
     barypoints$sizeby = barypoints$ingset
     alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
-    size = scale_size_manual(values=setNames(c(0.5, 2), c(F,T)), name="ingset")
+    size = scale_size_manual(values=setNames(c(0.5,2), c(F,T)), name="ingset")
   } else if (colorby == "z") {
     color = scale_colour_continuous()
     barypoints$colorby = barypoints$z
@@ -258,18 +283,17 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   }
 
   order = with(barypoints, order(ingset, diffexp))
-  barypoints = barypoints[order,]
 
-  plot = drawHexagonGrid() +
-    drawDirections(rmax, Coi) +
-    drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha, size=size)
+  plot = drawHexagonGrid(rmax, showlabels=showlabels, baseangle=baseangle) +
+    drawDirections(rmax, Coi, baseangle=baseangle) +
+    drawDotplot(barypoints, rmax, color=color, order=order, alpha=alpha, size=size, baseangle=baseangle)
 
   if(!is.null(barycoords2) && sum(barypoints$ingset) > 0) {
     barypoints2 = as.data.frame(barycoords2)[rownames(barypoints),]
     #colnames(barypoints2) = c("x", "y")
     #barypoints2 = addPolar(barypoints2)
 
-    plot = plot + drawConnectionplot(barypoints[barypoints$ingset, ], barypoints2[barypoints$ingset, ], rmax)
+    plot = plot + drawConnectionplot(barypoints[barypoints$ingset, ], barypoints2[barypoints$ingset, ], rmax, baseangle=baseangle)
   }
 
   plot
@@ -280,8 +304,9 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #' @param Coi Names of the three biological conditions
 #' @param colorby Column in scores used for coloring
 #' @export
-plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL) {
-  plot = drawCircleGrid(5, 1) + drawDirections(5, Coi, type="circular")
+plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T) {
+  labeller = function(x) paste0("10^-", x, "")
+  plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller) + drawDirections(5, Coi, type="circular")
 
   scores$r = pmin(-log10(scores$qval), 5)
   scores$x = cos(scores$angle) * scores$r
@@ -290,10 +315,13 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL) {
   if (!is.null(colorby)) {
     scores$colorby = scores[,colorby]
   } else {
-    scores$colorby = 1
+    scores$colorby = as.factor(1)
   }
 
-  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=5)
+  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=1) + scale_color_manual(values=list("#333333"))
 
   plot
 }
+
+
+#'

@@ -156,12 +156,6 @@ repositionDirections = function(directions, bbox) {
     labelbbox = this.getBBox();
     x = newx = Number(this.getAttribute("originalx"));
     y = newy = Number(this.getAttribute("originaly"));
-    if (x < 0) {
-      x = x + labelbbox.width;
-    }
-    if (y < 0) {
-      y = y + labelbbox.height;
-    }
     if (math.abs(y) > 10) {
       if (y < 0 && y > ymin) {
         newy = ymin;
@@ -545,6 +539,7 @@ Dotplot = (function() {
       "goi": true
     });
     this.goidots.updateData(goidotsdata);
+    this.goidots.dots.selectAll("circle").attr("transform", "scale(4)").style("opacity", 0.8);
     return this.updateVisual();
   };
 
@@ -777,6 +772,8 @@ Dotplot = (function() {
   };
 
   Dotplot.prototype.updateVisual = function() {
+    this.alldots.dots.selectAll("g").style("fill", "#AAAAAA");
+    this.alldots.dots.selectAll("g.diffexp").style("fill", "#333333");
     this.goidots.dots.selectAll("g").style(this.opts.visual.goi);
     this.goidots.dots.selectAll("g.diffexp").style(this.opts.visual.goidiffexp);
     this.directions.selectAll("text").style(this.opts.visual.direction_label);
@@ -800,13 +797,7 @@ Dots = (function() {
       return function(d) {
         return "translate(" + _this.scale(d.x) + ", " + _this.scale(d.y) + ")";
       };
-    })(this)).append("circle").attr("cx", 0).attr("cy", 0).attr("r", 1).attr("transform", function(d) {
-      if (d.size != null) {
-        return "scale(" + d.size + ")";
-      } else {
-        return "scale(1)";
-      }
-    });
+    })(this)).append("circle").attr("cx", 0).attr("cy", 0).attr("r", 1);
   }
 
   Dots.prototype.updateData = function(dotsdata1) {

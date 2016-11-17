@@ -13,7 +13,7 @@ HTMLWidgets.widget({
     return h = height;
   },
   renderValue: function(el, data, instance) {
-    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, dotplot, genesearch, genesearch_input, i, labels, len, logpvals, options, ref, rmax, row, scale, transformation;
+    var C, Eoi, G, Gdiffexp, Glabels, Goi, Gpin, anglebase, ax, barycoords, demo, dotplot, genesearch, genesearch_input, i, insetheight, insetwidth, labels, len, logpvals, options, ref, rmax, row, scale, transformation;
     window.data = data;
     Eoi = data.Eoi;
     Gdiffexp = data.Gdiffexp;
@@ -73,7 +73,7 @@ HTMLWidgets.widget({
       dotplot.updateRings(logpvals);
     }
     window.dotplot = dotplot;
-    return genesearch_input.addEventListener("awesomplete-selectcomplete", function(e) {
+    genesearch_input.addEventListener("awesomplete-selectcomplete", function(e) {
       var ref1;
       dotplot.updateHover(this.value);
       if (ref1 = this.value, indexOf.call(dotplot.Gpin, ref1) < 0) {
@@ -81,6 +81,10 @@ HTMLWidgets.widget({
       }
       return this.value = Glabels[this.value];
     });
+    insetwidth = w / 3;
+    insetheight = h / 3;
+    ax = d3.select("div.dotplot").select("svg").append("g").attr("transform", "translate(" + insetwidth + "," + (h - insetheight) + ")");
+    return demo = new Demo(dotplot, ax);
   },
   resize: function(el, width, height, instance) {}
 });

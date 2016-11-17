@@ -92,11 +92,6 @@ repositionDirections = (directions, bbox) ->
             x = newx = Number(this.getAttribute("originalx"))
             y = newy = Number(this.getAttribute("originaly"))
 
-            if x < 0
-                x = x + labelbbox.width
-            if y < 0
-                y = y + labelbbox.height
-
             if math.abs(y) > 10
                 if y<0 and y > ymin
                     newy = ymin
@@ -349,6 +344,9 @@ class Dotplot
     updateGoi: () ->
         goidotsdata = @generateDotsData({"goi":true}, {"diffexp":true, "goi":true})
         @goidots.updateData(goidotsdata)
+        @goidots.dots.selectAll("circle")
+            .attr("transform", "scale(4)")
+            .style("opacity", 0.8)
         @updateVisual()
 
     initGpin: (@Gpin)->
@@ -471,6 +469,8 @@ class Dotplot
                         [j, k] = forcerow
                         overlap = bbox_overlap(pinbboxes[j], pinbboxes[k], 1, 1)
                         if overlap || (angles_increase(@pindata[j].angle, @pindata[k].angle) && !angles_increase(@pindata[j].labelangle, @pindata[k].labelangle))
+                            # second statement makes sure consecutive genes are also consecutively labeled
+
                             #weight = 1 - (@pindata[forcerow[0]].labelangle - @pindata[forcerow[1]].labelangle) * 2 # allow bigger changes if the difference is larger
                             #console.log(weight)
                             #weight=1
@@ -530,6 +530,11 @@ class Dotplot
             @updateVisual()
 
     updateVisual: () ->
+        @alldots.dots.selectAll("g")
+            .style("fill", "#AAAAAA")
+        @alldots.dots.selectAll("g.diffexp")
+            .style("fill", "#333333")
+
         @goidots.dots.selectAll("g")
             .style(@opts.visual.goi)
         @goidots.dots.selectAll("g.diffexp")
@@ -556,12 +561,12 @@ class Dots
             .attr("cx", 0)
             .attr("cy", 0)
             .attr("r", 1)
-            .attr("transform", (d) ->
-                if d.size?
-                    return("scale(" + d.size + ")")
-                else
-                    return("scale(1)")
-            )
+            # .attr("transform", (d) ->
+            #     if d.size?
+            #         return("scale(" + d.size + ")")
+            #     else
+            #         return("scale(1)")
+            # )
 
     updateData: (@dotsdata) ->
         dataselection = @dots

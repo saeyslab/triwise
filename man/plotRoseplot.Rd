@@ -5,12 +5,13 @@
 \title{plotRoseplot}
 \usage{
 plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
-  Goi = rownames(barycoords), size = "surface", Coi = attr(barycoords,
-  "conditions"), nbins = 12, bincolors = rainbow(nbins, start = 0, v = 0.8,
-  s = 0.6))
+  Goi = rownames(barycoords), size = "surface", relative = T,
+  showlabels = T, Coi = attr(barycoords, "conditions"), nbins = 12,
+  bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6), rmax = "auto",
+  baseangle = 0)
 }
 \arguments{
-\item{barycoords}{Dataframe contain barycentric coordinates as returned by `transformBarycentric`}
+\item{barycoords}{Dataframe containing barycentric coordinates as returned by `transformBarycentric`}
 
 \item{Gdiffexp}{List of differentially expressed genes}
 
@@ -18,13 +19,22 @@ plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
 
 \item{size}{Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction}
 
-\item{Coi}{Names of the three biological conditions}
+\item{relative}{Whether to show the relative number of genes or the absolute number of genes}
+
+\item{showlabels}{Whether to label the grid}
+
+\item{Coi}{Names of the three biological conditions, used for labelling}
 
 \item{nbins}{Number of bins, should be a multiple of 3 to make sense}
 
-\item{bincolors}{Colors of every bin}
+\item{bincolors}{Colors of every bin, defaults to a rainbow palette}
+
+\item{rmax}{Number or "auto" (default), denotes the maximal radius of the grid.}
+}
+\value{
+A ggplot2 object, which can be used to further customize the plot
 }
 \description{
-A rose plot shows the distribution of the differentially expressed genes in different directions.
+A rose plot shows the distribution of a given set of genes in different directions.
 }
 

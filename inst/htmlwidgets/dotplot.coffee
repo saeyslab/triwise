@@ -105,6 +105,15 @@ HTMLWidgets.widget({
             this.value = Glabels[this.value]
         )
 
+        insetwidth = w/3
+        insetheight = h/3
+
+        ax = d3.select("div.dotplot")
+            .select("svg")
+            .append("g")
+            .attr("transform", "translate(" + insetwidth + "," + (h-insetheight) + ")")
+        demo = new Demo(dotplot, ax)
+
     ,
     resize: (el, width, height, instance) ->
 

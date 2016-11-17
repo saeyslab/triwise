@@ -6,8 +6,7 @@
 
 using namespace Rcpp;
 
-//' @title
-//' backgroundModel2
+//' @title backgroundModel2
 //' @description Generates a triwise background model, containing weights, z-values and angle p-values for a set of uniformly distributed reference angles
 //' @param angles
 //' @param nsamples

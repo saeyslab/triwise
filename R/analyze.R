@@ -88,8 +88,6 @@ transformReverseBarycentric = function(scores, transfomatrix=NULL) {
 #   scores
 # }
 
-#' Rayleigh z-test
-#'
 #' @param angles Numeric vector containing angles in radians
 #' @return P-value of unidirectionality under the uniformity null hypothesis
 #' @export
@@ -146,7 +144,7 @@ testEnrichment = function(Goi, gsets, background, minknown=2, minfound=2, maxkno
 #' Generate background models
 #' @description Generates a background model by randomly resampling genes at different number of genes and calculating z distributions at different fixed angles
 #' @export
-generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=getOption("mc.cores", default =1)) {
+generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=getOption("mc.cores", default = 1)) {
   if (length(noi) == 1) {
     noi = seq(5, 100, length=noi)
   }
@@ -155,7 +153,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
     anglesoi = seqClosed(0, 2*pi, anglesoi)
   }
 
-  backmodels = mclapply(noi, function(n) {
+  backmodels = parallel::mclapply(noi, function(n) {
     backmodel = triwise::backgroundModel2(barycoords$angle, barycoords$z, nsamples, n, anglesoi, bw)
   }, mc.cores = mc.cores)
 
@@ -165,7 +163,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 
 
 #' @export
-testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=5, maxknown=1500, mc.cores=getOption("mc.cores", default =1)) {
+testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=0, maxknown=1500, mc.cores=getOption("mc.cores", default =1)) {
   if(!is.null(Gdiffexp)) {
     barycoords$diffexp = rownames(barycoords) %in% Gdiffexp
   }
@@ -198,6 +196,8 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
     gset_filtered = intersect(gset, background)
 
     subbarycoords = barycoords[gset_filtered, ]
+
+    if (length(gset_filtered) == 0) return(NULL)
 
     angles_gset = subbarycoords$angle %% (2*pi)
     rs_gset = as.numeric(subbarycoords$z)

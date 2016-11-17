@@ -4,7 +4,7 @@
 \alias{plotPvalplot}
 \title{Plot results from unidirectional enrichment}
 \usage{
-plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL)
+plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL, showlabels = T)
 }
 \arguments{
 \item{scores}{Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle}

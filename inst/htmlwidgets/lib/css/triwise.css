@@ -8,10 +8,10 @@ g.gene {
 }
 
 g.gene.goi > circle {
-	transform:scale(4);
-    -webkit-transform:scale(4);
+/*	transform:scale(4);
+    -webkit-transform:scale(4);*/
 }
-
+/*
 g.gene {
     fill:#AAAAAA;
 }
@@ -27,7 +27,7 @@ g.gene.goi {
 
 g.gene.goi.diffexp {
     opacity:0.8;
-}
+}*/
 
 circle.ghover {
     fill:white;
