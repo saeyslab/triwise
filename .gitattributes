@@ -1,6 +1,1 @@
-test_files/* linguist-documentation=false
-inst/htmlwidgets/* linguist-documentation=false
-*.js linguist-documentation=false
-R/* linguist-documentation
-src/* linguist-documentation
-tests/* linguist-documentation
+inst/* linguist-vendored
