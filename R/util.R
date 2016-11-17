@@ -26,13 +26,6 @@ addPolar <- function(barypoints) {
   barypoints
 }
 
-addCartesian <- function(barypoints, baseangle=0) {
-  barypoints$x = cos(barypoints$angle + baseangle) * barypoints$r
-  barypoints$y = sin(barypoints$angle + baseangle) * barypoints$r
-
-  barypoints
-}
-
 hexagonPolar <- function(angle, radius=1, baseangle=0) {
   delta <- 2*pi/6
   cos(delta/2)/cos((angle %% delta)-delta/2) * radius
@@ -90,7 +83,6 @@ jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}
 
 
 #' make a named list using the variable names (avoids repeating the same name twice)
-#' @export
 named.list <- function(...) {
   l <- list(...)
   names(l) <- sapply(substitute(list(...)), deparse)[-1]
@@ -98,7 +90,6 @@ named.list <- function(...) {
 }
 
 #'
-#' @export
 seqClosed <- function(a=0, b, length) {
   head(seq(a, b, length=length+1), -1)
 }

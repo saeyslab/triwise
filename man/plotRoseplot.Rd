@@ -30,6 +30,8 @@ plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
 \item{bincolors}{Colors of every bin, defaults to a rainbow palette}
 
 \item{rmax}{Number or "auto" (default), denotes the maximal radius of the grid.}
+
+\item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }
 \value{
 A ggplot2 object, which can be used to further customize the plot

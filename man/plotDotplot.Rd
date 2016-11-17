@@ -25,11 +25,15 @@ plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
 
 \item{rmax}{Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.}
 
+\item{showlabels}{Whether to show labels on the grid}
+
 \item{sizevalues}{List with the size of each dot if differentially expressed (`T`) or not (`F`)}
 
 \item{alphavalues}{List with the alpha value of each dot if differentially expressed or not}
 
 \item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`.}
+
+\item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }
 \value{
 A ggplot2 object, which can be used to further customize the plot

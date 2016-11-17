@@ -1,5 +1,4 @@
 #' @import ggplot2
-#' @export
 drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) {
   radii = seq_len(rmax)
   hexagonpoints <- plyr::ldply(seq(0, pi*2-0.001, pi/3), function(angle) data.frame(x=cos(angle+baseangle), y=sin(angle+baseangle)))
@@ -17,7 +16,6 @@ drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) 
 }
 
 #' @import ggplot2
-#' @export
 drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squared=F, showlabels=T, labeller=function(x) x) {
   circlepoints <- plyr::ldply(seq(0, pi*2-0.001, pi/100), function(angle) data.frame(x=cos(angle), y=sin(angle)))
 
@@ -36,7 +34,6 @@ drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squa
 }
 
 #' @import ggplot2
-#' @export
 drawGridBasis <- function() {
   ggplot() +
   coord_equal() +
@@ -67,6 +64,7 @@ drawGridBasis <- function() {
 #' @param nbins Number of bins, should be a multiple of 3 to make sense
 #' @param bincolors Colors of every bin, defaults to a rainbow palette
 #' @param rmax Number or "auto" (default), denotes the maximal radius of the grid.
+#' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @return A ggplot2 object, which can be used to further customize the plot
 #' @export
 plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
@@ -129,8 +127,6 @@ plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(
 }
 
 #' @import ggplot2
-#' @title drawDirections
-#' @export
 drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal", baseangle=0) {
   directionsData = plyr::ldply(seq(0, pi*2-0.001, pi/3*2), function(angle) {
     angle = angle + baseangle
@@ -176,7 +172,6 @@ drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal", bas
 }
 
 #' @import ggplot2
-#' @export
 drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scale_alpha(), size=scale_size(), order=NULL, baseangle=0) {
   barypoints = clipHexagon(barypoints, rmax, baseangle)
 
@@ -191,7 +186,6 @@ drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scal
 }
 
 #' @import ggplot2
-#' @export
 drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, baseangle=0) {
   barypoints = clipHexagon(barypoints, rmax, baseangle)
   barypoints2 = clipHexagon(barypoints2, rmax, baseangle)
@@ -220,9 +214,11 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
 #' @param colorvalues Colors used according to colorby
 #' @param rmax Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.
+#' @param showlabels Whether to show labels on the grid
 #' @param sizevalues List with the size of each dot if differentially expressed (`T`) or not (`F`)
 #' @param alphavalues List with the alpha value of each dot if differentially expressed or not
 #' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`.
+#' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @examples
 #' data(vandelaar)
 #' Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
@@ -303,14 +299,16 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #' @param scores Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle
 #' @param Coi Names of the three biological conditions
 #' @param colorby Column in scores used for coloring
+#' @param showlabels Whether to show labels on the grid
+#' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @export
-plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T) {
+plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")
-  plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller) + drawDirections(5, Coi, type="circular")
+  plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller, baseangle=baseangle) + drawDirections(5, Coi, type="circular", baseangle=baseangle)
 
   scores$r = pmin(-log10(scores$qval), 5)
-  scores$x = cos(scores$angle) * scores$r
-  scores$y = sin(scores$angle) * scores$r
+  scores$x = cos(scores$angle+baseangle) * scores$r
+  scores$y = sin(scores$angle+baseangle) * scores$r
 
   if (!is.null(colorby)) {
     scores$colorby = scores[,colorby]
@@ -322,6 +320,3 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T) 
 
   plot
 }
-
-
-#'
