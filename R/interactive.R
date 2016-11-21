@@ -1,6 +1,6 @@
 #' Interactive triwise dotplot
 #'
-#' Draw an interactive triwise dotplot in which genes can be interactively
+#' Draw an interactive triwise dotplot
 #'
 #' @import htmlwidgets
 #'
@@ -10,7 +10,7 @@
 #' @param Glabels Labels for every gene if different from the rownames of `Eoi`
 #' @param Gpin Pinned genes
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=attr(barycoords, "conditions"), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=T, width = NULL, height = NULL) {
+interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=attr(barycoords, "conditions"), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=F, width = NULL, height = NULL) {
   Eoi = Eoi[,c(1,3,2)]
 
   barycoords = transformBarycentric(Eoi)

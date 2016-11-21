@@ -65,7 +65,7 @@ drawGridBasis <- function() {
 #' @param bincolors Colors of every bin, defaults to a rainbow palette
 #' @param rmax Number or "auto" (default), denotes the maximal radius of the grid.
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
-#' @return A ggplot2 object, which can be used to further customize the plot
+#' @return A ggplot2 plot, which can be used to further customize the plot
 #' @export
 plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
   deltaalpha = pi*2/nbins
@@ -212,25 +212,29 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
 #' @param Coi Character vector specifying the names of the three biological conditions, used for labelling
 #' @param colorby Color by differential expression ("diffexp") or by log fold-change ("z")
-#' @param colorvalues Colors used according to colorby
+#' @param colorvalues Color values, different syntax depending on the colorby parameter: \itemize{
+#'   \item diffexp: Named list with colors. First part of the name denotes whether a gene is differentially expressed (`diffexp` or `nodiffexp`). The second part denotes the name of the gene set. Genes not within a gene set are denoted by `all`. \cr
+#'   For example: list(diffexpall="#000000", nodiffexpall="#AAAAAA", nodiffexpgset="#FFAAAA", diffexpgset="#FF0000")
+#'   \item z: A character vector of color values, used to generate the color gradient
+#' }
 #' @param rmax Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.
 #' @param showlabels Whether to show labels on the grid
-#' @param sizevalues List with the size of each dot if differentially expressed (`T`) or not (`F`)
-#' @param alphavalues List with the alpha value of each dot if differentially expressed or not
-#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`.
+#' @param sizevalues Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)
+#' @param alphavalues Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)
+#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @examples
 #' data(vandelaar)
 #' Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
 #' Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
 #' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
-#'
 #' barycoords = transformBarycentric(Eoi)
+#' plotDotplot(barycoords)
 #'
-#' @return A ggplot2 object, which can be used to further customize the plot
+#' @return A ggplot2 plot, which can be used for further customization
 #' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=setNames(c(0.5,2), c(F,T)), alphavalues=c(T=0.8, F=0.8), barycoords2=NULL, baseangle=0) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=setNames(c(0.5,2), c(F,T)), alphavalues=setNames(c(0.8, 0.8), c(F, T)), barycoords2=NULL, baseangle=0) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
@@ -252,7 +256,6 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   if (colorby == "diffexp") {
     if (is.null(colorvalues)) {
       # make colorvalues in two steps so that extra colors (eg. if 1 gene set) are filled with nas
-
       # different palletes for diffexp and nodiffexp
       colorvalues = setNames(c("#333333", RColorBrewer::brewer.pal(max(length(Goi), 3), "Set1")), c("diffall", paste0("diff",names(Goi))))
       colorvalues = c(colorvalues, setNames(c("#AAAAAA", RColorBrewer::brewer.pal(max(length(Goi), 3), "Pastel1")), c("nodiffall", paste0("nodiff", names(Goi)))))
@@ -264,19 +267,21 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
     barypoints$colorby = barypoints$type
     barypoints$alphaby = barypoints$diffexp
     barypoints$sizeby = barypoints$ingset
-    alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
-    size = scale_size_manual(values=setNames(c(0.5,2), c(F,T)), name="ingset")
   } else if (colorby == "z") {
+    if(!("z" %in% colnames(barypoints))) stop("z column not defined")
+
     color = scale_colour_continuous()
     barypoints$colorby = barypoints$z
     barypoints$alphaby = T
-    alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
+    barypoints$sizeby = T
   } else {
     color = scale_colour_continuous()
     barypoints$colorby = barypoints$r
     barypoints$alphaby = T
-    alpha = scale_alpha_discrete(breaks=c(F,T), limits=c(0.4,1))
+    barypoints$sizeby = T
   }
+  alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
+  size = scale_size_manual(values=setNames(c(0.5,2), c(F,T)), name="ingset")
 
   order = with(barypoints, order(ingset, diffexp))
 
@@ -304,7 +309,7 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #' @export
 plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")
-  plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller, baseangle=baseangle) + drawDirections(5, Coi, type="circular", baseangle=baseangle)
+  plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller) + drawDirections(5, Coi, type="circular", baseangle=baseangle)
 
   scores$r = pmin(-log10(scores$qval), 5)
   scores$x = cos(scores$angle+baseangle) * scores$r
@@ -312,11 +317,13 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, 
 
   if (!is.null(colorby)) {
     scores$colorby = scores[,colorby]
+    color = scale_color_continuous()
   } else {
-    scores$colorby = as.factor(1)
+    scores$colorby = factor(1)
+    color = scale_color_manual(values=c(`1`="#333333"))
   }
 
-  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=1) + scale_color_manual(values=list("#333333"))
+  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=1) + color
 
   plot
 }

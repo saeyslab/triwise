@@ -2,29 +2,17 @@
 % Please edit documentation in R/analyze.R
 \name{testRayleigh}
 \alias{testRayleigh}
-\title{Test gene sets for unidirectional enrichment}
+\title{Rayleigh z-test implementation}
 \usage{
 testRayleigh(angles)
 }
 \arguments{
-\item{angles}{either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names}
-
-\item{gsets}{list of character vectors, each containing a set of genes (gene identifiers)}
-
-\item{Gdiffexp}{differentially expressed genes}
-
 \item{angles}{Numeric vector containing angles in radians}
 }
 \value{
-Dataframe containing for every gene set which passed the filtering: \itemize{
- \item p-value of unidirectionality
- \item q-value of unidirectionality (p-value corrected for multiple testing)
- \item average angle
-}
-
 P-value of unidirectionality under the uniformity null hypothesis
 }
 \description{
-Test gene sets for unidirectional enrichment
+Rayleigh z-test implementation
 }
 

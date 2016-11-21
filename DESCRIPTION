@@ -12,14 +12,15 @@ Imports:
     GSEABase,
     circular,
     limma,
-    ggplot2,
-    plyr,
-    tidyr,
-    Rcpp
+    tidyverse,
+    Rcpp,
+    mgsa
 RoxygenNote: 5.0.1
 Suggests: testthat,
     knitr,
     rmarkdown,
-    BiocStyle
+    BiocStyle,
+    packagedocs
 LinkingTo: Rcpp, RcppArmadillo
-VignetteBuilder: knitr
+VignetteBuilder: knitr,
+    packagedocs

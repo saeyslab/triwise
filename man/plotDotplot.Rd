@@ -7,8 +7,8 @@
 plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
   Coi = attr(barycoords, "conditions"), colorby = "diffexp",
   colorvalues = NULL, rmax = 5, showlabels = T,
-  sizevalues = setNames(c(0.5, 2), c(F, T)), alphavalues = c(T = 0.8, F =
-  0.8), barycoords2 = NULL, baseangle = 0)
+  sizevalues = setNames(c(0.5, 2), c(F, T)), alphavalues = setNames(c(0.8,
+  0.8), c(F, T)), barycoords2 = NULL, baseangle = 0)
 }
 \arguments{
 \item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}}
@@ -21,22 +21,26 @@ plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
 
 \item{colorby}{Color by differential expression ("diffexp") or by log fold-change ("z")}
 
-\item{colorvalues}{Colors used according to colorby}
+\item{colorvalues}{Color values, different syntax depending on the colorby parameter: \itemize{
+  \item diffexp: Named list with colors. First part of the name denotes whether a gene is differentially expressed (`diffexp` or `nodiffexp`). The second part denotes the name of the gene set. Genes not within a gene set are denoted by `all`. \cr
+  For example: list(diffexpall="#000000", nodiffexpall="#AAAAAA", nodiffexpgset="#FFAAAA", diffexpgset="#FF0000")
+  \item z: A character vector of color values, used to generate the color gradient
+}}
 
 \item{rmax}{Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.}
 
 \item{showlabels}{Whether to show labels on the grid}
 
-\item{sizevalues}{List with the size of each dot if differentially expressed (`T`) or not (`F`)}
+\item{sizevalues}{Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)}
 
-\item{alphavalues}{List with the alpha value of each dot if differentially expressed or not}
+\item{alphavalues}{Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)}
 
-\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`.}
+\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
 
 \item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }
 \value{
-A ggplot2 object, which can be used to further customize the plot
+A ggplot2 plot, which can be used for further customization
 }
 \description{
 Plot a dotplot
@@ -46,8 +50,8 @@ data(vandelaar)
 Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype \%in\% c("BM_mono", "FL_mono", "YS_MF")]
 Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
 Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
-
 barycoords = transformBarycentric(Eoi)
+plotDotplot(barycoords)
 
 }
 

@@ -4,15 +4,15 @@
 \alias{transformReverseBarycentric}
 \title{Convert from barycentric coordinates back to original expression values}
 \usage{
-transformReverseBarycentric(scores, transfomatrix = NULL)
+transformReverseBarycentric(barycoords, transfomatrix = NULL)
 }
 \arguments{
-\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation matrix}
-
 \item{barycoords}{Dataframe of barycentric coordinates with x and y in separate columns}
+
+\item{transfomatrix}{\code{NULL} (default) or a numeric matrix containing the transformation matrix}
 }
 \value{
-Matrix containing for every gene
+Matrix containing for every gene original expression values centered around 0
 }
 \description{
 Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant for each gene).

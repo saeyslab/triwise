@@ -34,7 +34,7 @@ plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
 \item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }
 \value{
-A ggplot2 object, which can be used to further customize the plot
+A ggplot2 plot, which can be used to further customize the plot
 }
 \description{
 A rose plot shows the distribution of a given set of genes in different directions.

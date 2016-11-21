@@ -27,9 +27,9 @@ transformBarycentric = function(E, transfomatrix=NULL) {
 #'
 #' @param barycoords Dataframe of barycentric coordinates with x and y in separate columns
 #' @param transfomatrix \code{NULL} (default) or a numeric matrix containing the transformation matrix
-#' @return Matrix containing for every gene
+#' @return Matrix containing for every gene original expression values centered around 0
 #' @export
-transformReverseBarycentric = function(scores, transfomatrix=NULL) {
+transformReverseBarycentric = function(barycoords, transfomatrix=NULL) {
   if (is.null(transfomatrix)) {
     transfomatrix = getTransformationMatrix()
   }
@@ -38,56 +38,7 @@ transformReverseBarycentric = function(scores, transfomatrix=NULL) {
   barycoords %*% t(MASS::ginv(transfomatrix))
 }
 
-
-
-#' Test gene sets for unidirectional enrichment
-#'
-#' @param angles either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names
-#' @param gsets list of character vectors, each containing a set of genes (gene identifiers)
-#' @param Gdiffexp differentially expressed genes
-#' @return Dataframe containing for every gene set which passed the filtering: \itemize{
-#'  \item p-value of unidirectionality
-#'  \item q-value of unidirectionality (p-value corrected for multiple testing)
-#'  \item average angle
-#' }
-#' @export
-# testUnidirectionality = function(angles, gsets, Gdiffexp=NULL, minknown=2, minfound=2, maxknown=500, weight=T) {
-#   if (is.data.frame(angles)) {
-#     angles = setNames(angles$angle, rownames(angles))
-#   }
-#
-#   if (!is.null(Gdiffexp)) {
-#     angles = angles[Gdiffexp]
-#   }
-#   background = names(angles)
-#
-#   scores = do.call(rbind.data.frame, lapply(names(gsets), function(gsetid){
-#     gset = gsets[[gsetid]]
-#     if (length(gset) < minknown | length(gset) > maxknown) {
-#       return(NULL)
-#     }
-#
-#     gset_filtered = intersect(gset, background)
-#
-#     if (length(gset_filtered) < minfound){
-#       return(NULL)
-#     }
-#
-#     angles_gset = circular::circular(angles[gset_filtered], type="angles", units="radians")
-#
-#     angle = as.numeric(circularMean(angles_gset)) %% (2*pi)
-#
-#     rayleigh_result = circular::rayleigh.test(angles_gset)
-#
-#     list(pval=testRayleigh(angles_gset), angle=angle, n=length(gset_filtered), gsetid=gsetid)
-#   }))
-#
-#   if (nrow(scores) > 0) {
-#     scores$qval = p.adjust(scores$pval, method="fdr")
-#   }
-#   scores
-# }
-
+#' Rayleigh z-test implementation
 #' @param angles Numeric vector containing angles in radians
 #' @return P-value of unidirectionality under the uniformity null hypothesis
 #' @export
@@ -161,15 +112,39 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 }
 
 
-
+#' Test gene sets for unidirectional enrichment
+#'
+#' @param angles either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names
+#' @param gsets list of character vectors, each containing a set of genes (gene identifiers)
+#' @param Gdiffexp differentially expressed genes
+#' @param statistic A string denoting the measure used for the strength of upregulation of a particular gene. \itemize{
+#'   \item diffexp: Wheter a gene is differentially expressed (1 versus 0)
+#'   \item rank: The rank of the maximal log fold-change
+#'   \item r: The maximal log fold-change
+#'   \item z: Custom using the z-column within barycoords
+#'   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
+#' }
+#' @param bm Previously calculated background model using the `generateBackgroundModel` function
+#' @param minknown Minimal number of genes within a gene set for it to be considered for enrichment
+#' @param mindiffexp Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
+#' @param maxknown Maximal number of genes within a gene set for it to be considered for enrichment
+#' @param mc.cores Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows
+#' @return Dataframe containing for every gene set which passed the filtering: \itemize{
+#'  \item p-value of unidirectionality
+#'  \item q-value of unidirectionality (p-value corrected for multiple testing)
+#'  \item average angle
+#' }
 #' @export
-testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=0, maxknown=1500, mc.cores=getOption("mc.cores", default =1)) {
+testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=0, maxknown=1500, mc.cores=getOption("mc.cores", default=1)) {
+  if(!is.data.frame(barycoords)) stop("barycoords should be a data.frame")
+  if(!all(c("x", "y", "angle", "r") %in% colnames(barycoords))) stop("barycoords should contain x, y, angle and r columns")
+
   if(!is.null(Gdiffexp)) {
     barycoords$diffexp = rownames(barycoords) %in% Gdiffexp
   }
 
-  if(statistic == "diffexp") {
-    if(is.null(Gdiffexp)) stop("Gdiffexp should be given if statistic == \"diffexp\"")
+  if(statistic == "diffexp" || statistic == "angle") {
+    if(is.null(Gdiffexp)) stop("Gdiffexp should be given if statistic == \"diffexp\" or statistic == \"angle\"")
     barycoords$z = rownames(barycoords) %in% Gdiffexp
   } else if(statistic == "rank") {
     barycoords$z = rank(barycoords$r)
@@ -178,11 +153,10 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
   } else if(statistic == "z"){
     # otherwise use the z column from the user
   } else {
-    stop("provide valid statistic (diffexp, rank, r or z)")
+    stop("no valid statistic provided (diffexp, rank, r, z or angle)")
   }
 
-
-  if(is.null(bm)) {
+  if(is.null(bm) && statistic != "angle") {
     bm = generateBackgroundModel(barycoords, mc.cores=mc.cores)
   }
 
@@ -207,7 +181,14 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
       return(NULL)
     }
 
-    data.frame(pval=empiricalPvalue(angles_gset,rs_gset, bm), angle=angle, n=length(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=F)
+    if(statistic != "angle") {
+      pval = empiricalPvalue(angles_gset,rs_gset, bm)
+    } else {
+      angles_gset_filtered = angles_gset[subbarycoords$z > 0]
+      pval = testRayleigh(angles_gset_filtered)
+    }
+
+    data.frame(pval=pval, angle=angle, n=length(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=F)
   }, mc.cores = mc.cores))
   if (nrow(scores) > 0) {
     scores$qval = p.adjust(scores$pval, method="fdr")
@@ -233,8 +214,13 @@ empiricalPvalue = function(angles, rs, bm) {
   sum(backmodel$weights[angleid,higher]) * backmodel$basepval# * backmodel$anglesp[[angleid]]
 }
 
-#' Test Locality
 #' Test local upregulation
+#' @description Tests for local upregulation locally in certain directions
+#' @param Goi Gene set for which to test enrichment
+#' @param Gdiffexp Differentially expressed genes
+#' @param angles Numeric vector with angles of all genes or a dataframe as returned by `transformBarycentric`
+#' @param deltangle Stepsize of angles
+#' @param bandwidith Bandwidth of angles
 #' @export
 testLocality = function(Goi, Gdiffexp, angles, deltangle=pi/24, bandwidth=pi/3) {
   if (is.data.frame(angles)) {

@@ -7,7 +7,7 @@
 interactiveDotplot(Eoi, Gdiffexp = rownames(barycoords), Goi = c(),
   Glabels = rownames(Eoi), Gpin = c(), Coi = attr(barycoords,
   "conditions"), colorvalues = NULL, rmax = 5, sizevalues = c(T = 2, F =
-  0.5), alphavalues = c(T = 0.8, F = 0.8), plotLocalEnrichment = T,
+  0.5), alphavalues = c(T = 0.8, F = 0.8), plotLocalEnrichment = F,
   width = NULL, height = NULL)
 }
 \arguments{
@@ -22,6 +22,6 @@ interactiveDotplot(Eoi, Gdiffexp = rownames(barycoords), Goi = c(),
 \item{Gpin}{Pinned genes}
 }
 \description{
-Draw an interactive triwise dotplot in which genes can be interactively
+Draw an interactive triwise dotplot
 }
 
