@@ -226,7 +226,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @examples
 #' data(vandelaar)
 #' Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
-#' Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+#' Eoi <- limma::avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
 #' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 #' barycoords = transformBarycentric(Eoi)
 #' plotDotplot(barycoords)

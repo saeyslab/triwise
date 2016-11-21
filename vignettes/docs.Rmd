@@ -14,8 +14,11 @@ vignette: |
 navpills: |
   <li class="active"><a href='docs.html'>Docs</a></li>
   <li><a href='rd.html'>Package Ref</a></li>
+  <li><a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a></li>
 bibliography: triwise.bib
 ---
+
+# Triwise
 
 ```{r global_options, include=FALSE}
 # R output pre blocks are styled by default to indicate output
@@ -41,7 +44,7 @@ This dataset contains log2 gene expression values from, among others, the three 
 Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
 dim(Eoi_replicates)
 
-Eoi <- avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+Eoi <- limma::avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
 Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 dim(Eoi)
 colnames(Eoi)
@@ -152,10 +155,9 @@ plots = lapply(scores %>% top_n(8, redundancy) %>% .$gsetid, function(gsetid) {
 cowplot::plot_grid(plotlist=plots, ncol=4)
 ```
 
-It is for example clear that genes related to cell cycle initiation are upregulated in both monocytes.
+It is for example clear that genes related to cell cycle initiation are upregulated in both monocytes, while genes associated with viral responses are downregulated in the FL monocyte.
 ```{r}
-row = scores[scores$name == "DNA replication initiation",,drop=T]
-plotDotplot(barycoords, Gdiffexp, gsets[[row$gsetid]])
+plotDotplot(barycoords, Gdiffexp, gsets[scores %>% top_n(3, redundancy) %>% .$gsetid])
 ```
 
 # Visualizing changes in differential expression between pairs of biological conditions
@@ -191,7 +193,7 @@ Goi = Filter(function(x) length(x>0), Goi)
 We can now supply a second barycoords to the plotDotplot function. It is clear that the direction of upregulation of certain genes remains stable before and after transfer to the lungs. For other genes the specificity changes.
 ```{r, fig.width=8, fig.height=5}
 Eoi2_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
-Eoi2 <- avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
+Eoi2 <- limma::avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
 Eoi2 = Eoi2[,c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
 barycoords2 <- transformBarycentric(Eoi2)
 
