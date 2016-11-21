@@ -1,0 +1,20 @@
+---
+title: "triwise Documentation"
+subtitle: "Gene expression changes in three biological conditions."
+author: ""
+copyright: ""
+output:
+  packagedocs::package_docs_rd:
+    toc: true
+    toc_collapse: false
+redirect: wsaelens/triwiser/rd.html
+vignette: |
+  %\VignetteIndexEntry{triwise Package Reference}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li><a href='docs.html'>Docs</a></li>
+  <li class="active"><a href='rd.html'>Package Ref</a></li>
+---
+
+```{r auto-gen-child, child="auto-generated-rd.Rmd"}
+```

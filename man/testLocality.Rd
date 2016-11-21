@@ -2,13 +2,22 @@
 % Please edit documentation in R/analyze.R
 \name{testLocality}
 \alias{testLocality}
-\title{Test Locality
-Test local upregulation}
+\title{Test local upregulation}
 \usage{
 testLocality(Goi, Gdiffexp, angles, deltangle = pi/24, bandwidth = pi/3)
 }
+\arguments{
+\item{Goi}{Gene set for which to test enrichment}
+
+\item{Gdiffexp}{Differentially expressed genes}
+
+\item{angles}{Numeric vector with angles of all genes or a dataframe as returned by `transformBarycentric`}
+
+\item{deltangle}{Stepsize of angles}
+
+\item{bandwidith}{Bandwidth of angles}
+}
 \description{
-Test Locality
-Test local upregulation
+Tests for local upregulation locally in certain directions
 }
 

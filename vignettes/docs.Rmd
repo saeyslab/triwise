@@ -1,12 +1,29 @@
 ---
-title: "Using triwise to study functional diversity of macrophage progenitors"
+title: "Triwise Documentation"
+subtitle: ""
 author: "Wouter Saelens"
-date: "`r Sys.Date()`"
-vignette: >
-  %\VignetteIndexEntry{Studying functional diversity of macrophage progenitors}
-  %\VignetteEngine{knitr::docco_linear}
-  %\VignetteEncoding{UTF-8}
+copyright: "GPL-3"
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: wsaelens/triwiser
+vignette: |
+  %\VignetteIndexEntry{triwise Documentation}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li class="active"><a href='docs.html'>Docs</a></li>
+  <li><a href='rd.html'>Package Ref</a></li>
+bibliography: triwise.bib
 ---
+
+```{r global_options, include=FALSE}
+# R output pre blocks are styled by default to indicate output
+knitr::opts_chunk$set(comment = NA)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
+```
 
 In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from [this study](http://www.ncbi.nlm.nih.gov/pubmed/26992565).
 
@@ -37,7 +54,7 @@ barycoords = transformBarycentric(Eoi)
 str(barycoords)
 ```
 
-These barycentric coordinates can then be plotted in a 2D dotplot. In this plot every gene is represented by a single dot. The direction of a dot indicates in which condition(s) the gene is upregulated, while the distance from the origin represents the strength of upregulation (in the same order of magnitude as a log fold-change).
+These barycentric coordinates can then be plotted in a 2D dotplot. In this plot every gene is represented by a single dot. The direction of a dot indicates in which condition(s) the gene is upregulated, while the distance from the origin represents the strength of upregulation (in the same order of magnitude as a log fold-change). Genes with the same expression in all three samples will all lie close to eachother in the center, regardless of the height of their absolute expression values. Points lying on a hexagon gridline all have the same maximal fold-change between any two pairwise comparisons.
 ```{r, fig.width=8, fig.height=5}
 plotDotplot(barycoords)
 ```
@@ -60,15 +77,14 @@ Gdiffexp = rownames(top)
 plotDotplot(barycoords, Gdiffexp)
 ```
 
-We can also plot this as a rose plot, a polar histogram showing the directional distribution of the differentially expressed genes.
+We can also plot this as a rose plot, a polar histogram showing the directional distribution of the differentially expressed genes. When plotting all genes in this way it can give you a sense of the main expression changes between populations. As we will see later, it can also be used to visualize individual sets of genes.
 ```{r}
 plotRoseplot(barycoords, Gdiffexp, relative = F)
 ```
 
-The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image.
+The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image. Within the widget, genes of interest can be selected to show their labels on the outside of the plot.
 ```{r, fig.width=8, fig.height=5}
-attributes(Eoi)$dimnames[[2]] = c("Bone marrow monocyte", "Fetal liver monocyte", "Yolk-sac macrophage")
-dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol)
+dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
 dotplot
 ```
 
@@ -76,51 +92,45 @@ dotplot
 
 One of the nice applications of analyzing three conditions at a time is that it allows you to find (partly) shared functional gene sets up or downregulated in one or two conditions. This is illustrated here for genes annotated with a particular function through GO.
 
-We first extract the relevant information of the genes sets from the Bioconductor packages.
+We first extract the relevant information of the genes sets from the Bioconductor annotation packages. We also filter the gene sets for genes within the expression datasets.
 ```{r, message=FALSE, warning=FALSE}
 library(org.Mm.eg.db)
 library(GO.db)
 library(dplyr)
-gsets = as.list(org.Mm.egGO2ALLEGS)
+gsets = AnnotationDbi::as.list(org.Mm.egGO2ALLEGS)
 gsets = sapply(gsets, function(gset) intersect(rownames(Eoi), unique(as.character(gset))))
-gsetindex = dplyr::bind_rows(lapply(as.list(GOTERM[names(gsets)]), function(goinfo) {
+gsetindex = dplyr::bind_rows(lapply(AnnotationDbi::as.list(GOTERM[names(gsets)]), function(goinfo) {
   tibble(name=Term(goinfo), definition=Definition(goinfo), ontology=Ontology(goinfo), gsetid = GOID(goinfo))
 }))
 gsets = gsets[gsetindex %>% filter(ontology == "BP") %>% .$gsetid]
 ```
 
-We now test whether a gene set is specifically upregulated in a particular direction.
+We now test whether a gene set is specifically upregulated in a particular direction. This can be run in parallel using the mc.cores parameters (not available on Windows).
 ```{r}
 scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 8)
 scores = left_join(scores, gsetindex, by="gsetid") %>% filter(qval < 0.05) %>% arrange(qval, z)
-scores = scores[scores$qval < 0.05, ]
-scores$redundancy=2
-
-#interactivePvalplot(scores, gsetindex$name, colnames(Eoi))
-
-#redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
-#scores = scores %>% mutate(redundancy = redundancy[gsetid])
-
-#interactivePvalplot(scores %>% filter(redundancy < 0.05), gsetindex$name, colnames(Eoi))
 ```
 
+Results from GO enrichment tend to include a lot of redundancy because of large overlaps between individual GO terms. To improve interpretability, Triwise uses the "model-based gene set analysis" method 
 ```{r}
-gsets_filtered = gsets[scores$gsetid[(scores$qval < 0.05) & (scores$z > 0.15)]]
-G = Reduce(union, gsets_filtered)
+scores = scores[(scores$qval < 0.05) & (scores$z > 0.15), ]
+scores$redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
+```
 
-library(mgsa)
-redundancy = mgsa(Gdiffexp, gsets_filtered, G)
-
-scores = redundancy@setsResults %>% tibble::rownames_to_column("gsetid") %>% select(estimate, gsetid) %>% left_join(scores %>% select(-redundancy), by="gsetid") %>% rename(redundancy=estimate)
-
+Non-redundant gene sets are upregulated in different directions.
+```{r}
 plotPvalplot(scores %>% top_n(20, redundancy), colnames(Eoi))
-interactivePvalplot(scores, gsetindex$name, colnames(Eoi))
+```
 
+Individual gene sets can then again be plotted on a dotplot.
+```{r}
 gsetid = gsetindex$gsetid[gsetindex$name == "DNA replication"]
 plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]])
+plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]])
 scores[scores$gsetid==gsetid,]
 ```
 
+We can also have a look at the top enriched gene sets.
 ```{r, fig.width=10, fig.height=5}
 plots = lapply(scores %>% top_n(8, redundancy) %>% .$gsetid, function(gsetid) {
   plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], showlabels = F) + 
@@ -141,14 +151,16 @@ plots = lapply(scores %>% top_n(8, redundancy) %>% .$gsetid, function(gsetid) {
 cowplot::plot_grid(plotlist=plots, ncol=4)
 ```
 
+It is for example clear that genes related to cell cycle initiation are upregulated in both monocytes.
 ```{r}
-scores = scores %>% arrange(qval)
-row = scores[1,]
-interactiveDotplot(Eoi, Gdiffexp, gsets[[row$gsetid]], Glabels = featureData(vandelaar)$symbol)
+row = scores[scores$name == "DNA replication initiation",,drop=T]
+plotDotplot(barycoords, Gdiffexp, gsets[[row$gsetid]])
 ```
 
 # Visualizing changes in differential expression between pairs of biological conditions
+We can also visualize what happens to the expression differences when these three progenitor cells are transferred to the lungs (leading to them becoming alveolar macrophages).
 
+We first select those genes which are differentially expressed both between the original progenitor cells and between the transferred cells.
 ```{r}
 diffexp <- function(E_replicates, c1, c2) {
   design = as(phenoData(E_replicates)[phenoData(E_replicates)$celltype %in% c(c1,c2),], "data.frame")
@@ -175,6 +187,7 @@ Goi = list(
 Goi = Filter(function(x) length(x>0), Goi)
 ```
 
+We can now supply a second barycoords to the plotDotplot function. It is clear that the direction of upregulation of certain genes remains stable before and after transfer to the lungs. For other genes the specificity changes.
 ```{r, fig.width=8, fig.height=5}
 Eoi2_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
 Eoi2 <- avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
@@ -188,3 +201,5 @@ plotDotplot(barycoords, unlist(Goi), Goi=Goi, barycoords2 = barycoords2) + ggplo
 ```{r}
 sessionInfo()
 ```
+
+# References
