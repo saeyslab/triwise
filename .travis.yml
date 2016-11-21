@@ -1,5 +1,8 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: R
-sudo: false
+sudo: no
 cache: packages
+env:
+  global:
+    secure: iAGNBW/XL8hVTYv2jpAHHwgFH4SDKzNHLMvmURGZNWP65CaeNoE5HK6gbv/wi5I6Ujq899U7eR9ks1FHcf+JVEkn6jgCeuX4MH8ltgHc75ODKG2/rS4TlHaCSho4md08fVnc5CyIwa9hVrBoS1oPGBf0fA7dacPtOeZPU2IJZAQS+8BydQ2FRvdhCcmRNwmobnz1FbzPlhGAgYn8TEZliMFkdpfY0wKCkv+K3NKJtIxVtmy8CIrfZoxh/zKcQOil/ph2jHV5mHYNi1e9tQlrHeWedatbDdKxy0RdP/P/akWVN9hh1lU2Oe1EPqyJwBCHqM0tH9yHPcKXHXO5LlSSAjA3smXFYihHRbJIhWNjWnThR1B5+dy38Ip0/YCrJ/O/Ll2VFLSSWAz0EYpo8Fh240kxhPDl7hAPhU90M/SnE9d20oPsEM9DKgke3aKrkbM4vyEjQrZi7YglVkJAk+g+KpA9kGEFlpwW1GxWV50IHpV8soT6OhVLeGzgjJKHJV56vlcB2iLrZfE0LUqZI43ARlTtWSQi/WDQiXq3F76Ps2gjRyrl3g+i1s6+tUIJTPo1kpvN4srCfD69lDXqQXJspT0mDxPW6V25ug5j54NgiFrOVnR9sAEbFOrmLgOXfj/AlVnDM3EyMefinHju9jIeDYhmubCrcBinSE5I3NsD/UU=
+after_success:
+- Rscript -e "packagedocs::deploy_travis()"
