@@ -1,4 +1,4 @@
-[![Travis-CI Build Status](https://travis-ci.org/wsaelens/triwise.svg?branch=master)](https://travis-ci.org/wsaelens/triwise)
+[![Travis-CI Build Status](https://travis-ci.org/Zouter/triwise.svg?branch=master)](https://travis-ci.org/Zouter/triwise)
 
 # <img src="logo.png" width="200">
 
