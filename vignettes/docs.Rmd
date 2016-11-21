@@ -25,6 +25,7 @@ knitr::opts_chunk$set(comment = NA)
 rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
 ```
 
+# Expression preprocessing
 In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from [this study](http://www.ncbi.nlm.nih.gov/pubmed/26992565).
 
 ```{r, message=FALSE}
@@ -83,9 +84,9 @@ plotRoseplot(barycoords, Gdiffexp, relative = F)
 ```
 
 The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image. Within the widget, genes of interest can be selected to show their labels on the outside of the plot.
-```{r, fig.width=8, fig.height=5}
-dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
-dotplot
+```{r, fig.width=8, fig.height=6}
+#dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
+#dotplot
 ```
 
 # Analyzing functional diversity of three biological conditions

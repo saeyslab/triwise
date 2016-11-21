@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/wsaelens/triwiser.svg?branch=master)](https://travis-ci.org/wsaelens/triwiser)
+
 # <img src="logo.png" width="200">
 
 Triwise is an R package to explore, analyze and visualize gene expression changes in three biological conditions.

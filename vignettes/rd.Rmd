@@ -1,8 +1,8 @@
 ---
-title: "triwise Documentation"
-subtitle: "Gene expression changes in three biological conditions."
-author: ""
-copyright: ""
+title: "Triwise Documentation"
+subtitle: ""
+author: "Wouter Saelens"
+copyright: "GPL-3"
 output:
   packagedocs::package_docs_rd:
     toc: true
