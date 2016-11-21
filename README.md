@@ -7,4 +7,3 @@ Triwise is an R package to explore, analyze and visualize gene expression change
 ![interactive triwise plot](interactive.png "Interactive triwise plot")
 
 Install using devtools::install_github("saeyslab/triwise")
-
