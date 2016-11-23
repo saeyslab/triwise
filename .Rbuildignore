@@ -2,3 +2,10 @@
 ^\.Rproj\.user$
 ^_gh-pages$
 ^\.travis\.yml$
+^.*\.bower.json$
+^.*\.codeclimate.yml$
+^.*\.eslintrc$
+^.*\.travis.yml$
+^.*\.jshintrc$
+^.*\.bowerrc
+^examples/.*$

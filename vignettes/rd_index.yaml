@@ -21,6 +21,7 @@ sections:
 -
   section_name: Package Functions
   topics:
+    - estimateRedundancy
     - generateBackgroundModel
     - getTransformationMatrix
     - interactiveDotplot

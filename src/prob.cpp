@@ -7,7 +7,7 @@
 
 using namespace std;
 
-# include "prob.hpp"
+# include "prob.h"
 
 //****************************************************************************80
 
@@ -49,11 +49,11 @@ double angle_cdf ( double x, int n )
 
   if ( n < 2 )
   {
-    cerr << "\n";
-    cerr << "ANGLE_CDF - Fatal error!\n";
-    cerr << "  N must be at least 2.\n";
-    cerr << "  The input value of N = " << n << "\n";
-    exit ( 1 );
+    ////cerr << "\n";
+    ////cerr << "ANGLE_CDF - Fatal error!\n";
+    ////cerr << "  N must be at least 2.\n";
+    ////cerr << "  The input value of N = " << n << "\n";
+    ////exit ( 1 );
   }
 
   if ( x < 0.0 )
@@ -164,11 +164,11 @@ double angle_pdf ( double x, int n )
 
   if ( n < 2 )
   {
-    cerr << "\n";
-    cerr << "ANGLE_PDF - Fatal error!\n";
-    cerr << "  N must be at least 2.\n";
-    cerr << "  The input value of N = " << n << "\n";
-    exit ( 1 );
+    ////cerr << "\n";
+    ////cerr << "ANGLE_PDF - Fatal error!\n";
+    ////cerr << "  N must be at least 2.\n";
+    ////cerr << "  The input value of N = " << n << "\n";
+    ////exit ( 1 );
   }
 
   if ( x < 0.0 || pi < x )
@@ -262,10 +262,10 @@ double anglit_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "ANGLIT_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "ANGLIT_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = 0.5 * ( acos ( 1.0 - 2.0 * cdf ) - pi / 2.0 );
@@ -493,10 +493,10 @@ double arcsin_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "ARCSIN_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "ARCSIN_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a * sin ( pi * ( cdf - 0.5 ) );
@@ -635,10 +635,10 @@ double arcsin_pdf ( double x, double a )
 
   if ( a <= 0 )
   {
-    cerr << "\n";
-    cerr << "ARCSIN_PDF - Fatal error!\n";
-    cerr << "  Parameter A <= 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "ARCSIN_PDF - Fatal error!\n";
+    //cerr << "  Parameter A <= 0.\n";
+    //exit ( 1 );
   }
 
   if ( x <= -a || a <= x )
@@ -874,10 +874,10 @@ int bernoulli_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "BERNOULLI_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BERNOULLI_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf <= 1.0 - a )
@@ -1994,10 +1994,10 @@ double beta ( double x, double y )
 {
   if ( x <= 0.0 || y <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA - Fatal error!\n";
-    cerr << "  Both X and Y must be greater than 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BETA - Fatal error!\n";
+    //cerr << "  Both X and Y must be greater than 0.\n";
+    //exit ( 1 );
   }
 
   return ( exp ( gamma_log ( x ) + gamma_log ( y ) - gamma_log ( x + y ) ) );
@@ -2117,10 +2117,10 @@ int beta_binomial_cdf_inv ( double cdf, double a, double b, int c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "BETA_BINOMIAL_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BETA_BINOMIAL_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   cum = 0.0;
@@ -2182,25 +2182,25 @@ bool beta_binomial_check ( double a, double b, int c )
 {
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << "\n";
+    //cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
   if ( c < 0 )
   {
-    cerr << "\n";
-    cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
-    cerr << "  C < 0.\n";
+    //cerr << "\n";
+    //cerr << "BETA_BINOMIAL_CHECK - Fatal error!\n";
+    //cerr << "  C < 0.\n";
     return false;
   }
 
@@ -2492,7 +2492,7 @@ double beta_cdf_inv ( double cdf, double p, double q )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -2520,7 +2520,7 @@ double beta_cdf_inv ( double cdf, double p, double q )
 //    Input, double P, Q, the parameters of the incomplete
 //    Beta function.
 //
-//    Output, double BETA_CDF_INV, the argument of the Beta CDF which 
+//    Output, double BETA_CDF_INV, the argument of the Beta CDF which
 //    produces the value CDF.
 //
 //  Local Parameters:
@@ -2559,27 +2559,27 @@ double beta_cdf_inv ( double cdf, double p, double q )
 //
   if ( p <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_CDF_INV - Fatal error!\n";
-    cerr << "  P <= 0.0\n";
+    //cerr << "\n";
+    //cerr << "BETA_CDF_INV - Fatal error!\n";
+    //cerr << "  P <= 0.0\n";
     value = -1.0;
     return value;
   }
 
   if ( q <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_CDF_INV - Fatal error!\n";
-    cerr << "  Q <= 0.0\n";
+    //cerr << "\n";
+    //cerr << "BETA_CDF_INV - Fatal error!\n";
+    //cerr << "  Q <= 0.0\n";
     value = -1.0;
     return value;
   }
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "BETA_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0.0 or 1.0 < CDF\n";
+    //cerr << "\n";
+    //cerr << "BETA_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0.0 or 1.0 < CDF\n";
     value = -1.0;
     return value;
   }
@@ -2618,7 +2618,7 @@ double beta_cdf_inv ( double cdf, double p, double q )
 //
   r = sqrt ( - log ( a * a ) );
 
-  y = r - ( 2.30753 + 0.27061 * r ) 
+  y = r - ( 2.30753 + 0.27061 * r )
     / ( 1.0 + ( 0.99229 + 0.04481 * r ) * r );
 
   if ( 1.0 < pp && 1.0 < qq )
@@ -2627,7 +2627,7 @@ double beta_cdf_inv ( double cdf, double p, double q )
     s = 1.0 / ( pp + pp - 1.0 );
     t = 1.0 / ( qq + qq - 1.0 );
     h = 2.0 / ( s + t );
-    w = y * sqrt ( h + r ) / h - ( t - s ) 
+    w = y * sqrt ( h + r ) / h - ( t - s )
       * ( r + 5.0 / 6.0 - 2.0 / ( 3.0 * h ) );
     value = pp / ( pp + qq * exp ( w + w ) );
   }
@@ -2818,10 +2818,10 @@ double beta_cdf_inv_old ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "BETA_CDF_INV_OLD - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "BETA_CDF_INV_OLD - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 //
 //  Estimate the solution.
@@ -2892,9 +2892,9 @@ double beta_cdf_inv_old ( double cdf, double a, double b )
 //
       if ( x <= 0.0 || 1.0 <= x )
       {
-        cerr << " \n";
-        cerr << "BETA_CDF_INV_OLD - Fatal error!\n";
-        cerr << "  The series has diverged.\n";
+        //cerr << " \n";
+        //cerr << "BETA_CDF_INV_OLD - Fatal error!\n";
+        //cerr << "  The series has diverged.\n";
         x = -1.0;
         return x;
       }
@@ -2937,17 +2937,17 @@ bool beta_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "BETA_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << "\n";
+    //cerr << "BETA_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -3127,8 +3127,8 @@ void beta_cdf_values ( int &n_data, double &a, double &b, double &x,
       0.2E+01,
       0.2E+01,
       0.2E+01,
-     11.7562, 
-     11.7562, 
+     11.7562,
+     11.7562,
      11.7562 };
 
   static double fx_vec[N_MAX] = {
@@ -3324,18 +3324,18 @@ double beta_inc ( double a, double b, double x )
 
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_INC - Fatal error!\n";
-    cerr << "  A <= 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BETA_INC - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
+    //exit ( 1 );
   }
 
   if ( b <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "BETA_INC - Fatal error!\n";
-    cerr << "  B <= 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BETA_INC - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
+    //exit ( 1 );
   }
 
   if ( x <= 0.0 )
@@ -3394,11 +3394,11 @@ double beta_inc ( double a, double b, double x )
 
     if ( it_max < it )
     {
-      cerr << "\n";
-      cerr << "BETA_INC - Fatal error!\n";
-      cerr << "  Maximum number of iterations exceeded!\n";
-      cerr << "  IT_MAX = " << it_max << "\n";
-      exit ( 1 );
+      //cerr << "\n";
+      //cerr << "BETA_INC - Fatal error!\n";
+      //cerr << "  Maximum number of iterations exceeded!\n";
+      //cerr << "  IT_MAX = " << it_max << "\n";
+      //exit ( 1 );
     }
 
     term = term * temp * rx / ( pp + ( double ) ( i ) );
@@ -3614,8 +3614,8 @@ void beta_inc_values ( int &n_data, double &a, double &b, double &x,
       0.2E+01,
       0.2E+01,
       0.2E+01,
-     11.7562, 
-     11.7562, 
+     11.7562,
+     11.7562,
      11.7562 };
 
   static double fx_vec[N_MAX] = {
@@ -4218,10 +4218,10 @@ int binomial_cdf_inv ( double cdf, int a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "BINOMIAL_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BINOMIAL_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   cdf2 = 0.0;
@@ -4277,17 +4277,17 @@ bool binomial_check ( int a, double b )
 {
   if ( a < 1 )
   {
-    cerr << "\n";
-    cerr << "BINOMIAL_CHECK - Fatal error!\n";
-    cerr << "  A < 1.\n";
+    //cerr << "\n";
+    //cerr << "BINOMIAL_CHECK - Fatal error!\n";
+    //cerr << "  A < 1.\n";
     return false;
   }
 
   if ( b < 0.0 || 1.0 < b )
   {
-    cerr << "\n";
-    cerr << "BINOMIAL_CHECK - Fatal error!\n";
-    cerr << "  B < 0 or 1 < B.\n";
+    //cerr << "\n";
+    //cerr << "BINOMIAL_CHECK - Fatal error!\n";
+    //cerr << "  B < 0 or 1 < B.\n";
     return false;
   }
 
@@ -4903,10 +4903,10 @@ double bradford_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "BRADFORD_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "BRADFORD_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf <= 0.0 )
@@ -4957,17 +4957,17 @@ bool bradford_check ( double a, double b, double c )
 {
   if ( b <= a )
   {
-    cerr << " \n";
-    cerr << "BRADFORD_CHECK - Fatal error!\n";
-    cerr << "  B <= A.\n";
+    //cerr << " \n";
+    //cerr << "BRADFORD_CHECK - Fatal error!\n";
+    //cerr << "  B <= A.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "BRADFORD_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.\n";
+    //cerr << " \n";
+    //cerr << "BRADFORD_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.\n";
     return false;
   }
 
@@ -5222,10 +5222,10 @@ double buffon_laplace_pdf ( double a, double b, double l )
 
   if ( a < 0.0 )
   {
-    cerr << "\n";
-    cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
-    cerr << "  Input A < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
+    //cerr << "  Input A < 0.\n";
+    //exit ( 1 );
   }
   else if ( a == 0.0 )
   {
@@ -5235,10 +5235,10 @@ double buffon_laplace_pdf ( double a, double b, double l )
 
   if ( b < 0.0 )
   {
-    cerr << "\n";
-    cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
-    cerr << "  Input B < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
+    //cerr << "  Input B < 0.\n";
+    //exit ( 1 );
   }
   else if ( b == 0.0 )
   {
@@ -5248,10 +5248,10 @@ double buffon_laplace_pdf ( double a, double b, double l )
 
   if ( l < 0.0 )
   {
-    cerr << "\n";
-    cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
-    cerr << "  Input L < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
+    //cerr << "  Input L < 0.\n";
+    //exit ( 1 );
   }
   else if ( l == 0.0 )
   {
@@ -5260,134 +5260,15 @@ double buffon_laplace_pdf ( double a, double b, double l )
   }
   else if ( r8_min ( a, b ) < l )
   {
-    cerr << "\n";
-    cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
-    cerr << "  min ( A, B ) < L.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_LAPLACE_PDF - Fatal error!\n";
+    //cerr << "  min ( A, B ) < L.\n";
+    //exit ( 1 );
   }
 
   pdf = ( 2.0 * l * ( a + b ) - l * l ) / ( pi * a * b );
 
   return pdf;
-}
-//****************************************************************************80
-
-int buffon_laplace_simulate ( double a, double b, double l, int trial_num )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    BUFFON_LAPLACE_SIMULATE simulates a Buffon-Laplace needle experiment.
-//
-//  Discussion:
-//
-//    In the Buffon-Laplace needle experiment, we suppose that the plane has
-//    been tiled into a grid of rectangles of width A and height B, and that a
-//    needle of length L is dropped "at random" onto this grid.
-//
-//    We may assume that one end, the "eye" of the needle falls at the point
-//    (X1,Y1), taken uniformly at random in the cell [0,A]x[0,B].
-//
-//    ANGLE, the angle that the needle makes is taken to be uniformly random.
-//    The point of the needle, (X2,Y2), therefore lies at
-//
-//      (X2,Y2) = ( X1+L*cos(ANGLE), Y1+L*sin(ANGLE) )
-//
-//    The needle will have crossed at least one grid line if any of the
-//    following are true:
-//
-//      X2 <= 0, A <= X2, Y2 <= 0, B <= Y2.
-//
-//    This routine simulates the tossing of the needle, and returns the number
-//    of times that the needle crossed at least one grid line.
-//
-//    If L is larger than sqrt ( A*A + B*B ), then the needle will
-//    cross every time, and the computation is uninteresting.  However, if
-//    L is smaller than this limit, then the probability of a crossing on
-//    a single trial is
-//
-//      P(L,A,B) = ( 2 * L * ( A + B ) - L * L ) / ( PI * A * B )
-//
-//    and therefore, a record of the number of hits for a given number of
-//    trials can be used as a very roundabout way of estimating PI.
-//    (Particularly roundabout, since we actually will use a good value of
-//    PI in order to pick the random angles//)
-//
-//    Since this routine invokes the C++ random number generator,
-//    the user should initialize the random number generator, particularly
-//    if it is desired to control whether the sequence is to be varied
-//    or repeated.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    26 February 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Reference:
-//
-//    Sudarshan Raghunathan,
-//    Making a Supercomputer Do What You Want: High Level Tools for
-//    Parallel Programming,
-//    Computing in Science and Engineering,
-//    Volume 8, Number 5, September/October 2006, pages 70-80.
-//
-//  Parameters:
-//
-//    Input, double A, B, the horizontal and vertical dimensions
-//    of each cell of the grid.  0 <= A, 0 <= B.
-//
-//    Input, double L, the length of the needle.
-//    0 <= L <= min ( A, B ).
-//
-//    Input, int TRIAL_NUM, the number of times the needle is
-//    to be dropped onto the grid.
-//
-//    Output, int BUFFON_LAPLACE_SIMULATE, the number of times the needle
-//    crossed at least one line of the grid of cells.
-//
-{
-  double angle;
-  int hits;
-  double pi = 3.141592653589793238462643;
-  int trial;
-  double x1;
-  double x2;
-  double y1;
-  double y2;
-
-  hits = 0;
-
-  for ( trial = 1; trial <= trial_num; trial++ )
-  {
-//
-//  Randomly choose the location of the eye of the needle in [0,0]x[A,B],
-//  and the angle the needle makes.
-//
-    x1 = a * ( double ) rand ( ) / ( double ) RAND_MAX;
-    y1 = b * ( double ) rand ( ) / ( double ) RAND_MAX;
-    angle = 2.0 * pi * ( double ) rand ( ) / ( double ) RAND_MAX;
-//
-//  Compute the location of the point of the needle.
-//
-    x2 = x1 + l * cos ( angle );
-    y2 = y1 + l * sin ( angle );
-//
-//  Count the end locations that lie outside the cell.
-//
-    if ( x2 <= 0.0 || a <= x2 || y2 <= 0.0 || b <= y2 )
-    {
-      hits = hits + 1;
-    }
-  }
-  return hits;
 }
 //****************************************************************************80
 
@@ -5454,10 +5335,10 @@ double buffon_pdf ( double a, double l )
 
   if ( a < 0.0 )
   {
-    cerr << "\n";
-    cerr << "BUFFON_PDF - Fatal error!\n";
-    cerr << "  Input A < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_PDF - Fatal error!\n";
+    //cerr << "  Input A < 0.\n";
+    //exit ( 1 );
   }
   else if ( a == 0.0 )
   {
@@ -5467,10 +5348,10 @@ double buffon_pdf ( double a, double l )
 
   if ( l < 0.0 )
   {
-    cerr << "\n";
-    cerr << "BUFFON_PDF - Fatal error!\n";
-    cerr << "  Input L < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "BUFFON_PDF - Fatal error!\n";
+    //cerr << "  Input L < 0.\n";
+    //exit ( 1 );
   }
   else if ( l == 0.0 )
   {
@@ -5481,107 +5362,6 @@ double buffon_pdf ( double a, double l )
   pdf = ( 2.0 * l ) / ( pi * a );
 
   return pdf;
-}
-//****************************************************************************80
-
-int buffon_simulate ( double a, double l, int trial_num )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    BUFFON_SIMULATE simulates a Buffon needle experiment.
-//
-//  Discussion:
-//
-//    In the Buffon needle experiment, we suppose that the plane has been
-//    ruled by vertical lines with a spacing of A units, and that a
-//    needle of length L is dropped "at random" onto this grid.
-//
-//    Because of the various symmetries, we may assume that this eye of
-//    this needle lands in the first infinite strip, and we may further
-//    assume that its Y coordinate is 0.  Thus, we have
-//    the eye as (X1,Y1) with 0 <= X1 <= A and Y1 = 0.
-//
-//    ANGLE, the angle that the needle makes is taken to be uniformly random.
-//    The point of the needle, (X2,Y2), therefore lies at
-//
-//      (X2,Y2) = ( X1+L*cos(ANGLE), Y1+L*sin(ANGLE) )
-//
-//    The needle will have crossed at least one grid line if any of the
-//    following are true:
-//
-//      X2 <= 0, A <= X2.
-//
-//    The probability of a crossing on a single trial is
-//
-//      P(A,L) = ( 2 * L ) / ( PI * A )
-//
-//    and therefore, a record of the number of hits for a given number of
-//    trials can be used as a very roundabout way of estimating PI.
-//
-//    Since this routine invokes the C++ random number generator,
-//    the user should initialize the random number generator, particularly
-//    if it is desired to control whether the sequence is to be varied
-//    or repeated.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 March 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double A, the horizontal spacing between the
-//    vertical grid lines.  0 <= A.
-//
-//    Input, double L, the length of the needle.
-//
-//    Input, int TRIAL_NUM, the number of times the needle is
-//    to be dropped onto the grid.
-//
-//    Output, int BUFFON_SIMULATE, the number of times the needle
-//    crossed at least one line of the grid of cells.
-//
-{
-  double angle;
-  int hits;
-  double pi = 3.141592653589793238462643;
-  int trial;
-  double x1;
-  double x2;
-
-  hits = 0;
-
-  for ( trial = 1; trial <= trial_num; trial++ )
-  {
-//
-//  Randomly choose the location (X1,Y1) of the eye of the needle
-//  in [0,0]x[A,0], and the angle the needle makes.
-//
-    x1 = a * ( double ) rand ( ) / ( double ) RAND_MAX;
-    angle = 2.0 * pi * ( double ) rand ( ) / ( double ) RAND_MAX;
-//
-//  Compute the location of the point of the needle.
-//  We only need to know the value of X2, not Y2!
-//
-    x2 = x1 + l * cos ( angle );
-//
-//  Count the end locations that lie outside the cell.
-//
-    if ( x2 <= 0.0 || a <= x2 )
-    {
-       hits = hits + 1;
-    }
-  }
-  return hits;
 }
 //****************************************************************************80
 
@@ -5667,10 +5447,10 @@ double burr_cdf_inv ( double cdf, double a, double b, double c, double d )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "BURR_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "BURR_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   x = a + b / pow ( ( pow ( ( 1.0 / cdf ), (1.0 / d ) ) - 1.0 ), ( 1.0 / c ) );
@@ -5710,17 +5490,17 @@ bool burr_check ( double a, double b, double c, double d )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "BURR_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "BURR_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
   if ( c <= 0 )
   {
-    cerr << " \n";
-    cerr << "BURR_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.\n";
+    //cerr << " \n";
+    //cerr << "BURR_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.\n";
     return false;
   }
 
@@ -5905,9 +5685,9 @@ double burr_variance ( double a, double b, double c, double d )
 
   if ( c <= 2.0 )
   {
-    cout << " \n";
-    cout << "BURR_VARIANCE - Warning!\n";
-    cout << "  Variance undefined for C <= 2.\n";
+    ////cout << " \n";
+    ////cout << "BURR_VARIANCE - Warning!\n";
+    ////cout << "  Variance undefined for C <= 2.\n";
     variance = r8_huge ( );
   }
   else
@@ -6036,10 +5816,10 @@ double cardioid_cdf_inv ( double cdf, double a, double b )
 
       if ( 10 < it )
       {
-        cerr << "\n";
-        cerr << "CARDIOID_CDF_INV - Fatal error!\n";
-        cerr << "  Too many iterations.\n";
-        exit ( 1 );
+        ////cerr << "\n";
+        ////cerr << "CARDIOID_CDF_INV - Fatal error!\n";
+        ////cerr << "  Too many iterations.\n";
+        ////exit ( 1 );
       }
 
       fp = - ( 1.0 + 2.0 * b * cos ( x - a ) ) / ( 2.0 * pi );
@@ -6092,9 +5872,9 @@ bool cardioid_check ( double a, double b )
 
   if ( b < -0.5 || 0.5 < b )
   {
-    cerr << "\n";
-    cerr << "CARDIOID_CHECK - Fatal error!\n";
-    cerr << "  B < -0.5 or 0.5 < B.\n";
+    //cerr << "\n";
+    //cerr << "CARDIOID_CHECK - Fatal error!\n";
+    //cerr << "  B < -0.5 or 0.5 < B.\n";
     value = false;
     return value;
   }
@@ -6350,10 +6130,10 @@ double cauchy_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "CAUCHY_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "CAUCHY_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   x = a + b * tan ( pi * ( cdf - 0.5 ) );
@@ -6538,9 +6318,9 @@ bool cauchy_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "CAUCHY_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "CAUCHY_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -6822,10 +6602,10 @@ double chi_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "CHI_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "CHI_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -6875,9 +6655,9 @@ double chi_cdf_inv ( double cdf, double a, double b, double c )
 
     if ( it_max < it )
     {
-      cerr << " \n";
-      cerr << "CHI_CDF_INV - Fatal error!\n";
-      cerr << "  Iteration limit exceeded.\n";
+      //cerr << " \n";
+      //cerr << "CHI_CDF_INV - Fatal error!\n";
+      //cerr << "  Iteration limit exceeded.\n";
       return x;
     }
 
@@ -6929,17 +6709,17 @@ bool chi_check ( double a, double b, double c )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "CHI_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.0.\n";
+    //cerr << " \n";
+    //cerr << "CHI_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.0.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "CHI_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.0.\n";
+    //cerr << " \n";
+    //cerr << "CHI_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.0.\n";
     return false;
   }
 
@@ -7281,19 +7061,19 @@ double chi_square_cdf_inv ( double cdf, double a )
   if ( cdf < cdf_min )
   {
     x = -1.0;
-    cerr << " \n";
-    cerr << "CHI_SQUARE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < CDF_MIN.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "CHI_SQUARE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < CDF_MIN.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf_max < cdf )
   {
     x = -1.0;
-    cerr << " \n";
-    cerr << "CHI_SQUARE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF_MAX < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "CHI_SQUARE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF_MAX < CDF.\n";
+    ////exit ( 1 );
   }
 
   xx = 0.5 * a;
@@ -7418,9 +7198,9 @@ double chi_square_cdf_inv ( double cdf, double a )
   }
 
   x = ch;
-  cout << " \n";
-  cout << "CHI_SQUARE_CDF_INV - Warning!\n";
-  cout << "  Convergence not reached.\n";
+  //cout << " \n";
+  //cout << "CHI_SQUARE_CDF_INV - Warning!\n";
+  //cout << "  Convergence not reached.\n";
 
   return x;
 }
@@ -7596,9 +7376,9 @@ bool chi_square_check ( double a )
 {
   if ( a < 1.0 )
   {
-    cerr << " \n";
-    cerr << "CHI_SQUARE_CHECK - Fatal error!\n";
-    cerr << "  A < 1.0.\n";
+    //cerr << " \n";
+    //cerr << "CHI_SQUARE_CHECK - Fatal error!\n";
+    //cerr << "  A < 1.0.\n";
     return false;
   }
 
@@ -8017,17 +7797,17 @@ double chi_square_noncentral_check ( double a, double b )
 {
   if ( a < 1.0 )
   {
-    cerr << " \n";
-    cerr << "CHI_SQUARE_NONCENTRAL_CHECK - Fatal error!\n";
-    cerr << "  A < 1.\n";
+    //cerr << " \n";
+    //cerr << "CHI_SQUARE_NONCENTRAL_CHECK - Fatal error!\n";
+    //cerr << "  A < 1.\n";
     return false;
   }
 
   if ( b < 0.0 )
   {
-    cerr << " \n";
-    cerr << "CHI_SQUARE_NONCENTRAL_CHECK - Fatal error!\n";
-    cerr << "  B < 0.\n";
+    //cerr << " \n";
+    //cerr << "CHI_SQUARE_NONCENTRAL_CHECK - Fatal error!\n";
+    //cerr << "  B < 0.\n";
     return false;
   }
 
@@ -8422,7 +8202,7 @@ double circular_normal_pdf ( double x[2], double a[2], double b )
 //
 //  Discussion:
 //
-//    PDF(X) = EXP ( - 0.5D+00 * ( ( (X(1)-A(1))^2 + (X(2)-A(2))^2 ) / B^2 ) 
+//    PDF(X) = EXP ( - 0.5D+00 * ( ( (X(1)-A(1))^2 + (X(2)-A(2))^2 ) / B^2 )
 //      / ( 2 * PI * B^2 )
 //
 //  Licensing:
@@ -8452,7 +8232,7 @@ double circular_normal_pdf ( double x[2], double a[2], double b )
   double pdf;
   const double pi = 3.14159265358979323;
 
-  d = ( pow ( x[0] - a[0], 2 ) 
+  d = ( pow ( x[0] - a[0], 2 )
       + pow ( x[1] - a[1], 2 ) ) / pow ( b, 2 );
 
   pdf = exp ( - 0.5 * d ) / ( 2.0 * b * b * pi );
@@ -8729,10 +8509,10 @@ double cosine_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "COSINE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "COSINE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -8780,10 +8560,10 @@ double cosine_cdf_inv ( double cdf, double a, double b )
 
   }
 
-  cerr << " \n";
-  cerr << "COSINE_CDF_INV - Fatal error!\n";
-  cerr << "  Iteration limit exceeded.\n";
-  exit ( 1 );
+  ////cerr << " \n";
+  ////cerr << "COSINE_CDF_INV - Fatal error!\n";
+  ////cerr << "  Iteration limit exceeded.\n";
+  ////exit ( 1 );
 }
 //****************************************************************************80
 
@@ -8817,9 +8597,9 @@ bool cosine_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "COSINE_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.0\n";
+    //cerr << " \n";
+    //cerr << "COSINE_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.0\n";
     return false;
   }
 
@@ -9145,11 +8925,11 @@ double coupon_mean ( int j, int type_num )
 
   if ( type_num < j )
   {
-    cerr << " \n";
-    cerr << "COUPON_MEAN - Fatal error!\n";
-    cerr << "  Number of distinct coupons desired must be no more\n";
-    cerr << "  than the total number of boxes opened.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "COUPON_MEAN - Fatal error!\n";
+    ////cerr << "  Number of distinct coupons desired must be no more\n";
+    ////cerr << "  than the total number of boxes opened.\n";
+    ////exit ( 1 );
   }
 
   mean = 0.0;
@@ -9273,11 +9053,11 @@ void coupon_simulate ( int type_num, int &seed, int coupon[], int *box_num )
     }
   }
 
-  cerr << " \n";
-  cerr << "COUPON_SIMULATE - Fatal error!\n";
-  cerr << "  Maximum number of coupons drawn without success.\n";
+  ////cerr << " \n";
+  ////cerr << "COUPON_SIMULATE - Fatal error!\n";
+  ////cerr << "  Maximum number of coupons drawn without success.\n";
 
-  exit ( 1 );
+  ////exit ( 1 );
 }
 //****************************************************************************80
 
@@ -9325,11 +9105,11 @@ double coupon_variance ( int j, int type_num )
 
   if ( type_num < j )
   {
-    cerr << " \n";
-    cerr << "COUPON_VARIANCE - Fatal error!\n";
-    cerr << "  Number of distinct coupons desired must be no more\n";
-    cerr << "  than the total number of distinct coupons.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "COUPON_VARIANCE - Fatal error!\n";
+    ////cerr << "  Number of distinct coupons desired must be no more\n";
+    ////cerr << "  than the total number of distinct coupons.\n";
+    ////exit ( 1 );
   }
 
   variance = 0.0;
@@ -9439,10 +9219,10 @@ int deranged_cdf_inv ( double cdf, int a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "DERANGED_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "DERANGED_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   cdf2 = 0.0;
@@ -9497,9 +9277,9 @@ bool deranged_check ( int a )
 {
   if ( a < 1 )
   {
-    cerr << " \n";
-    cerr << "DERANGED_CHECK - Fatal error!\n";
-    cerr << "  A < 1.\n";
+    //cerr << " \n";
+    //cerr << "DERANGED_CHECK - Fatal error!\n";
+    //cerr << "  A < 1.\n";
     return false;
   }
 
@@ -9868,10 +9648,10 @@ double digamma ( double x )
   if ( x <= 0.0 )
   {
     value = 0.0;
-    cerr << " \n";
-    cerr << "DIGAMMA - Fatal error!\n";
-    cerr << "  X <= 0.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "DIGAMMA - Fatal error!\n";
+    ////cerr << "  X <= 0.\n";
+    ////exit ( 1 );
   }
 //
 //  Use approximation if argument <= S.
@@ -9992,10 +9772,10 @@ double dipole_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "DIPOLE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "DIPOLE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -10056,10 +9836,10 @@ double dipole_cdf_inv ( double cdf, double a, double b )
 
     if ( it_max < it )
     {
-      cerr << " \n";
-      cerr << "DIPOLE_CDF_INV - Fatal error!\n";
-      cerr << "  Iteration limit exceeded.\n";
-      exit ( 1 );
+      ////cerr << " \n";
+      ////cerr << "DIPOLE_CDF_INV - Fatal error!\n";
+      ////cerr << "  Iteration limit exceeded.\n";
+      ////exit ( 1 );
     }
 
     if ( ( cdf3 <= cdf && cdf1 <= cdf ) || ( cdf <= cdf3 && cdf <= cdf1 ) )
@@ -10110,10 +9890,10 @@ bool dipole_check ( double a, double b )
 {
   if ( b < -1.0 || 1.0 < b )
   {
-    cerr << " \n";
-    cerr << "DIPOLE_CHECK - Fatal error!\n";
-    cerr << "  -1.0 <= B <= 1.0 is required.\n";
-    cerr << "  The input B = " << b << "\n";
+    //cerr << " \n";
+    //cerr << "DIPOLE_CHECK - Fatal error!\n";
+    //cerr << "  -1.0 <= B <= 1.0 is required.\n";
+    //cerr << "  The input B = " << b << "\n";
     return false;
   }
 
@@ -10285,10 +10065,10 @@ bool dirichlet_check ( int n, double a[] )
   {
     if ( a[i] <= 0.0 )
     {
-      cerr << " \n";
-      cerr << "DIRICHLET_CHECK - Fatal error!\n";
-      cerr << "  A[" << i << "] <= 0.\n";
-      cerr << "  A[" << i << "] = " << a[i] << ".\n";
+      //cerr << " \n";
+      //cerr << "DIRICHLET_CHECK - Fatal error!\n";
+      //cerr << "  A[" << i << "] <= 0.\n";
+      //cerr << "  A[" << i << "] = " << a[i] << ".\n";
       return false;
     }
     else if ( 0.0 < a[i] )
@@ -10299,9 +10079,9 @@ bool dirichlet_check ( int n, double a[] )
 
   if ( !positive )
   {
-    cerr << " \n";
-    cerr << "DIRICHLET_CHECK - Fatal error!\n";
-    cerr << "  All parameters are zero!\n";
+    //cerr << " \n";
+    //cerr << "DIRICHLET_CHECK - Fatal error!\n";
+    //cerr << "  All parameters are zero!\n";
     return false;
   }
 
@@ -10470,10 +10250,10 @@ double dirichlet_pdf ( double x[], int n, double a[] )
   {
     if ( x[i] <= 0.0 )
     {
-      cerr << " \n";
-      cerr << "DIRICHLET_PDF - Fatal error!\n";
-      cerr << "  X(I) <= 0.\n";
-      exit ( 1 );
+      ////cerr << " \n";
+      ////cerr << "DIRICHLET_PDF - Fatal error!\n";
+      ////cerr << "  X(I) <= 0.\n";
+      ////exit ( 1 );
     }
   }
 
@@ -10481,10 +10261,10 @@ double dirichlet_pdf ( double x[], int n, double a[] )
 
   if ( tol < r8_abs ( x_sum - 1.0 ) )
   {
-    cerr << " \n";
-    cerr << "DIRICHLET_PDF - Fatal error!\n";
-    cerr << "  SUM X(I) =/= 1.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "DIRICHLET_PDF - Fatal error!\n";
+    ////cerr << "  SUM X(I) =/= 1.\n";
+    ////exit ( 1 );
   }
 
   a_sum = r8vec_sum ( n, a );
@@ -10668,12 +10448,12 @@ bool dirichlet_mix_check ( int comp_num, int elem_num, double a[],
     {
       if ( a[elem_i+comp_i*elem_num] <= 0.0 )
       {
-        cerr << " \n";
-        cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
-        cerr << "  A(ELEM,COMP) <= 0.\n";
-        cerr << "  COMP = " << comp_i << "\n";
-        cerr << "  ELEM = " << elem_i << "\n";
-        cerr << "  A(COMP,ELEM) = " << a[elem_i+comp_i*elem_num] << "\n";
+        //cerr << " \n";
+        //cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
+        //cerr << "  A(ELEM,COMP) <= 0.\n";
+        //cerr << "  COMP = " << comp_i << "\n";
+        //cerr << "  ELEM = " << elem_i << "\n";
+        //cerr << "  A(COMP,ELEM) = " << a[elem_i+comp_i*elem_num] << "\n";
         return false;
       }
     }
@@ -10685,11 +10465,11 @@ bool dirichlet_mix_check ( int comp_num, int elem_num, double a[],
   {
     if ( comp_weight[comp_i] < 0.0 )
     {
-      cerr << " \n";
-      cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
-      cerr << "  COMP_WEIGHT(COMP) < 0.\n";
-      cerr << "  COMP = " << comp_i << "\n";
-      cerr << "  COMP_WEIGHT(COMP) = " << comp_weight[comp_i] << "\n";
+      //cerr << " \n";
+      //cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
+      //cerr << "  COMP_WEIGHT(COMP) < 0.\n";
+      //cerr << "  COMP = " << comp_i << "\n";
+      //cerr << "  COMP_WEIGHT(COMP) = " << comp_weight[comp_i] << "\n";
       return false;
     }
     else if ( 0.0 < comp_weight[comp_i] )
@@ -10700,9 +10480,9 @@ bool dirichlet_mix_check ( int comp_num, int elem_num, double a[],
 
   if ( !positive )
   {
-    cerr << " \n";
-    cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
-    cerr << "  All component weights are zero.\n";
+    //cerr << " \n";
+    //cerr << "DIRICHLET_MIX_CHECK - Fatal error!\n";
+    //cerr << "  All component weights are zero.\n";
     return false;
   }
 
@@ -11116,10 +10896,10 @@ int discrete_cdf_inv ( double cdf, int a, double b[] )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "DISCRETE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "DISCRETE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   b_sum = r8vec_sum ( a, b );
@@ -11180,9 +10960,9 @@ bool discrete_check ( int a, double b[] )
   {
     if ( b[j] < 0.0 )
     {
-      cerr << " \n";
-      cerr << "DISCRETE_CHECK - Fatal error!\n";
-      cerr << "  Negative probabilities not allowed.\n";
+      //cerr << " \n";
+      //cerr << "DISCRETE_CHECK - Fatal error!\n";
+      //cerr << "  Negative probabilities not allowed.\n";
       return false;
     }
   }
@@ -11191,9 +10971,9 @@ bool discrete_check ( int a, double b[] )
 
   if ( b_sum == 0.0 )
   {
-    cerr << " \n";
-    cerr << "DISCRETE_CHECK - Fatal error!\n";
-    cerr << "  Total probablity is zero.\n";
+    //cerr << " \n";
+    //cerr << "DISCRETE_CHECK - Fatal error!\n";
+    //cerr << "  Total probablity is zero.\n";
     return false;
   }
 
@@ -11544,10 +11324,10 @@ double empirical_discrete_cdf_inv ( double cdf, int a, double b[], double c[] )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "EMPIRICAL_DISCRETE_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "EMPIRICAL_DISCRETE_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   bsum = r8vec_sum ( a, b );
@@ -11611,11 +11391,11 @@ bool empirical_discrete_check ( int a, double b[], double c[] )
 
   if ( a <= 0 )
   {
-    cerr << " \n";
-    cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
-    cerr << "  A must be positive.\n";
-    cerr << "  Input A = " << a << "\n";
-    cerr << "  A is the number of weights.\n";
+    //cerr << " \n";
+    //cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
+    //cerr << "  A must be positive.\n";
+    //cerr << "  Input A = " << a << "\n";
+    //cerr << "  A is the number of weights.\n";
     return false;
   }
 
@@ -11623,10 +11403,10 @@ bool empirical_discrete_check ( int a, double b[], double c[] )
   {
     if ( b[i] < 0.0 )
     {
-      cerr << " \n";
-      cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
-      cerr << "  B[" << i << "] < 0.\n";
-      cerr << "  But all B values must be nonnegative.\n";
+      //cerr << " \n";
+      //cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
+      //cerr << "  B[" << i << "] < 0.\n";
+      //cerr << "  But all B values must be nonnegative.\n";
       return false;
     }
   }
@@ -11643,10 +11423,10 @@ bool empirical_discrete_check ( int a, double b[], double c[] )
 
   if ( !positive )
   {
-    cerr << " \n";
-    cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
-    cerr << "  All B(*) = 0.\n";
-    cerr << "  But at least one B values must be nonzero.\n";
+    //cerr << " \n";
+    //cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
+    //cerr << "  All B(*) = 0.\n";
+    //cerr << "  But at least one B values must be nonzero.\n";
     return false;
   }
 
@@ -11656,10 +11436,10 @@ bool empirical_discrete_check ( int a, double b[], double c[] )
     {
       if ( c[i] == c[j] )
       {
-        cerr << " \n";
-        cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
-        cerr << "  All values C must be unique.\n";
-        cerr << "  But at least two values are identical.\n";
+        //cerr << " \n";
+        //cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
+        //cerr << "  All values C must be unique.\n";
+        //cerr << "  But at least two values are identical.\n";
         return false;
       }
     }
@@ -11669,9 +11449,9 @@ bool empirical_discrete_check ( int a, double b[], double c[] )
   {
     if ( c[i+1] < c[i] )
     {
-      cerr << " \n";
-      cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
-      cerr << "  The values in C must be in ascending order.\n";
+      //cerr << " \n";
+      //cerr << "EMPIRICAL_DISCRETE_CHECK - Fatal error!\n";
+      //cerr << "  The values in C must be in ascending order.\n";
       return false;
     }
   }
@@ -12157,10 +11937,10 @@ int english_sentence_length_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "ENGLISH_SENTENCE_LENGTH_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << "\n";
+    ////cerr << "ENGLISH_SENTENCE_LENGTH_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   cum = 0.0;
@@ -12796,10 +12576,10 @@ int english_word_length_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "ENGLISH_WORD_LENGTH_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << "\n";
+    ////cerr << "ENGLISH_WORD_LENGTH_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   cum = 0.0;
@@ -13216,10 +12996,10 @@ double erlang_cdf_inv ( double cdf, double a, double b, int c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "ERLANG_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "ERLANG_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -13268,9 +13048,9 @@ double erlang_cdf_inv ( double cdf, double a, double b, int c )
 
     if ( it_max < it )
     {
-      cout << " \n";
-      cout << "ERLANG_CDF_INV - Warning!\n";
-      cout << "  Iteration limit exceeded.\n";
+      //cout << " \n";
+      //cout << "ERLANG_CDF_INV - Warning!\n";
+      //cout << "  Iteration limit exceeded.\n";
       return x;
     }
 
@@ -13320,17 +13100,17 @@ bool erlang_check ( double a, double b, int c )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "ERLANG_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.0\n";
+    //cerr << " \n";
+    //cerr << "ERLANG_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.0\n";
     return false;
   }
 
   if ( c <= 0 )
   {
-    cerr << " \n";
-    cerr << "ERLANG_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.\n";
+    //cerr << " \n";
+    //cerr << "ERLANG_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.\n";
     return false;
   }
 
@@ -13884,10 +13664,10 @@ double exponential_01_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "EXPONENTIAL_01_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "EXPONENTIAL_01_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   x = - log ( 1.0 - cdf );
@@ -14127,10 +13907,10 @@ double exponential_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "EXPONENTIAL_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "EXPONENTIAL_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   x = a - b * log ( 1.0 - cdf );
@@ -14288,9 +14068,9 @@ bool exponential_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "EXPONENTIAL_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.0\n";
+    //cerr << " \n";
+    //cerr << "EXPONENTIAL_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.0\n";
     return false;
   }
 
@@ -14556,10 +14336,10 @@ double extreme_values_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "EXTREME_VALUES_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "EXTREME_VALUES_CDF_INV - Fatal error!\n";
+    ////cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   x = a - b * log ( - log ( cdf ) );
@@ -14744,9 +14524,9 @@ bool extreme_values_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "EXTREME_VALUES_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "EXTREME_VALUES_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -15194,17 +14974,17 @@ bool f_check ( int m, int n )
 {
   if ( m <= 0 )
   {
-    cerr << "\n";
-    cerr << "F_CHECK - Fatal error!\n";
-    cerr << "  M <= 0.\n";
+    //cerr << "\n";
+    //cerr << "F_CHECK - Fatal error!\n";
+    //cerr << "  M <= 0.\n";
     return false;
   }
 
   if ( n <= 0 )
   {
-    cerr << "\n";
-    cerr << "F_CHECK - Fatal error!\n";
-    cerr << "  N <= 0.\n";
+    //cerr << "\n";
+    //cerr << "F_CHECK - Fatal error!\n";
+    //cerr << "  N <= 0.\n";
     return false;
   }
 
@@ -15246,10 +15026,10 @@ double f_mean ( int m, int n )
 
   if ( n < 3 )
   {
-    cerr << " \n";
-    cerr << "F_MEAN - Fatal error!\n";
-    cerr << "  The mean is not defined for N < 3.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "F_MEAN - Fatal error!\n";
+    ////cerr << "  The mean is not defined for N < 3.\n";
+    ////exit ( 1 );
   }
 
   mean = ( double ) ( n ) / ( double ) ( n - 2 );
@@ -15405,10 +15185,10 @@ double f_variance ( int m, int n )
 
   if ( n < 5 )
   {
-    cerr << " \n";
-    cerr << "F_VARIANCE - Fatal error!\n";
-    cerr << "  The variance is not defined for N < 5.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "F_VARIANCE - Fatal error!\n";
+    ////cerr << "  The variance is not defined for N < 5.\n";
+    ////exit ( 1 );
   }
 
   variance = ( double ) ( 2 * n * n * ( m + n - 2 ) ) /
@@ -15632,25 +15412,25 @@ bool f_noncentral_check ( double a, int m, int n )
 {
   if ( a <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
+    ////cerr << "  A <= 0.\n";
+    ////exit ( 1 );
   }
 
   if ( m <= 0 )
   {
-    cerr << "\n";
-    cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
-    cerr << "  M <= 0.\n";
+    ////cerr << "\n";
+    ////cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
+    ////cerr << "  M <= 0.\n";
     return false;
   }
 
   if ( n <= 0 )
   {
-    cerr << "\n";
-    cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
-    cerr << "  N <= 0.\n";
+    ////cerr << "\n";
+    ////cerr << "F_NONCENTRAL_CHECK - Fatal error!\n";
+    ////cerr << "  N <= 0.\n";
     return false;
   }
 
@@ -15694,10 +15474,10 @@ double f_noncentral_mean ( double a, int m, int n )
 
   if ( n < 3 )
   {
-    cerr << " \n";
-    cerr << "F_NONCENTRAL_MEAN - Fatal error!\n";
-    cerr << "  The mean is not defined for N < 3.\n";
-    exit ( 1 );
+    ////cerr << " \n";
+    ////cerr << "F_NONCENTRAL_MEAN - Fatal error!\n";
+    ////cerr << "  The mean is not defined for N < 3.\n";
+    ////exit ( 1 );
   }
 
   mean = ( ( double ) ( m ) + a ) * ( double ) ( n )
@@ -15745,10 +15525,10 @@ double f_noncentral_variance ( double a, int m, int n )
 
   if ( n < 5 )
   {
-    cerr << " \n";
-    cerr << "F_NONCENTRAL_VARIANCE - Fatal error!\n";
-    cerr << "  The variance is not defined for N < 5.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "F_NONCENTRAL_VARIANCE - Fatal error!\n";
+    //cerr << "  The variance is not defined for N < 5.\n";
+    //exit ( 1 );
   }
 
   mr = ( double ) ( m );
@@ -15802,10 +15582,10 @@ double factorial_log ( int n )
 
   if ( n < 0 )
   {
-    cerr << "\n";
-    cerr << "FACTORIAL_LOG - Fatal error!\n";
-    cerr << "  N < 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FACTORIAL_LOG - Fatal error!\n";
+    //cerr << "  N < 0.\n";
+    ////exit ( 1 );
   }
 
   value = 0.0;
@@ -15967,11 +15747,11 @@ double fisher_pdf ( double x[3], double kappa, double mu[3] )
 
   if ( kappa < 0.0 )
   {
-    cerr << "\n";
-    cerr << "FISHER_PDF - Fatal error!\n";
-    cerr << "  KAPPA must be nonnegative.\n";
-    cerr << "  Input KAPPA = " << kappa << "\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FISHER_PDF - Fatal error!\n";
+    //cerr << "  KAPPA must be nonnegative.\n";
+    //cerr << "  Input KAPPA = " << kappa << "\n";
+    ////exit ( 1 );
   }
 
   if ( kappa == 0.0 )
@@ -16078,10 +15858,10 @@ double *fisher_sample ( double kappa, double mu[], int n, int &seed )
 
   if ( mu_norm == 0.0 )
   {
-    cerr << "\n";
-    cerr << "FISHER_SAMPLE - Fatal error!\n";
-    cerr << "  MU = 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FISHER_SAMPLE - Fatal error!\n";
+    //cerr << "  MU = 0.\n";
+    ////exit ( 1 );
   }
 
   alpha = - acos ( mu[2] / mu_norm );
@@ -16237,10 +16017,10 @@ double fisk_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "FISK_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "FISK_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf <= 0.0 )
@@ -16291,17 +16071,17 @@ bool fisk_check ( double a, double b, double c )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "FISK_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "FISK_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "FISK_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.\n";
+    //cerr << " \n";
+    //cerr << "FISK_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.\n";
     return false;
   }
 
@@ -16343,10 +16123,10 @@ double fisk_mean ( double a, double b, double c )
 
   if ( c <= 1.0 )
   {
-    cerr << " \n";
-    cerr << "FISK_MEAN - Fatal error!\n";
-    cerr << "  No mean defined for C <= 1.0\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "FISK_MEAN - Fatal error!\n";
+    //cerr << "  No mean defined for C <= 1.0\n";
+    ////exit ( 1 );
   }
 
   mean = a + pi * ( b / c ) * r8_csc ( pi / c );
@@ -16490,15 +16270,15 @@ double fisk_variance ( double a, double b, double c )
 
   if ( c <= 2.0 )
   {
-    cerr << " \n";
-    cerr << "FISK_VARIANCE - Fatal error!\n";
-    cerr << "  No variance defined for C <= 2.0\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "FISK_VARIANCE - Fatal error!\n";
+    //cerr << "  No variance defined for C <= 2.0\n";
+    ////exit ( 1 );
   }
 
   g = pi / c;
 
-  variance = b * b * ( 2.0 * g * r8_csc ( 2.0 * g ) 
+  variance = b * b * ( 2.0 * g * r8_csc ( 2.0 * g )
     - pow ( ( g * r8_csc ( g ) ), 2 ) );
 
   return variance;
@@ -16607,10 +16387,10 @@ double folded_normal_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "FOLDED_NORMAL_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "FOLDED_NORMAL_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -16665,10 +16445,10 @@ double folded_normal_cdf_inv ( double cdf, double a, double b )
 
     if ( it_max < it )
     {
-      cerr << " \n";
-      cerr << "FOLDED_NORMAL_CDF_INV - Fatal error!\n";
-      cerr << "  Iteration limit exceeded.\n";
-      exit ( 1 );
+      //cerr << " \n";
+      //cerr << "FOLDED_NORMAL_CDF_INV - Fatal error!\n";
+      //cerr << "  Iteration limit exceeded.\n";
+      ////exit ( 1 );
     }
 
     if ( ( cdf3 <= cdf && cdf1 <= cdf ) || ( cdf <= cdf3 && cdf <= cdf1 ) )
@@ -16718,17 +16498,17 @@ bool folded_normal_check ( double a, double b )
 {
   if ( a < 0.0 )
   {
-    cerr << " \n";
-    cerr << "FOLDED_NORMAL_CHECK - Fatal error!\n";
-    cerr << "  A < 0.\n";
+    //cerr << " \n";
+    //cerr << "FOLDED_NORMAL_CHECK - Fatal error!\n";
+    //cerr << "  A < 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "FOLDED_NORMAL_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "FOLDED_NORMAL_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -16951,10 +16731,10 @@ double frechet_cdf ( double x, double alpha )
 
   if ( alpha <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_CDF - Fatal error!\n";
-    cerr << "  ALPHA <= 0.0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_CDF - Fatal error!\n";
+    //cerr << "  ALPHA <= 0.0.\n";
+    ////exit ( 1 );
   }
 
   if ( x <= 0.0 )
@@ -17005,18 +16785,18 @@ double frechet_cdf_inv ( double cdf, double alpha )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "FRECHET_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( alpha <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_CDF_INV - Fatal error!\n";
-    cerr << "  ALPHA <= 0.0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_CDF_INV - Fatal error!\n";
+    //cerr << "  ALPHA <= 0.0.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -17068,10 +16848,10 @@ double frechet_mean ( double alpha )
 
   if ( alpha <= 1.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_MEAN - Fatal error!\n";
-    cerr << "  Mean does not exist if ALPHA <= 1.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_MEAN - Fatal error!\n";
+    //cerr << "  Mean does not exist if ALPHA <= 1.\n";
+    ////exit ( 1 );
   }
 
   mean = r8_gamma ( ( alpha - 1.0 ) / alpha );
@@ -17118,10 +16898,10 @@ double frechet_pdf ( double x, double alpha )
 
   if ( alpha <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_PDF - Fatal error!\n";
-    cerr << "  ALPHA <= 0.0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_PDF - Fatal error!\n";
+    //cerr << "  ALPHA <= 0.0.\n";
+    ////exit ( 1 );
   }
 
   pdf = alpha * exp ( - 1.0 / pow ( x, alpha ) ) / pow ( x, alpha + 1.0 );
@@ -17165,10 +16945,10 @@ double frechet_sample ( double alpha, int &seed )
 
   if ( alpha <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_SAMPLE - Fatal error!\n";
-    cerr << "  ALPHA <= 0.0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_SAMPLE - Fatal error!\n";
+    //cerr << "  ALPHA <= 0.0.\n";
+    ////exit ( 1 );
   }
 
   cdf = r8_uniform_01 ( seed );
@@ -17216,10 +16996,10 @@ double frechet_variance ( double alpha )
 
   if ( alpha <= 2.0 )
   {
-    cerr << "\n";
-    cerr << "FRECHET_VARIANCE - Fatal error!\n";
-    cerr << "  Variance does not exist if ALPHA <= 2.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "FRECHET_VARIANCE - Fatal error!\n";
+    //cerr << "  Variance does not exist if ALPHA <= 2.\n";
+    ////exit ( 1 );
   }
 
   mean = r8_gamma ( ( alpha - 1.0 ) / alpha );
@@ -17452,19 +17232,19 @@ bool gamma_check ( double a, double b, double c )
 {
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "GAMMA_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
-    cerr << "  B = " << b << "\n";
+    //cerr << " \n";
+    //cerr << "GAMMA_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
+    //cerr << "  B = " << b << "\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "GAMMA_CHECK - Fatal error!\n";
-    cerr << "  C <= 0.\n";
-    cerr << "  C = " << c << "\n";
+    //cerr << " \n";
+    //cerr << "GAMMA_CHECK - Fatal error!\n";
+    //cerr << "  C <= 0.\n";
+    //cerr << "  C = " << c << "\n";
     return false;
   }
 
@@ -17944,10 +17724,10 @@ double gamma_inc ( double p, double x )
 
   if ( p <= 0.0 )
   {
-    cout << " \n";
-    cout << "GAMMA_INC - Fatal error!\n";
-    cout << "  Parameter P <= 0.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GAMMA_INC - Fatal error!\n";
+    //cout << "  Parameter P <= 0.\n";
+    ////exit ( 1 );
   }
 
   if ( x <= 0.0 )
@@ -18539,11 +18319,11 @@ double gamma_log_int ( int n )
 
   if ( n <= 0 )
   {
-    cout << " \n";
-    cout << "GAMMA_LOG_INT - Fatal error!\n";
-    cout << "  Illegal input value of N = " << n << "\n";
-    cout << "  But N must be strictly positive.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GAMMA_LOG_INT - Fatal error!\n";
+    //cout << "  Illegal input value of N = " << n << "\n";
+    //cout << "  But N must be strictly positive.\n";
+    ////exit ( 1 );
   }
 
   value = gamma_log ( ( double ) ( n ) );
@@ -18630,10 +18410,10 @@ double genlogistic_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "GENLOGISTIC_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GENLOGISTIC_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -18684,17 +18464,17 @@ bool genlogistic_check ( double a, double b, double c )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "GENLOGISTIC_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "GENLOGISTIC_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cout << " \n";
-    cout << "GENLOGISTIC_CHECK - Fatal error!\n";
-    cout << "  C <= 0.\n";
+    //cout << " \n";
+    //cout << "GENLOGISTIC_CHECK - Fatal error!\n";
+    //cout << "  C <= 0.\n";
     return false;
   }
 
@@ -18960,10 +18740,10 @@ int geometric_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "GEOMETRIC_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GEOMETRIC_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    ////exit ( 1 );
   }
 
   if ( a == 1.0 )
@@ -19141,9 +18921,9 @@ bool geometric_check ( double a )
 {
   if ( a < 0.0 || 1.0 < a )
   {
-    cout << " \n";
-    cout << "GEOMETRIC_CHECK - Fatal error!\n";
-    cout << "  A < 0 or 1 < A.\n";
+    //cout << " \n";
+    //cout << "GEOMETRIC_CHECK - Fatal error!\n";
+    //cout << "  A < 0 or 1 < A.\n";
     return false;
   }
 
@@ -19512,10 +19292,10 @@ double gompertz_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "GOMPERTZ_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GOMPERTZ_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf < 1.0 )
@@ -19567,17 +19347,17 @@ bool gompertz_check ( double a, double b )
 {
   if ( a <= 1.0 )
   {
-    cout << " \n";
-    cout << "GOMPERTZ_CHECK - Fatal error!\n";
-    cout << "  A <= 1.0!\n";
+    //cout << " \n";
+    //cout << "GOMPERTZ_CHECK - Fatal error!\n";
+    //cout << "  A <= 1.0!\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "GOMPERTZ_CHECK - Fatal error!\n";
-    cout << "  B <= 0.0!\n";
+    //cout << " \n";
+    //cout << "GOMPERTZ_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.0!\n";
     return false;
   }
 
@@ -19755,10 +19535,10 @@ double gumbel_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "GUMBEL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "GUMBEL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x =  - log ( - log ( cdf ) );
@@ -20002,10 +19782,10 @@ double half_normal_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "HALF_NORMAL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "HALF_NORMAL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   cdf2 = 0.5 * ( cdf + 1.0 );
@@ -20046,9 +19826,9 @@ bool half_normal_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "HALF_NORMAL_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "HALF_NORMAL_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
@@ -20468,25 +20248,25 @@ bool hypergeometric_check ( int n, int m, int l )
 {
   if ( n < 0 || l < n )
   {
-    cout << " \n";
-    cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
-    cout << "  Input N is out of range.\n";
+    //cout << " \n";
+    //cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
+    //cout << "  Input N is out of range.\n";
     return false;
   }
 
   if ( m < 0 || l < m )
   {
-    cout << " \n";
-    cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
-    cout << "  Input M is out of range.\n";
+    //cout << " \n";
+    //cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
+    //cout << "  Input M is out of range.\n";
     return false;
   }
 
   if ( l < 0 )
   {
-    cout << " \n";
-    cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
-    cout << "  Input L is out of range.\n";
+    //cout << " \n";
+    //cout << "HYPERGEOMETRIC_CHECK - Fatal error!\n";
+    //cout << "  Input L is out of range.\n";
     return false;
   }
 
@@ -20788,9 +20568,9 @@ double i4_factorial ( int n )
 //
   if ( n < 0 )
   {
-    cout << "\n";
-    cout << "I4_FACTORIAL - Fatal error!\n";
-    cout << "  N < 0.\n";
+    //cout << "\n";
+    //cout << "I4_FACTORIAL - Fatal error!\n";
+    //cout << "  N < 0.\n";
     return 0;
   }
 
@@ -20976,10 +20756,10 @@ int i4_uniform_ab ( int a, int b, int &seed )
 
   if ( seed == 0 )
   {
-    cerr << "\n";
-    cerr << "I4_UNIFORM_AB - Fatal error!\n";
-    cerr << "  Input value of SEED = 0.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "I4_UNIFORM_AB - Fatal error!\n";
+    //cerr << "  Input value of SEED = 0.\n";
+    //exit ( 1 );
   }
 
   k = seed / 127773;
@@ -21422,14 +21202,14 @@ void i4vec_print ( int n, int a[], char *title )
 
   if ( s_len_trim ( title ) != 0 )
   {
-    cout << "\n";
-    cout << title << "\n";
+    //cout << "\n";
+    //cout << title << "\n";
   }
 
-  cout << "\n";
+  //cout << "\n";
   for ( i = 0; i <= n-1; i++ )
   {
-    cout << setw(6) << i << "  " << setw(8) << a[i] << "\n";
+    //cout << setw(6) << i << "  " << setw(8) << a[i] << "\n";
   }
   return;
 }
@@ -21687,17 +21467,17 @@ bool inverse_gaussian_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cout << " \n";
-    cout << "INVERSE_GAUSSIAN_CHECK - Fatal error!\n";
-    cout << "  A <= 0.\n";
+    //cout << " \n";
+    //cout << "INVERSE_GAUSSIAN_CHECK - Fatal error!\n";
+    //cout << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "INVERSE_GAUSSIAN_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "INVERSE_GAUSSIAN_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
@@ -22123,10 +21903,10 @@ double laplace_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "LAPLACE_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "LAPLACE_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf <= 0.5 )
@@ -22172,9 +21952,9 @@ bool laplace_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "LAPLACE_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "LAPLACE_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
   return true;
@@ -22455,10 +22235,10 @@ double levy_cdf ( double x, double a, double b )
 
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "LEVY_CDF - Fatal error!\n";
-    cout << "  B <= 0.0.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "LEVY_CDF - Fatal error!\n";
+    //cout << "  B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   if ( x <= a )
@@ -22511,18 +22291,18 @@ double levy_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "LEVY_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "LEVY_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "LEVY_CDF_INV - Fatal error!\n";
-    cout << "  B <= 0.0.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "LEVY_CDF_INV - Fatal error!\n";
+    //cout << "  B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   cdf1 = 1.0 - 0.5 * cdf;
@@ -22579,10 +22359,10 @@ double levy_pdf ( double x, double a, double b )
 
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "LEVY_PDF - Fatal error!\n";
-    cout << "  B <= 0.0.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "LEVY_PDF - Fatal error!\n";
+    //cout << "  B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   if ( x <= a )
@@ -22726,10 +22506,10 @@ double log_normal_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << "\n";
-    cout << "LOG_NORMAL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "LOG_NORMAL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   logx = normal_cdf_inv ( cdf, a, b );
@@ -22916,9 +22696,9 @@ bool log_normal_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "LOG_NORMAL_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << "\n";
+    //cout << "LOG_NORMAL_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
   return true;
@@ -23208,10 +22988,10 @@ int log_series_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "LOG_SERIES_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "LOG_SERIES_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   cdf2 = 0.0;
@@ -23415,9 +23195,9 @@ bool log_series_check ( double a )
 {
   if ( a <= 0.0 || 1.0 <= a )
   {
-    cout << " \n";
-    cout << "LOG_SERIES_CHECK - Fatal error!\n";
-    cout << "  A <= 0.0 or 1.0 <= A\n";
+    //cout << " \n";
+    //cout << "LOG_SERIES_CHECK - Fatal error!\n";
+    //cout << "  A <= 0.0 or 1.0 <= A\n";
     return false;
   }
   return true;
@@ -23681,10 +23461,10 @@ double log_uniform_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << "\n";
-    cout << "LOG_UNIFORM_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "LOG_UNIFORM_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a * exp ( ( log ( b ) - log ( a ) ) * cdf );
@@ -23723,17 +23503,17 @@ bool log_uniform_check ( double a, double b )
 {
   if ( a <= 1.0 )
   {
-    cout << "\n";
-    cout << "LOG_UNIFORM_CHECK - Fatal error!\n";
-    cout << "  A <= 1.\n";
+    //cout << "\n";
+    //cout << "LOG_UNIFORM_CHECK - Fatal error!\n";
+    //cout << "  A <= 1.\n";
     return false;
   }
 
   if ( b <= a )
   {
-    cout << "\n";
-    cout << "LOG_UNIFORM_CHECK - Fatal error!\n";
-    cout << "  B <= A.\n";
+    //cout << "\n";
+    //cout << "LOG_UNIFORM_CHECK - Fatal error!\n";
+    //cout << "  B <= A.\n";
     return false;
   }
   return true;
@@ -23985,10 +23765,10 @@ double logistic_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "LOGISTIC_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "LOGISTIC_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a - b * log ( ( 1.0 - cdf ) / cdf );
@@ -24173,9 +23953,9 @@ bool logistic_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "LOGISTIC_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "LOGISTIC_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
   return true;
@@ -24413,10 +24193,10 @@ double lorentz_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "LORENTZ_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "LORENTZ_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = tan ( pi * ( cdf - 0.5 ) );
@@ -24679,10 +24459,10 @@ double maxwell_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "MAXWELL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "MAXWELL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -24714,10 +24494,10 @@ double maxwell_cdf_inv ( double cdf, double a )
 
     if ( 1000000.0 < x2 )
     {
-      cout << " \n";
-      cout << "MAXWELL_CDF_INV - Fatal error!\n";
-      cout << "  Initial bracketing effort fails.\n";
-      exit ( 1 );
+      //cout << " \n";
+      //cout << "MAXWELL_CDF_INV - Fatal error!\n";
+      //cout << "  Initial bracketing effort fails.\n";
+      //exit ( 1 );
     }
   }
 //
@@ -24740,10 +24520,10 @@ double maxwell_cdf_inv ( double cdf, double a )
 
     if ( it_max < it )
     {
-      cout << " \n";
-      cout << "MAXWELL_CDF_INV - Fatal error!\n";
-      cout << "  Iteration limit exceeded.\n";
-      exit ( 1 );
+      //cout << " \n";
+      //cout << "MAXWELL_CDF_INV - Fatal error!\n";
+      //cout << "  Iteration limit exceeded.\n";
+      //exit ( 1 );
     }
 
     if ( ( cdf3 <= cdf && cdf1 <= cdf ) || ( cdf <= cdf3 && cdf <= cdf1 ) )
@@ -24792,9 +24572,9 @@ bool maxwell_check ( double a )
 {
   if ( a <= 0.0 )
   {
-    cout << " \n";
-    cout << "MAXWELL_CHECK - Fatal error!\n";
-    cout << "  A <= 0.0.\n";
+    //cout << " \n";
+    //cout << "MAXWELL_CHECK - Fatal error!\n";
+    //cout << "  A <= 0.0.\n";
     return false;
   }
 
@@ -25010,9 +24790,9 @@ bool multicoef_check ( int nfactor, int factor[] )
 
   if ( nfactor < 1 )
   {
-    cout << " \n";
-    cout << "MULTICOEF_CHECK - Fatal error!\n";
-    cout << "  NFACTOR < 1.\n";
+    //cout << " \n";
+    //cout << "MULTICOEF_CHECK - Fatal error!\n";
+    //cout << "  NFACTOR < 1.\n";
     return false;
   }
 
@@ -25020,10 +24800,10 @@ bool multicoef_check ( int nfactor, int factor[] )
   {
     if ( factor[i] < 0 )
     {
-      cout << " \n";
-      cout << "MULTICOEF_CHECK - Fatal error\n";
-      cout << "  Factor[" << i << "] = " << factor[i] << "\n";
-      cout << "  But this value must be nonnegative.\n";
+      //cout << " \n";
+      //cout << "MULTICOEF_CHECK - Fatal error\n";
+      //cout << "  Factor[" << i << "] = " << factor[i] << "\n";
+      //cout << "  But this value must be nonnegative.\n";
       return false;
     }
 
@@ -25083,9 +24863,9 @@ int multinomial_coef1 ( int nfactor, int factor[] )
 
   if (  !multicoef_check ( nfactor, factor ) )
   {
-    cout << " \n";
-    cout << "MULTINOMIAL_COEF1 - Fatal error!\n";
-    cout << "  MULTICOEF_CHECK failed.\n";
+    //cout << " \n";
+    //cout << "MULTINOMIAL_COEF1 - Fatal error!\n";
+    //cout << "  MULTICOEF_CHECK failed.\n";
     ncomb = -i4_huge ( );
     return ncomb;
   }
@@ -25158,9 +24938,9 @@ int multinomial_coef2 ( int nfactor, int factor[] )
 
   if ( !multicoef_check ( nfactor, factor ) )
   {
-    cout << " \n";
-    cout << "MULTINOMIAL_COEF2 - Fatal error!\n";
-    cout << "  MULTICOEF_CHECK failed.\n";
+    //cout << " \n";
+    //cout << "MULTINOMIAL_COEF2 - Fatal error!\n";
+    //cout << "  MULTICOEF_CHECK failed.\n";
     ncomb = - i4_huge ( );
     return ncomb;
   }
@@ -25221,9 +25001,9 @@ bool multinomial_check ( int a, int b, double c[] )
 
   if ( b < 1 )
   {
-    cout << " \n";
-    cout << "MULTINOMIAL_CHECK - Fatal error!\n";
-    cout << "  B < 1.\n";
+    //cout << " \n";
+    //cout << "MULTINOMIAL_CHECK - Fatal error!\n";
+    //cout << "  B < 1.\n";
     return false;
   }
 
@@ -25231,9 +25011,9 @@ bool multinomial_check ( int a, int b, double c[] )
   {
     if ( c[i] < 0.0 || 1.0 < c[i] )
     {
-      cout << " \n";
-      cout << "MULTINOMIAL_CHECK - Fatal error!\n";
-      cout << "  Input C(I) is out of range.\n";
+      //cout << " \n";
+      //cout << "MULTINOMIAL_CHECK - Fatal error!\n";
+      //cout << "  Input C(I) is out of range.\n";
       return false;
     }
   }
@@ -25242,9 +25022,9 @@ bool multinomial_check ( int a, int b, double c[] )
 
   if ( 0.0001 < r8_abs ( 1.0 - c_sum ) )
   {
-    cout << " \n";
-    cout << "MULTINOMIAL_CHECK - Fatal error!\n";
-    cout << "  The probabilities do not sum to 1.\n";
+    //cout << " \n";
+    //cout << "MULTINOMIAL_CHECK - Fatal error!\n";
+    //cout << "  The probabilities do not sum to 1.\n";
     return false;
   }
 
@@ -25571,7 +25351,7 @@ double *multinomial_variance ( int a, int b, double c[] )
 }
 //****************************************************************************80
 
-double *multivariate_normal_sample ( int n, double mean[], 
+double *multivariate_normal_sample ( int n, double mean[],
   double covar_factor[], int &seed )
 
 //****************************************************************************80
@@ -25582,7 +25362,7 @@ double *multivariate_normal_sample ( int n, double mean[],
 //
 //  Discussion:
 //
-//    PDF ( Mean(1:N), S(1:N,1:N); X(1:N) ) = 
+//    PDF ( Mean(1:N), S(1:N,1:N); X(1:N) ) =
 //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / det ( S )
 //      * exp ( - ( X - Mean )' * inverse ( S ) * ( X - Mean ) / 2 )
 //
@@ -25736,17 +25516,17 @@ bool nakagami_check ( double a, double b, double c )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "NAKAGAMI_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "NAKAGAMI_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cout << " \n";
-    cout << "NAKAGAMI_CHECK - Fatal error!\n";
-    cout << "  C <= 0.\n";
+    //cout << " \n";
+    //cout << "NAKAGAMI_CHECK - Fatal error!\n";
+    //cout << "  C <= 0.\n";
     return false;
   }
 
@@ -25983,10 +25763,10 @@ int negative_binomial_cdf_inv ( double cdf, int a, double b )
 //
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "NEGATIVE_BINOMIAL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "NEGATIVE_BINOMIAL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   cum = 0.0;
@@ -26224,17 +26004,17 @@ bool negative_binomial_check ( int a, double b )
 {
   if ( a < 0 )
   {
-    cout << " \n";
-    cout << "NEGATIVE_BINOMIAL_CHECK - Fatal error!\n";
-    cout << "  A < 0.\n";
+    //cout << " \n";
+    //cout << "NEGATIVE_BINOMIAL_CHECK - Fatal error!\n";
+    //cout << "  A < 0.\n";
     return false;
   }
 
   if ( b <= 0.0 || 1.0 < b )
   {
-    cout << " \n";
-    cout << "NEGATIVE_BINOMIAL_CHECK - Fatal error!\n";
-    cout << "  B <= 0 or 1 < B.\n";
+    //cout << " \n";
+    //cout << "NEGATIVE_BINOMIAL_CHECK - Fatal error!\n";
+    //cout << "  B <= 0 or 1 < B.\n";
     return false;
   }
 
@@ -27177,10 +26957,10 @@ double normal_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << "\n";
-    cout << "NORMAL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "NORMAL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x2 = normal_01_cdf_inv ( cdf );
@@ -27367,9 +27147,9 @@ bool normal_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "NORMAL_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << "\n";
+    //cout << "NORMAL_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
@@ -27604,7 +27384,7 @@ double *normal_vector ( int n, double mean, double dev, int &seed )
 }
 //****************************************************************************80
 
-double normal_truncated_ab_cdf ( double x, double mu, double s, double a, 
+double normal_truncated_ab_cdf ( double x, double mu, double s, double a,
   double b )
 
 //****************************************************************************80
@@ -27659,7 +27439,7 @@ double normal_truncated_ab_cdf ( double x, double mu, double s, double a,
 }
 //****************************************************************************80
 
-double normal_truncated_ab_cdf_inv ( double cdf, double mu, double s, double a, 
+double normal_truncated_ab_cdf_inv ( double cdf, double mu, double s, double a,
   double b )
 
 //****************************************************************************80
@@ -27703,10 +27483,10 @@ double normal_truncated_ab_cdf_inv ( double cdf, double mu, double s, double a,
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "NORMAL_TRUNCATED_AB_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "NORMAL_TRUNCATED_AB_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   alpha = ( a - mu ) / s;
@@ -27777,7 +27557,7 @@ double normal_truncated_ab_mean ( double mu, double s, double a, double b )
 }
 //****************************************************************************80
 
-double normal_truncated_ab_pdf ( double x, double mu, double s, double a, 
+double normal_truncated_ab_pdf ( double x, double mu, double s, double a,
   double b )
 
 //****************************************************************************80
@@ -27832,7 +27612,7 @@ double normal_truncated_ab_pdf ( double x, double mu, double s, double a,
 }
 //****************************************************************************80
 
-double normal_truncated_ab_sample ( double mu, double s, double a, double b, 
+double normal_truncated_ab_sample ( double mu, double s, double a, double b,
   int &seed )
 
 //****************************************************************************80
@@ -27938,8 +27718,8 @@ double normal_truncated_ab_variance ( double mu, double s, double a, double b )
   alpha_cdf = normal_01_cdf ( alpha );
   beta_cdf = normal_01_cdf ( beta );
 
-  variance = s * s * ( 1.0 
-    + ( alpha * alpha_pdf - beta * beta_pdf ) / ( beta_cdf - alpha_cdf ) 
+  variance = s * s * ( 1.0
+    + ( alpha * alpha_pdf - beta * beta_pdf ) / ( beta_cdf - alpha_cdf )
     - pow ( ( alpha_pdf - beta_pdf ) / ( beta_cdf - alpha_cdf ), 2 ) );
 
   return variance;
@@ -28037,10 +27817,10 @@ double normal_truncated_a_cdf_inv ( double cdf, double mu, double s, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "NORMAL_TRUNCATED_A_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "NORMAL_TRUNCATED_A_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   alpha = ( a - mu ) / s;
@@ -28248,8 +28028,8 @@ double normal_truncated_a_variance ( double mu, double s, double a )
 
   alpha_cdf = normal_01_cdf ( alpha );
 
-  variance = s * s * ( 1.0 
-    + alpha * alpha_pdf / ( 1.0 - alpha_cdf ) 
+  variance = s * s * ( 1.0
+    + alpha * alpha_pdf / ( 1.0 - alpha_cdf )
     - pow ( alpha_pdf / ( 1.0 - alpha_cdf ), 2 ) );
 
   return variance;
@@ -28347,10 +28127,10 @@ double normal_truncated_b_cdf_inv ( double cdf, double mu, double s, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "NORMAL_TRUNCATED_B_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "NORMAL_TRUNCATED_B_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   beta = ( b - mu ) / s;
@@ -28558,8 +28338,8 @@ double normal_truncated_b_variance ( double mu, double s, double b )
 
   beta_cdf = normal_01_cdf ( beta );
 
-  variance = s * s * ( 1.0 
-    - beta * beta_pdf / beta_cdf 
+  variance = s * s * ( 1.0
+    - beta * beta_pdf / beta_cdf
     - pow ( beta_pdf / beta_cdf, 2 ) );
 
   return variance;
@@ -28829,10 +28609,10 @@ double pareto_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "PARETO_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "PARETO_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a / pow ( 1.0 - cdf, 1.0 / b );
@@ -28872,17 +28652,17 @@ bool pareto_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "PARETO_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << " \n";
+    //cerr << "PARETO_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "PARETO_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "PARETO_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -28923,9 +28703,9 @@ double pareto_mean ( double a, double b )
 
   if ( b <= 1.0 )
   {
-    cerr << " \n";
-    cerr << "PARETO_MEAN - Fatal error!\n";
-    cerr << "  For B <= 1, the mean does not exist.\n";
+    //cerr << " \n";
+    //cerr << "PARETO_MEAN - Fatal error!\n";
+    //cerr << "  For B <= 1, the mean does not exist.\n";
     mean = 0.0;
     return mean;
   }
@@ -29062,9 +28842,9 @@ double pareto_variance ( double a, double b )
 
   if ( b <= 2.0 )
   {
-    cout << " \n";
-    cout << "PARETO_VARIANCE - Warning!\n";
-    cout << "  For B <= 2, the variance does not exist.\n";
+    //cout << " \n";
+    //cout << "PARETO_VARIANCE - Warning!\n";
+    //cout << "  For B <= 2, the variance does not exist.\n";
     variance = 0.0;
     return variance;
   }
@@ -29105,17 +28885,17 @@ bool pearson_05_check ( double a, double b, double c )
 {
   if ( a <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "PEARSON_05_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << " \n";
+    //cerr << "PEARSON_05_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "PEARSON_05_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "PEARSON_05_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -29159,9 +28939,9 @@ double pearson_05_mean ( double a, double b, double c )
 
   if ( b <= 1.0 )
   {
-    cout << " \n";
-    cout << "PEARSON_05_MEAN - Warning!\n";
-    cout << "  MEAN undefined for B <= 1.\n";
+    //cout << " \n";
+    //cout << "PEARSON_05_MEAN - Warning!\n";
+    //cout << "  MEAN undefined for B <= 1.\n";
     mean = c;
     return mean;
   }
@@ -29303,17 +29083,17 @@ bool planck_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "PLANCK_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "PLANCK_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "PLANCK_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << "\n";
+    //cerr << "PLANCK_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -29577,18 +29357,18 @@ double point_distance_1d_pdf ( double x, int a, double b )
 
   if ( a < 1 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_1D_PDF - Fatal error!\n";
-    cerr << "  Input parameter A < 1.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_1D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter A < 1.\n";
+    //exit ( 1 );
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_1D_PDF - Fatal error!\n";
-    cerr << "  Input parameter B <= 0.0.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_1D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   if ( x < 0.0 )
@@ -29665,18 +29445,18 @@ double point_distance_2d_pdf ( double x, int a, double b )
 
   if ( a < 1 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_2D_PDF - Fatal error!\n";
-    cerr << "  Input parameter A < 1.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_2D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter A < 1.\n";
+    //exit ( 1 );
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_2D_PDF - Fatal error!\n";
-    cerr << "  Input parameter B <= 0.0.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_2D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   if ( x < 0.0 )
@@ -29753,18 +29533,18 @@ double point_distance_3d_pdf ( double x, int a, double b )
 
   if ( a < 1 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_3D_PDF - Fatal error!\n";
-    cerr << "  Input parameter A < 1.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_3D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter A < 1.\n";
+    //exit ( 1 );
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POINT_DISTANCE_3D_PDF - Fatal error!\n";
-    cerr << "  Input parameter B <= 0.0.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POINT_DISTANCE_3D_PDF - Fatal error!\n";
+    //cerr << "  Input parameter B <= 0.0.\n";
+    //exit ( 1 );
   }
 
   if ( x < 0.0 )
@@ -29827,9 +29607,9 @@ double poisson_cdf ( int k, double a )
 //
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "POISSON_CDF - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "POISSON_CDF - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return 0;
   }
 //
@@ -29898,10 +29678,10 @@ int poisson_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "POISSON_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POISSON_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 //
 //  Now simply start at X = 0, and find the first value for which
@@ -29932,9 +29712,9 @@ int poisson_cdf_inv ( double cdf, double a )
     }
   }
 
-  cout << " \n";
-  cout << "POISSON_CDF_INV - Warning!\n";
-  cout << "  Exceeded XMAX = " << xmax << "\n";
+  //cout << " \n";
+  //cout << "POISSON_CDF_INV - Warning!\n";
+  //cout << "  Exceeded XMAX = " << xmax << "\n";
 
   x = xmax;
 
@@ -30118,9 +29898,9 @@ bool poisson_check ( double a )
 {
   if ( a <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POISSON_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << " \n";
+    //cerr << "POISSON_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
@@ -30219,9 +29999,9 @@ double poisson_mean ( double a )
 {
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "POISSON_MEAN - Fatal error!\n" ;
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "POISSON_MEAN - Fatal error!\n" ;
+    //cerr << "  A <= 0.\n";
     return 0;
   }
 
@@ -30278,9 +30058,9 @@ double poisson_pdf ( int k, double a )
 //
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "POISSON_PDF - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "POISSON_PDF - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     pdf = 0.0;
     return pdf;
   }
@@ -30333,9 +30113,9 @@ int poisson_sample ( double a, int &seed )
 //
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "POISSON_SAMPLE - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "POISSON_SAMPLE - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return 0;
   }
 //
@@ -30371,9 +30151,9 @@ int poisson_sample ( double a, int &seed )
 
   }
 
-  cout << "\n";
-  cout << "POISSON_SAMPLE - Warning!\n";
-  cout << "  Exceeded KMAX = " << KMAX << "\n";
+  //cout << "\n";
+  //cout << "POISSON_SAMPLE - Warning!\n";
+  //cout << "  Exceeded KMAX = " << KMAX << "\n";
 
   return KMAX;
 }
@@ -30412,9 +30192,9 @@ double poisson_variance ( double a )
 //
   if ( a <= 0.0 )
   {
-    cerr << "\n";
-    cerr << "POISSON_VARIANCE - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << "\n";
+    //cerr << "POISSON_VARIANCE - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return (0.0);
   }
 
@@ -30506,10 +30286,10 @@ double power_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << " \n";
-    cerr << "POWER_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "POWER_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -30559,17 +30339,17 @@ bool power_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POWER_CHECK - Fatal error!\n";
-    cerr << "  A <= 0.\n";
+    //cerr << " \n";
+    //cerr << "POWER_CHECK - Fatal error!\n";
+    //cerr << "  A <= 0.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cerr << " \n";
-    cerr << "POWER_CHECK - Fatal error!\n";
-    cerr << "  B <= 0.\n";
+    //cerr << " \n";
+    //cerr << "POWER_CHECK - Fatal error!\n";
+    //cerr << "  B <= 0.\n";
     return false;
   }
 
@@ -30812,15 +30592,15 @@ void psi_values ( int &n_data, double &x, double &fx )
 # define N_MAX 20
 
   static double fx_vec[N_MAX] = {
-    -10.42375494041108E+00, 
-     -5.289039896592188E+00, 
-     -3.502524222200133E+00, 
-     -2.561384544585116E+00, 
-     -1.963510026021423E+00, 
-     -1.540619213893190E+00, 
-     -1.220023553697935E+00, 
-     -0.9650085667061385E+00, 
-     -0.7549269499470514E+00, 
+    -10.42375494041108E+00,
+     -5.289039896592188E+00,
+     -3.502524222200133E+00,
+     -2.561384544585116E+00,
+     -1.963510026021423E+00,
+     -1.540619213893190E+00,
+     -1.220023553697935E+00,
+     -0.9650085667061385E+00,
+     -0.7549269499470514E+00,
      -0.5772156649015329E+00,
      -0.4237549404110768E+00,
      -0.2890398965921883E+00,
@@ -30973,10 +30753,10 @@ int quasigeometric_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cerr << "\n";
-    cerr << "QUASIGEOMETRIC_CDF_INV - Fatal error!\n";
-    cerr << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cerr << "\n";
+    //cerr << "QUASIGEOMETRIC_CDF_INV - Fatal error!\n";
+    //cerr << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf < a )
@@ -31031,20 +30811,20 @@ bool quasigeometric_check ( double a, double b )
 
   if ( a < 0.0 || 1.0 < a )
   {
-    cerr << "\n";
-    cerr << "QUASIGEOMETRIC_CHECK - Fatal error!\n";
-    cerr << "  A < 0 or 1 < A.\n";
+    //cerr << "\n";
+    //cerr << "QUASIGEOMETRIC_CHECK - Fatal error!\n";
+    //cerr << "  A < 0 or 1 < A.\n";
     check = false;
-    exit ( 1 );
+    //exit ( 1 );
   }
 
   if ( b < 0.0 || 1.0 <= b )
   {
-    cerr << "\n";
-    cerr << "QUASIGEOMETRIC_CHECK - Fatal error!\n";
-    cerr << "  B < 0 or 1 <= B.\n";
+    //cerr << "\n";
+    //cerr << "QUASIGEOMETRIC_CHECK - Fatal error!\n";
+    //cerr << "  B < 0 or 1 <= B.\n";
     check = false;
-    exit ( 1 );
+    //exit ( 1 );
   }
 
   check = true;
@@ -31578,10 +31358,10 @@ double r8_csc ( double theta )
 
   if ( value == 0.0 )
   {
-    cout << " \n";
-    cout << "R8_CSC - Fatal error!\n";
-    cout << "  Cosecant undefined for THETA = " << theta << "\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "R8_CSC - Fatal error!\n";
+    //cout << "  Cosecant undefined for THETA = " << theta << "\n";
+    //exit ( 1 );
   }
 
   value = 1.0 / value;
@@ -32049,10 +31829,10 @@ double r8_modp ( double x, double y )
 
   if ( y == 0.0 )
   {
-    cout << "\n";
-    cout << "R8_MODP - Fatal error!\n";
-    cout << "  R8_MODP ( X, Y ) called with Y = " << y << "\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "R8_MODP - Fatal error!\n";
+    //cout << "  R8_MODP ( X, Y ) called with Y = " << y << "\n";
+    //exit ( 1 );
   }
 
   value = x - ( ( double ) ( ( int ) ( x / y ) ) ) * y;
@@ -32380,8 +32160,8 @@ void r8mat_print_some ( int m, int n, double a[], int ilo, int jlo, int ihi,
   int j2hi;
   int j2lo;
 
-  cout << "\n";
-  cout << title << "\n";
+  //cout << "\n";
+  //cout << title << "\n";
 //
 //  Print the columns of the matrix, in strips of 5.
 //
@@ -32391,20 +32171,20 @@ void r8mat_print_some ( int m, int n, double a[], int ilo, int jlo, int ihi,
     j2hi = i4_min ( j2hi, n );
     j2hi = i4_min ( j2hi, jhi );
 
-    cout << "\n";
+    //cout << "\n";
 //
 //  For each column J in the current range...
 //
 //  Write the header.
 //
-    cout << "  Col:    ";
+    //cout << "  Col:    ";
     for ( j = j2lo; j <= j2hi; j++ )
     {
-      cout << setw(7) << j << "       ";
+      //cout << setw(7) << j << "       ";
     }
-    cout << "\n";
-    cout << "  Row\n";
-    cout << "  ---\n";
+    //cout << "\n";
+    //cout << "  Row\n";
+    //cout << "  ---\n";
 //
 //  Determine the range of the rows in this strip.
 //
@@ -32416,12 +32196,12 @@ void r8mat_print_some ( int m, int n, double a[], int ilo, int jlo, int ihi,
 //
 //  Print out (up to) 5 entries in row I, that lie in the current strip.
 //
-      cout << setw(5) << i << "  ";
+      //cout << setw(5) << i << "  ";
       for ( j = j2lo; j <= j2hi; j++ )
       {
-        cout << setw(12) << a[i-1+(j-1)*m] << "  ";
+        //cout << setw(12) << a[i-1+(j-1)*m] << "  ";
       }
-      cout << "\n";
+      //cout << "\n";
     }
 
   }
@@ -33127,13 +32907,13 @@ void r8vec_print ( int n, double a[], char *title )
 {
   int i;
 
-  cout << "\n";
-  cout << title << "\n";
-  cout << "\n";
+  //cout << "\n";
+  //cout << title << "\n";
+  //cout << "\n";
   for ( i = 0; i <= n-1; i++ )
   {
-    cout << setw(6)  << i + 1 << "  "
-         << setw(14) << a[i]  << "\n";
+    //cout << setw(6)  << i + 1 << "  "
+         //<< setw(14) << a[i]  << "\n";
   }
 
   return;
@@ -33343,10 +33123,10 @@ void r8vec_unit_sum ( int n, double a[] )
 
   if ( a_sum == 0.0 )
   {
-    cout << "\n";
-    cout << "R8VEC_UNIT_SUM - Fatal error!\n";
-    cout << "  The vector entries sum to 0.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "R8VEC_UNIT_SUM - Fatal error!\n";
+    //cout << "  The vector entries sum to 0.\n";
+    //exit ( 1 );
   }
 
   for ( i = 0; i < n; i++ )
@@ -33493,10 +33273,10 @@ double rayleigh_cdf_inv ( double cdf, double a )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "RAYLEIGH_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "RAYLEIGH_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = sqrt ( - 2.0 * a * a * log ( 1.0 - cdf ) );
@@ -33653,9 +33433,9 @@ bool rayleigh_check ( double a )
 {
   if ( a <= 0.0 )
   {
-    cout << " \n";
-    cout << "RAYLEIGH_CHECK - Fatal error!\n";
-    cout << "  A <= 0.\n";
+    //cout << " \n";
+    //cout << "RAYLEIGH_CHECK - Fatal error!\n";
+    //cout << "  A <= 0.\n";
     return false;
   }
 
@@ -33907,10 +33687,10 @@ double reciprocal_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "RECIPROCAL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "RECIPROCAL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -33956,17 +33736,17 @@ bool reciprocal_check ( double a, double b )
 {
   if ( a <= 0.0 )
   {
-    cout << " \n";
-    cout << "RECIPROCAL_CHECK - Fatal error!\n";
-    cout << "  A <= 0.0\n";
+    //cout << " \n";
+    //cout << "RECIPROCAL_CHECK - Fatal error!\n";
+    //cout << "  A <= 0.0\n";
     return false;
   }
 
   if ( b < a )
   {
-    cout << " \n";
-    cout << "RECIPROCAL_CHECK - Fatal error!\n";
-    cout << "  B < A\n";
+    //cout << " \n";
+    //cout << "RECIPROCAL_CHECK - Fatal error!\n";
+    //cout << "  B < A\n";
     return false;
   }
 
@@ -34893,29 +34673,29 @@ double runs_pdf ( int m, int n, int r )
 
   if ( m < 0 )
   {
-    cout << "\n";
-    cout << "RUN_PDF - Fatal error!\n";
-    cout << "  M must be at least 0.\n";
-    cout << "  The input value of M = " << m << "\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "RUN_PDF - Fatal error!\n";
+    //cout << "  M must be at least 0.\n";
+    //cout << "  The input value of M = " << m << "\n";
+    //exit ( 1 );
   }
 
   if ( n < 0 )
   {
-    cout << "\n";
-    cout << "RUN_PDF - Fatal error!\n";
-    cout << "  N must be at least 0.\n";
-    cout << "  The input value of N = " << n << "\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "RUN_PDF - Fatal error!\n";
+    //cout << "  N must be at least 0.\n";
+    //cout << "  The input value of N = " << n << "\n";
+    //exit ( 1 );
   }
 
   if ( n + m <= 0 )
   {
-    cout << "\n";
-    cout << "RUN_PDF - Fatal error!\n";
-    cout << "  M+N must be at least 1.\n";
-    cout << "  The input value of M+N = " << m + n << "\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "RUN_PDF - Fatal error!\n";
+    //cout << "  M+N must be at least 1.\n";
+    //cout << "  The input value of M+N = " << m + n << "\n";
+    //exit ( 1 );
   }
 //
 //  If all the symbols are of one type, there is always 1 run.
@@ -35267,10 +35047,10 @@ double sech_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "SECH_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "SECH_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -35320,9 +35100,9 @@ bool sech_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "SECH_CHECK - Fatal error!\n";
-    cout << "  B <= 0.0\n";
+    //cout << " \n";
+    //cout << "SECH_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.0\n";
     return false;
   }
 
@@ -35592,10 +35372,10 @@ double semicircular_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "SEMICIRCULAR_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "SEMICIRCULAR_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -35634,10 +35414,10 @@ double semicircular_cdf_inv ( double cdf, double a, double b )
 
     if ( it_max < it )
     {
-      cout << " \n";
-      cout << "SEMICIRCULAR_CDF_INV - Fatal error!\n";
-      cout << "  Iteration limit exceeded.\n";
-      exit ( 1 );
+      //cout << " \n";
+      //cout << "SEMICIRCULAR_CDF_INV - Fatal error!\n";
+      //cout << "  Iteration limit exceeded.\n";
+      //exit ( 1 );
     }
 
     if ( ( cdf3 <= cdf && cdf1 <= cdf ) || ( cdf <= cdf3 && cdf <= cdf1 ) )
@@ -35687,9 +35467,9 @@ bool semicircular_check ( double a, double b )
 {
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "SEMICIRCULAR_CHECK - Fatal error!\n";
-    cout << "  B <= 0.0\n";
+    //cout << " \n";
+    //cout << "SEMICIRCULAR_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.0\n";
     return false;
   }
 
@@ -35921,11 +35701,11 @@ double sin_power_int ( double a, double b, int n )
 //
   if ( n < 0 )
   {
-    cout << "\n";
-    cout << "SIN_POWER_INT - Fatal error!\n";
-    cout << "  Power N < 0.\n";
+    //cout << "\n";
+    //cout << "SIN_POWER_INT - Fatal error!\n";
+    //cout << "  Power N < 0.\n";
     value = 0.0;
-    exit ( 1 );
+    //exit ( 1 );
   }
 
   sa = sin ( a );
@@ -36391,17 +36171,17 @@ bool student_check ( double a, double b, double c )
 {
   if ( b == 0.0 )
   {
-    cout << " \n";
-    cout << "STUDENT_CHECK - Fatal error!\n";
-    cout << "  B must be nonzero.\n";
+    //cout << " \n";
+    //cout << "STUDENT_CHECK - Fatal error!\n";
+    //cout << "  B must be nonzero.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cout << " \n";
-    cout << "STUDENT_CHECK - Fatal error!\n";
-    cout << "  C must be greater than 0.\n";
+    //cout << " \n";
+    //cout << "STUDENT_CHECK - Fatal error!\n";
+    //cout << "  C must be greater than 0.\n";
     return false;
   }
 
@@ -36560,10 +36340,10 @@ double student_sample ( double a, double b, double c, int &seed )
 
   if ( c <= 2.0 )
   {
-    cout << " \n";
-    cout << "STUDENT_SAMPLE - Fatal error!\n";
-    cout << "  Sampling fails for C <= 2.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "STUDENT_SAMPLE - Fatal error!\n";
+    //cout << "  Sampling fails for C <= 2.\n";
+    //exit ( 1 );
   }
 
   a2 = 0.0;
@@ -36623,10 +36403,10 @@ double student_variance ( double a, double b, double c )
 
   if ( c <= 2.0 )
   {
-    cout << " \n";
-    cout << "STUDENT_VARIANCE - Fatal error!\n";
-    cout << "  Variance not defined for C <= 2.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "STUDENT_VARIANCE - Fatal error!\n";
+    //cout << "  Variance not defined for C <= 2.\n";
+    //exit ( 1 );
   }
 
   variance = b * b * c / ( c - 2.0 );
@@ -37186,7 +36966,7 @@ void timestamp ( )
 
   len = std::strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm_ptr );
 
-  std::cout << time_buffer << "\n";
+  //std::cout << time_buffer << "\n";
 
   return;
 # undef TIME_SIZE
@@ -37291,10 +37071,10 @@ double triangle_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << "\n";
-    cout << "TRIANGLE_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "TRIANGLE_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   d = 2.0 / ( c - a );
@@ -37343,25 +37123,25 @@ bool triangle_check ( double a, double b, double c )
 {
   if ( b < a )
   {
-    cout << "\n";
-    cout << "TRIANGLE_CHECK - Fatal error!\n";
-    cout << "  B < A.\n";
+    //cout << "\n";
+    //cout << "TRIANGLE_CHECK - Fatal error!\n";
+    //cout << "  B < A.\n";
     return false;
   }
 
   if ( c < b )
   {
-    cout << "\n";
-    cout << "TRIANGLE_CHECK - Fatal error!\n";
-    cout << "  C < B.\n";
+    //cout << "\n";
+    //cout << "TRIANGLE_CHECK - Fatal error!\n";
+    //cout << "  C < B.\n";
     return false;
   }
 
   if ( a == c )
   {
-    cout << "\n";
-    cout << "TRIANGLE_CHECK - Fatal error!\n";
-    cout << "  A == C.\n";
+    //cout << "\n";
+    //cout << "TRIANGLE_CHECK - Fatal error!\n";
+    //cout << "  A == C.\n";
     return false;
   }
 
@@ -37650,10 +37430,10 @@ double triangular_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "TRIANGULAR_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "TRIANGULAR_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf <= 0.5 )
@@ -37699,9 +37479,9 @@ bool triangular_check ( double a, double b )
 {
   if ( b <= a )
   {
-    cout << " \n";
-    cout << "TRIANGULAR_CHECK - Fatal error!\n";
-    cout << "  B <= A.\n";
+    //cout << " \n";
+    //cout << "TRIANGULAR_CHECK - Fatal error!\n";
+    //cout << "  B <= A.\n";
     return false;
   }
 
@@ -37937,10 +37717,10 @@ double trigamma ( double x )
   if ( x <= 0.0 )
   {
     value = 0.0;
-    cout << " \n";
-    cout << "TRIGAMMA - Fatal error!\n";
-    cout << "  X <= 0.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "TRIGAMMA - Fatal error!\n";
+    //cout << "  X <= 0.\n";
+    //exit ( 1 );
   }
 //
 //  2): If X is smaller than A, use a small value approximation.
@@ -38057,10 +37837,10 @@ double uniform_01_cdf_inv ( double cdf )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "UNIFORM_01_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "UNIFORM_01_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = cdf;
@@ -38437,10 +38217,10 @@ double uniform_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "UNIFORM_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "UNIFORM_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a + ( b - a ) * cdf;
@@ -38479,9 +38259,9 @@ bool uniform_check ( double a, double b )
 {
   if ( b <= a )
   {
-    cout << " \n";
-    cout << "UNIFORM_CHECK - Fatal error!\n";
-    cout << "  B <= A.\n";
+    //cout << " \n";
+    //cout << "UNIFORM_CHECK - Fatal error!\n";
+    //cout << "  B <= A.\n";
     return false;
   }
 
@@ -38742,10 +38522,10 @@ int uniform_discrete_cdf_inv ( double cdf, int a, int b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "UNIFORM_DISCRETE_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "UNIFORM_DISCRETE_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   a2 = ( double ) ( a ) - 0.5;
@@ -38792,9 +38572,9 @@ bool uniform_discrete_check ( int a, int b )
 {
   if ( b < a )
   {
-    cout << " \n";
-    cout << "UNIFORM_DISCRETE_CHECK - Fatal error!\n";
-    cout << "  B < A.\n";
+    //cout << " \n";
+    //cout << "UNIFORM_DISCRETE_CHECK - Fatal error!\n";
+    //cout << "  B < A.\n";
     return false;
   }
 
@@ -39233,10 +39013,10 @@ double von_mises_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "VON_MISES_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "VON_MISES_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   if ( cdf == 0.0 )
@@ -39275,10 +39055,10 @@ double von_mises_cdf_inv ( double cdf, double a, double b )
 
     if ( it_max < it )
     {
-      cout << " \n";
-      cout << "VON_MISES_CDF_INV - Fatal error!\n";
-      cout << "  Iteration limit exceeded.\n";
-      exit ( 1 );
+      //cout << " \n";
+      //cout << "VON_MISES_CDF_INV - Fatal error!\n";
+      //cout << "  Iteration limit exceeded.\n";
+      //exit ( 1 );
     }
 
     if ( ( cdf3 <= cdf && cdf1 <= cdf ) || ( cdf <= cdf3 && cdf <= cdf1 ) )
@@ -39501,17 +39281,17 @@ bool von_mises_check ( double a, double b )
 
   if ( a < - pi || pi < a )
   {
-    cout << " \n";
-    cout << "VON_MISES_CHECK - Fatal error!\n";
-    cout << "  A < -PI or PI < A.\n";
+    //cout << " \n";
+    //cout << "VON_MISES_CHECK - Fatal error!\n";
+    //cout << "  A < -PI or PI < A.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "VON_MISES_CHECK - Fatal error!\n";
-    cout << "  B <= 0.0\n";
+    //cout << " \n";
+    //cout << "VON_MISES_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.0\n";
     return false;
   }
 
@@ -39843,10 +39623,10 @@ double weibull_cdf_inv ( double cdf, double a, double b, double c )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << "\n";
-    cout << "WEIBULL_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << "\n";
+    //cout << "WEIBULL_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = a + b * pow ( ( - log ( 1.0 - cdf ) ), ( 1.0 / c ) );
@@ -40033,17 +39813,17 @@ bool weibull_check ( double a, double b, double c )
 
   if ( b <= 0.0 )
   {
-    cout << "\n";
-    cout << "WEIBULL_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << "\n";
+    //cout << "WEIBULL_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
   if ( c <= 0.0 )
   {
-    cout << "\n";
-    cout << "WEIBULL_CHECK - Fatal error!\n";
-    cout << "  C <= 0.\n";
+    //cout << "\n";
+    //cout << "WEIBULL_CHECK - Fatal error!\n";
+    //cout << "  C <= 0.\n";
     return false;
   }
 
@@ -40312,10 +40092,10 @@ int weibull_discrete_cdf_inv ( double cdf, double a, double b )
 
   if ( cdf < 0.0 || 1.0 < cdf )
   {
-    cout << " \n";
-    cout << "WEIBULL_DISCRETE_CDF_INV - Fatal error!\n";
-    cout << "  CDF < 0 or 1 < CDF.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "WEIBULL_DISCRETE_CDF_INV - Fatal error!\n";
+    //cout << "  CDF < 0 or 1 < CDF.\n";
+    //exit ( 1 );
   }
 
   x = r8_ceiling (
@@ -40357,17 +40137,17 @@ bool weibull_discrete_check ( double a, double b )
 {
   if ( a < 0.0 || 1.0 < a )
   {
-    cout << " \n";
-    cout << "WEIBULL_DISCRETE_CHECK - Fatal error!\n";
-    cout << "  A < 0 or 1 < A.\n";
+    //cout << " \n";
+    //cout << "WEIBULL_DISCRETE_CHECK - Fatal error!\n";
+    //cout << "  A < 0 or 1 < A.\n";
     return false;
   }
 
   if ( b <= 0.0 )
   {
-    cout << " \n";
-    cout << "WEIBULL_DISCRETE_CHECK - Fatal error!\n";
-    cout << "  B <= 0.\n";
+    //cout << " \n";
+    //cout << "WEIBULL_DISCRETE_CHECK - Fatal error!\n";
+    //cout << "  B <= 0.\n";
     return false;
   }
 
@@ -40522,10 +40302,10 @@ double zeta ( double p )
 
   if ( p <= 1.0 )
   {
-    cout << " \n";
-    cout << "ZETA - Fatal error!\n";
-    cout << "  Exponent P <= 1.0.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "ZETA - Fatal error!\n";
+    //cout << "  Exponent P <= 1.0.\n";
+    //exit ( 1 );
   }
   else if ( p == 2.0 )
   {
@@ -40716,9 +40496,9 @@ bool zipf_check ( double a )
 {
   if ( a <= 1.0 )
   {
-    cout << " \n";
-    cout << "ZIPF_CHECK - Fatal error!\n";
-    cout << "  A <= 1.\n";
+    //cout << " \n";
+    //cout << "ZIPF_CHECK - Fatal error!\n";
+    //cout << "  A <= 1.\n";
     return false;
   }
 
@@ -40759,10 +40539,10 @@ double zipf_mean ( double a )
 
   if ( a <= 2.0 )
   {
-    cout << " \n";
-    cout << "ZIPF_MEAN - Fatal error!\n";
-    cout << "  No mean defined for A <= 2.\n";
-    exit ( 1 );
+    //cout << " \n";
+    //cout << "ZIPF_MEAN - Fatal error!\n";
+    //cout << "  No mean defined for A <= 2.\n";
+    //exit ( 1 );
   }
 
   mean = zeta ( a - 1.0 ) / zeta ( a );
@@ -40942,10 +40722,10 @@ double zipf_variance ( double a )
 
   if ( a <= 3.0 )
   {
-    cerr << " \n";
-    cerr << "ZIPF_VARIANCE - Fatal error!\n";
-    cerr << "  No variance defined for A <= 3.0.\n";
-    exit ( 1 );
+    //cerr << " \n";
+    //cerr << "ZIPF_VARIANCE - Fatal error!\n";
+    //cerr << "  No variance defined for A <= 3.0.\n";
+    //exit ( 1 );
   }
 
   mean = zipf_mean ( a );

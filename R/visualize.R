@@ -1,21 +1,19 @@
-#' @import ggplot2
 drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) {
   radii = seq_len(rmax)
   hexagonpoints <- plyr::ldply(seq(0, pi*2-0.001, pi/3), function(angle) data.frame(x=cos(angle+baseangle), y=sin(angle+baseangle)))
   gridData <- dplyr::bind_rows(lapply(radii, function(r) data.frame(r=r, x=hexagonpoints$x * r, y =hexagonpoints$y * r)))
 
   plot =  drawGridBasis() +
-    geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color) +
-    scale_x_continuous(expand = c(0.1, 0.1))
+    ggplot2::geom_polygon(ggplot2::aes(x=x, y=y, group=r), gridData, fill=NA, colour=color) +
+    ggplot2::scale_x_continuous(expand = c(0.1, 0.1))
 
   if (showlabels) {
     labelData <- data.frame(r=radii, label=2^radii, y=sapply(radii, function(x) hexagonPolar(pi/2, x)), x=0)
-    plot = plot + geom_label(aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
+    plot = plot + ggplot2::geom_label(ggplot2::aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
   }
   plot
 }
 
-#' @import ggplot2
 drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squared=F, showlabels=T, labeller=function(x) x) {
   circlepoints <- plyr::ldply(seq(0, pi*2-0.001, pi/100), function(angle) data.frame(x=cos(angle), y=sin(angle)))
 
@@ -24,37 +22,36 @@ drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squa
   if(squared) radii = sqrt(radii)
   gridData <- dplyr::bind_rows(lapply(radii, function(r) data.frame(r=r, x=circlepoints$x * r, y =circlepoints$y * r)))
 
-  plot = drawGridBasis() + geom_polygon(aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
+  plot = drawGridBasis() + ggplot2::geom_polygon(ggplot2::aes(x=x, y=y, group=r), gridData, fill=NA, colour=color)
 
   if (showlabels) {
     labelData <- data.frame(r=radii, label=unlist(labels), y=radii, x=0)
-    plot = plot + geom_label(aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
+    plot = plot + ggplot2::geom_label(ggplot2::aes(x=x, y=y, label=label), hjust=0.5, data=labelData)
   }
   plot
 }
 
-#' @import ggplot2
 drawGridBasis <- function() {
-  ggplot() +
-  coord_equal() +
-    theme_minimal() +
-    theme(
-      axis.title.x=element_blank(),
-      axis.title.y=element_blank(),
-      axis.ticks=element_blank(),
-      axis.text.y=element_blank(),
-      axis.text.x=element_blank(),
-      panel.grid.minor=element_blank(),
-      panel.grid.major=element_blank(),
-      panel.background=element_blank()
+  ggplot2::ggplot() +
+    ggplot2::coord_equal() +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      axis.title.x=ggplot2::element_blank(),
+      axis.title.y=ggplot2::element_blank(),
+      axis.ticks=ggplot2::element_blank(),
+      axis.text.y=ggplot2::element_blank(),
+      axis.text.x=ggplot2::element_blank(),
+      panel.grid.minor=ggplot2::element_blank(),
+      panel.grid.major=ggplot2::element_blank(),
+      panel.background=ggplot2::element_blank()
     )
 }
 
-#' @import ggplot2
-#' @title plotRoseplot
-#' @name plotRoseplot
-#' @description A rose plot shows the distribution of a given set of genes in different directions.
-#' @param barycoords Dataframe containing barycentric coordinates as returned by `transformBarycentric`
+#' Plot the directional distribution of genes
+#'
+#' A rose plot shows the distribution of a given set of genes in different directions.
+#'
+#' @param barycoords Dataframe containing barycentric coordinates as returned by `r packagedocs::rd_link(transformBarycentric())`
 #' @param Gdiffexp List of differentially expressed genes
 #' @param Goi List of genes of interest
 #' @param size Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction
@@ -67,7 +64,7 @@ drawGridBasis <- function() {
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @return A ggplot2 plot, which can be used to further customize the plot
 #' @export
-plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
+plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=grDevices::rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
   deltaalpha = pi*2/nbins
 
   Goidiffexp = intersect(Goi, Gdiffexp)
@@ -121,12 +118,11 @@ plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(
 
     sector = circlesect(angle1+baseangle, angle2+baseangle, r = radius)
 
-    plot = plot + geom_polygon(data=sector, aes(x,y), fill=bincolors[binid])
+    plot = plot + ggplot2::geom_polygon(data=sector, ggplot2::aes(x,y), fill=bincolors[binid])
   }
   plot + drawDirections(ifelse(size=="surface", sqrt(rmax), rmax), Coi, type="circular", baseangle=baseangle)
 }
 
-#' @import ggplot2
 drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal", baseangle=0) {
   directionsData = plyr::ldply(seq(0, pi*2-0.001, pi/3*2), function(angle) {
     angle = angle + baseangle
@@ -166,26 +162,24 @@ drawDirections <- function(rmax, labels, labelmargin=0.05, type="hexagonal", bas
   directionsData$label = labels
 
   c(
-    geom_text(aes(label=label, x=xlabel, y=ylabel, vjust=va, hjust=ha, angle=rot), data=directionsData),
-    geom_segment(aes(xend=0, x=x, yend=0, y=y, group=label), data=directionsData, alpha=0.5)
+    ggplot2::geom_text(ggplot2::aes(label=label, x=xlabel, y=ylabel, vjust=va, hjust=ha, angle=rot), data=directionsData),
+    ggplot2::geom_segment(ggplot2::aes(xend=0, x=x, yend=0, y=y, group=label), data=directionsData, alpha=0.5)
   )
 }
 
-#' @import ggplot2
-drawDotplot <- function(barypoints, rmax=5, color=scale_color_grey(), alpha=scale_alpha(), size=scale_size(), order=NULL, baseangle=0) {
+drawDotplot <- function(barypoints, rmax=5, color=ggplot2::scale_color_grey(), alpha=ggplot2::scale_alpha(), size=ggplot2::scale_size(), order=NULL, baseangle=0) {
   barypoints = clipHexagon(barypoints, rmax, baseangle)
 
   if(!is.null(order)) {
     barypoints = barypoints[order,]
   }
 
-  dotplot = geom_point(aes(x=xclip, y=yclip, color=colorby, alpha=alphaby, size=sizeby), data=barypoints)
+  dotplot = ggplot2::geom_point(ggplot2::aes(x=xclip, y=yclip, color=colorby, alpha=alphaby, size=sizeby), data=barypoints)
   dotplot = c(dotplot, color, alpha, size)
 
   dotplot
 }
 
-#' @import ggplot2
 drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, baseangle=0) {
   barypoints = clipHexagon(barypoints, rmax, baseangle)
   barypoints2 = clipHexagon(barypoints2, rmax, baseangle)
@@ -198,7 +192,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
     allbarypoints = allbarypoints[order,]
   }
 
-  dotplot = geom_segment(aes(x=xclip, y=yclip, xend=xclip2, yend=yclip2, color=colorby), data=allbarypoints, arrow=arrow(type="closed", length=unit(0.05, "inches")))
+  dotplot = ggplot2::geom_segment(ggplot2::aes(x=xclip, y=yclip, xend=xclip2, yend=yclip2, color=colorby), data=allbarypoints, arrow=ggplot2::arrow(type="closed", length=ggplot2::unit(0.05, "inches")))
 
   dotplot
 }
@@ -207,7 +201,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #'
 #' Plot a dotplot
 #'
-#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}
+#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`
 #' @param Gdiffexp Differentially expressed genes
 #' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
 #' @param Coi Character vector specifying the names of the three biological conditions, used for labelling
@@ -221,20 +215,18 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @param showlabels Whether to show labels on the grid
 #' @param sizevalues Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)
 #' @param alphavalues Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)
-#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
+#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @examples
 #' data(vandelaar)
-#' Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
-#' Eoi <- limma::avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+#' Eoi <- limma::avearrays(vandelaar, phenoData(vandelaar)$celltype)
 #' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 #' barycoords = transformBarycentric(Eoi)
 #' plotDotplot(barycoords)
 #'
 #' @return A ggplot2 plot, which can be used for further customization
-#' @import ggplot2
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=setNames(c(0.5,2), c(F,T)), alphavalues=setNames(c(0.8, 0.8), c(F, T)), barycoords2=NULL, baseangle=0) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=stats::setNames(c(0.5,2), c(F,T)), alphavalues=stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2=NULL, baseangle=0) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
@@ -257,31 +249,31 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
     if (is.null(colorvalues)) {
       # make colorvalues in two steps so that extra colors (eg. if 1 gene set) are filled with nas
       # different palletes for diffexp and nodiffexp
-      colorvalues = setNames(c("#333333", RColorBrewer::brewer.pal(max(length(Goi), 3), "Set1")), c("diffall", paste0("diff",names(Goi))))
-      colorvalues = c(colorvalues, setNames(c("#AAAAAA", RColorBrewer::brewer.pal(max(length(Goi), 3), "Pastel1")), c("nodiffall", paste0("nodiff", names(Goi)))))
+      colorvalues = stats::setNames(c("#333333", RColorBrewer::brewer.pal(max(length(Goi), 3), "Set1")), c("diffall", paste0("diff",names(Goi))))
+      colorvalues = c(colorvalues, stats::setNames(c("#AAAAAA", RColorBrewer::brewer.pal(max(length(Goi), 3), "Pastel1")), c("nodiffall", paste0("nodiff", names(Goi)))))
     }
 
     # sample palette
     #colorvalues = setNames(c("#222222", RColorBrewer::brewer.pal(max(length(gsets), 3), "Set1")), c("all", names(gsets)))
-    color = scale_colour_manual(values=colorvalues,name="type")
+    color = ggplot2::scale_colour_manual(values=colorvalues,name="type")
     barypoints$colorby = barypoints$type
     barypoints$alphaby = barypoints$diffexp
     barypoints$sizeby = barypoints$ingset
   } else if (colorby == "z") {
     if(!("z" %in% colnames(barypoints))) stop("z column not defined")
 
-    color = scale_colour_continuous()
+    color = ggplot2::scale_colour_continuous()
     barypoints$colorby = barypoints$z
     barypoints$alphaby = T
     barypoints$sizeby = T
   } else {
-    color = scale_colour_continuous()
+    color = ggplot2::scale_colour_continuous()
     barypoints$colorby = barypoints$r
     barypoints$alphaby = T
     barypoints$sizeby = T
   }
-  alpha = scale_alpha_manual(values=setNames(c(0.8,0.8), c(F,T)), name="diffexp")
-  size = scale_size_manual(values=setNames(c(0.5,2), c(F,T)), name="ingset")
+  alpha = ggplot2::scale_alpha_manual(values=stats::setNames(c(0.8,0.8), c(F,T)), name="diffexp")
+  size = ggplot2::scale_size_manual(values=stats::setNames(c(0.5,2), c(F,T)), name="ingset")
 
   order = with(barypoints, order(ingset, diffexp))
 
@@ -301,11 +293,14 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 }
 
 #' Plot results from unidirectional enrichment
+#'
+#' Plots each enriched gene set as a dot on a dotplot
+#'
 #' @param scores Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle
-#' @param Coi Names of the three biological conditions
-#' @param colorby Column in scores used for coloring
+#' @param Coi Names of the three biological conditions, only used for labelling
+#' @param colorby Column in `scores` used for coloring
 #' @param showlabels Whether to show labels on the grid
-#' @param baseangle The angle by which to rotate the whole plot (default to 0)
+#' @param baseangle The angle by which to rotate the whole plot (default to `0`)
 #' @export
 plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")
@@ -323,7 +318,7 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, 
     color = scale_color_manual(values=c(`1`="#333333"))
   }
 
-  plot = plot + geom_point(aes(x=x, y=y, color=colorby), data=scores, size=1) + color
+  plot = plot + ggplot2::geom_point(ggplot2::aes(x=x, y=y, color=colorby), data=scores, size=1) + color
 
   plot
 }

@@ -8,7 +8,20 @@ generateBackgroundModel(barycoords, noi = seq(5, 100, 5),
   anglesoi = seqClosed(0, 2 * pi, 24), nsamples = 1e+05, bw = 20,
   mc.cores = getOption("mc.cores", default = 1))
 }
+\arguments{
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`}
+
+\item{noi}{Integer vector denoting the number of genes at which to sample, the larger the more accurate the p-values}
+
+\item{anglesoi}{Numeric vector denoting the angles (in radians) at which to pre-calculate null distribution, the larger the more accurate the p-values}
+
+\item{nsamples}{Number of samples, higher for more accurate and stable p-values}
+
+\item{bw}{Bandwidth of the von-mises distribution for weighing the samples. A higher bandwidth leads to a more accurate p-value estimate as long as `nsamples` is high enough}
+
+\item{mc.cores}{Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows}
+}
 \description{
-Generates a background model by randomly resampling genes at different number of genes and calculating z distributions at different fixed angles
+Generates a background model by randomly resampling genes at different `n` (number of genes) and angles and calculating z distributions
 }
 

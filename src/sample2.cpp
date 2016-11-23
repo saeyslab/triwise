@@ -2,7 +2,7 @@
 #include "RcppArmadilloExtensions/sample.h"
 #include <math.h>
 #include <cmath>
-#include "prob.hpp"
+#include "prob.h"
 
 using namespace Rcpp;
 
@@ -13,9 +13,7 @@ using namespace Rcpp;
 //' @param samplesize
 //' @param nangles
 //' @param bw
-//'
 // [[Rcpp::depends("RcppArmadillo")]]
-//' @export
 // [[Rcpp::export]]
 List backgroundModel2(NumericVector angles, NumericVector R, int nsamples, int samplesize, NumericVector anglesoi, double bw) {
   NumericVector sample(samplesize);

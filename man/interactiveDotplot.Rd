@@ -4,10 +4,10 @@
 \alias{interactiveDotplot}
 \title{Interactive triwise dotplot}
 \usage{
-interactiveDotplot(Eoi, Gdiffexp = rownames(barycoords), Goi = c(),
-  Glabels = rownames(Eoi), Gpin = c(), Coi = attr(barycoords,
-  "conditions"), colorvalues = NULL, rmax = 5, sizevalues = c(T = 2, F =
-  0.5), alphavalues = c(T = 0.8, F = 0.8), plotLocalEnrichment = F,
+interactiveDotplot(Eoi, Gdiffexp = rownames(Eoi), Goi = c(),
+  Glabels = rownames(Eoi), Gpin = c(), Coi = colnames(Eoi),
+  colorvalues = NULL, rmax = 5, sizevalues = c(T = 2, F = 0.5),
+  alphavalues = c(T = 0.8, F = 0.8), plotLocalEnrichment = F,
   width = NULL, height = NULL)
 }
 \arguments{
@@ -15,13 +15,33 @@ interactiveDotplot(Eoi, Gdiffexp = rownames(barycoords), Goi = c(),
 
 \item{Gdiffexp}{Differentially expressed genes}
 
-\item{Goi}{List with genes of interest}
+\item{Goi}{Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets}
 
 \item{Glabels}{Labels for every gene if different from the rownames of `Eoi`}
 
-\item{Gpin}{Pinned genes}
+\item{Gpin}{Pinned genes, if `NULL` will automatically choose the top 20 most differentially expressed genes}
+
+\item{Coi}{Character vector specifying the names of the three biological conditions, used for labelling}
+
+\item{colorvalues}{Color values, different syntax depending on the colorby parameter: \itemize{
+  \item diffexp: Named list with colors. First part of the name denotes whether a gene is differentially expressed (`diffexp` or `nodiffexp`). The second part denotes the name of the gene set. Genes not within a gene set are denoted by `all`. \cr
+  For example: list(diffexpall="#000000", nodiffexpall="#AAAAAA", nodiffexpgset="#FFAAAA", diffexpgset="#FF0000")
+  \item z: A character vector of color values, used to generate the color gradient
+}}
+
+\item{rmax}{Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.}
+
+\item{sizevalues}{Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)}
+
+\item{alphavalues}{Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)}
+
+\item{plotLocalEnrichment}{Whether to plot local enrichment as a ring around the dotplot}
+
+\item{width}{Width of the plot}
+
+\item{height}{Height of the plot}
 }
 \description{
-Draw an interactive triwise dotplot
+Draw an interactive triwise dotplot using a html widget
 }
 

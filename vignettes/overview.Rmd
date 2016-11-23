@@ -1,0 +1,46 @@
+---
+title: "Triwise"
+subtitle: "Overview"
+author: "Wouter Saelens"
+copyright: "GPL-3"
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: Zouter/triwise
+vignette: |
+  %\VignetteIndexEntry{triwise Overview}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li class="active"><a href='index.html'>Overview</a></li>
+  <li><a href='vignette.html'>Vignette</a></li>
+  <li><a href='rd.html'>Reference</a></li>
+  <li><a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a></li>
+bibliography: triwise.bib
+---
+
+![](img/logo_small.png)
+
+# Introduction
+Triwise is an R package to visualize and analyze gene expression data among three biological conditions. 
+Triwise allows the generation of publication-ready plots to give a general overview of the expression differences between the three conditions and certain genes of interest. 
+Triwise can also be used to detect functional gene sets coherently upregulated in one or two of the biological conditions. One application of this method can be found in  [this study](http://www.ncbi.nlm.nih.gov/pubmed/26992565) [@vandelaar_yolk_2016], which is further worked out in the [vignette](vignette.html).
+
+![](img/interactive.png "Example of a triwise plot with annotated genes")
+
+The three biological conditions can be related in different ways:
+
+![](img/setups.png "Possible experimental set-ups")
+
+* One progenitor cell population and two alternative daughter cell populations
+* One normal condition and two alternative genetic or environmental perturbations
+* Two population which are of prime interest but one "reference" population. This would allow you to find the common genes between the two populations of interest compared with the reference, but also what genes are specific to one population.
+* Three different biological conditions. A worked out example of this can be found in the [vignette](vignette.html)
+
+# Funding
+[![](img/fwo_small.png)](http://www.fwo.be)
+[![](img/logo_UGent_EN_RGB_2400_color-on-white_small.png)](http://www.ugent.be)
+[![](img/VIB-IRC-logo-compact_small.jpg)](http://irc.ugent.be)
+
+
+# References

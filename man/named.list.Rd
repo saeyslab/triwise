@@ -6,6 +6,9 @@
 \usage{
 named.list(...)
 }
+\arguments{
+\item{...}{Arguments}
+}
 \description{
 make a named list using the variable names (avoids repeating the same name twice)
 }

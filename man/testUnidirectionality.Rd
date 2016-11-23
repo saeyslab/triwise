@@ -9,9 +9,11 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
   maxknown = 1500, mc.cores = getOption("mc.cores", default = 1))
 }
 \arguments{
-\item{gsets}{list of character vectors, each containing a set of genes (gene identifiers)}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`}
 
-\item{Gdiffexp}{differentially expressed genes}
+\item{gsets}{List of character vectors, each containing a set of genes (gene identifiers)}
+
+\item{Gdiffexp}{Differentially expressed genes}
 
 \item{statistic}{A string denoting the measure used for the strength of upregulation of a particular gene. \itemize{
   \item diffexp: Wheter a gene is differentially expressed (1 versus 0)
@@ -30,8 +32,6 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
 \item{maxknown}{Maximal number of genes within a gene set for it to be considered for enrichment}
 
 \item{mc.cores}{Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows}
-
-\item{angles}{either a dataframe obtained from transformBarycentric or a list of angles with gene identifiers as names}
 }
 \value{
 Dataframe containing for every gene set which passed the filtering: \itemize{

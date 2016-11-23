@@ -7,11 +7,12 @@
 plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
   Coi = attr(barycoords, "conditions"), colorby = "diffexp",
   colorvalues = NULL, rmax = 5, showlabels = T,
-  sizevalues = setNames(c(0.5, 2), c(F, T)), alphavalues = setNames(c(0.8,
-  0.8), c(F, T)), barycoords2 = NULL, baseangle = 0)
+  sizevalues = stats::setNames(c(0.5, 2), c(F, T)),
+  alphavalues = stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2 = NULL,
+  baseangle = 0)
 }
 \arguments{
-\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as return by \code{transformBarycentric}}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`}
 
 \item{Gdiffexp}{Differentially expressed genes}
 
@@ -35,7 +36,7 @@ plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
 
 \item{alphavalues}{Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)}
 
-\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{transformBarycentric}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
+\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
 
 \item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }
@@ -47,8 +48,7 @@ Plot a dotplot
 }
 \examples{
 data(vandelaar)
-Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype \%in\% c("BM_mono", "FL_mono", "YS_MF")]
-Eoi <- limma::avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+Eoi <- limma::avearrays(vandelaar, phenoData(vandelaar)$celltype)
 Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 barycoords = transformBarycentric(Eoi)
 plotDotplot(barycoords)

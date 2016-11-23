@@ -1,19 +1,19 @@
 dependencies:
 - name: jquery
   version: 2.2.0
-  src: htmlwidgets/lib/bower_components/jquery/dist
-  script: jquery.js
+  src: htmlwidgets/lib/b/jquery/dist
+  script: jquery.min.js
 - name: d3
   version: 3.5.12
-  src: htmlwidgets/lib/bower_components/d3
+  src: htmlwidgets/lib/b/d3
   script: d3.js
 - name: mathjs
   version: 2.6.0
-  src: htmlwidgets/lib/bower_components/mathjs/dist
-  script: math.js
+  src: htmlwidgets/lib/b/mathjs/dist
+  script: math.min.js
 - name: underscore
   version: 1.8.3
-  src: htmlwidgets/lib/bower_components/underscore
+  src: htmlwidgets/lib/b/underscore
   script: underscore.js
 - name: triwise
   version: 0.1
@@ -26,10 +26,10 @@ dependencies:
   stylesheet: css/triwise.css
 - name: d3-tip
   version: 1.0
-  src: htmlwidgets/lib/bower_components/d3-tip
+  src: htmlwidgets/lib/b/d3-tip
   script: index.js
 - name: awesomplete
   version: 1.1.0
-  src: htmlwidgets/lib/bower_components/awesomplete
+  src: htmlwidgets/lib/b/awesomplete
   script: awesomplete.js
   stylesheet: awesomplete.css

@@ -15,7 +15,7 @@ testLocality(Goi, Gdiffexp, angles, deltangle = pi/24, bandwidth = pi/3)
 
 \item{deltangle}{Stepsize of angles}
 
-\item{bandwidith}{Bandwidth of angles}
+\item{bandwidth}{Bandwidth of angles}
 }
 \description{
 Tests for local upregulation locally in certain directions

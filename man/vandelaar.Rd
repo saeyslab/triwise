@@ -4,7 +4,7 @@
 \name{vandelaar}
 \alias{vandelaar}
 \title{Expression dataset from van de Laar et al. 2016}
-\format{An object of class \code{ExpressionSet} with 20917 rows and 36 columns.}
+\format{An object of class \code{ExpressionSet} with 11679 rows and 24 columns.}
 \source{
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76999}
 }
@@ -12,7 +12,8 @@
 vandelaar
 }
 \description{
-This dataset contains, among others, gene expression data from three macrophage progenitor populations
+This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice
+Note that due to size restrictions of Bioconductor, some non-differentially expressed genes are not included in the dataset
 }
 \keyword{datasets}
 

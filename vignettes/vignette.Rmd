@@ -1,0 +1,208 @@
+---
+title: "Triwise"
+subtitle: "Analysis from van de Laar et al. 2016"
+author: "Wouter Saelens"
+copyright: "GPL-3"
+output:
+  packagedocs::package_docs:
+    toc: true
+    toc_collapse: false
+redirect: Zouter/triwise/vignette.html
+vignette: |
+  %\VignetteIndexEntry{triwise Documentation}
+  %\VignetteEngine{packagedocs::redirect}
+navpills: |
+  <li><a href='index.html'>Overview</a></li>
+  <li class="active"><a href='vignette.html'>Vignette</a></li>
+  <li><a href='rd.html'>Reference</a></li>
+  <li><a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a></li>
+bibliography: triwise.bib
+---
+
+```{r global_options, include=FALSE}
+# R output pre blocks are styled by default to indicate output
+knitr::opts_chunk$set(comment = NA)
+
+# shorthand for rd_link() - see ?packagedocs::rd_link for more information
+rdl <- function(x) packagedocs::rd_link(deparse(substitute(x)))
+```
+
+# Expression preprocessing
+In this vignette we illustrate the triwise package using expression data from the three main cell populations contributing to adult tissue resident macrophages in mice (yolk-sac macrophages, fetal liver monocytes and bone marrow monocytes) from [this study](http://www.ncbi.nlm.nih.gov/pubmed/26992565) [@vandelaar_yolk_2016].
+
+```{r, message=FALSE}
+library(triwise)
+library(limma)
+library(Biobase)
+data(vandelaar)
+```
+
+This dataset contains log2 gene expression values from, among others, the three progenitors (`YS_MF`, `FL_mono` and `BM_mono`) as an `ExpressionSet` object, each with four biological replicates (samples). We first filter this dataset on only those samples in which we are interested (`Eoi_replicates`) and then calculate the average expression in the three biological conditions (`Eoi`).
+
+```{r, message=FALSE}
+Eoi_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("BM_mono", "FL_mono", "YS_MF")]
+dim(Eoi_replicates)
+
+Eoi <- limma::avearrays(Eoi_replicates, phenoData(Eoi_replicates)$celltype)
+Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
+dim(Eoi)
+colnames(Eoi)
+```
+
+# Plotting gene expression of three conditions
+
+We now transform this gene expression matrix to barycentric coordinates. This transformation will reduce the dimensionality of the gene expression data by one, and only retain the information of expression changes between samples.
+```{r}
+barycoords = transformBarycentric(Eoi)
+str(barycoords)
+```
+
+These barycentric coordinates can then be plotted in a 2D dotplot. In this plot every gene is represented by a single dot. The direction of a dot indicates in which condition(s) the gene is upregulated, while the distance from the origin represents the strength of upregulation (in the same order of magnitude as a log fold-change). Genes with the same expression in all three samples will all lie close to eachother in the center, regardless of the height of their absolute expression values. Points lying on a hexagon gridline all have the same maximal fold-change between any two pairwise comparisons.
+```{r, fig.width=8, fig.height=5}
+plotDotplot(barycoords)
+```
+Overall, the main difference in expression seems to be between the two monocytes (`FL_mono` and `BM_mono`) and the yolk sac macrophage (`YS_MF`). However, one can also appreciate the number of genes which are specifically upregulated in one of the two monocytes, or are shared between one monocyte and the yolk sac macrophage.
+
+We can use limma to determine which genes are differentially expressed in any of the three conditions and visualize these genes on the dotplot. The differentially expressed genes are shown in black.
+```{r}
+design = as(phenoData(Eoi_replicates), "data.frame")
+design$celltype = factor(as.character(design$celltype))
+design <- model.matrix(~0+celltype, design)
+fit <- lmFit(Eoi_replicates, design)
+fit = contrasts.fit(fit, matrix(c(1, -1, 0, 0, 1, -1, 1, 0, -1), ncol=3))
+fit = eBayes(fit)
+
+top = topTable(fit, p.value=0.05, lfc=1, number=Inf, sort.by = "none")
+Gdiffexp = rownames(top)
+```
+
+```{r, fig.width=8, fig.height=5}
+plotDotplot(barycoords, Gdiffexp)
+```
+
+We can also plot this as a rose plot, a polar histogram showing the directional distribution of the differentially expressed genes. When plotting all genes in this way it can give you a sense of the main expression changes between populations. As we will see later, it can also be used to visualize individual sets of genes.
+```{r}
+plotRoseplot(barycoords, Gdiffexp, relative = F)
+```
+
+The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image. Within the widget, genes of interest can be selected to show their labels on the outside of the plot.
+```{r, fig.width=8, fig.height=6}
+dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
+dotplot
+```
+
+# Analyzing functional diversity of three biological conditions
+
+One of the nice applications of analyzing three conditions at a time is that it allows you to find (partly) shared functional gene sets up or downregulated in one or two conditions. This is illustrated here for genes annotated with a particular function through GO.
+
+We first extract the relevant information of the genes sets from the Bioconductor annotation packages. We also filter the gene sets for genes within the expression datasets.
+```{r, message=FALSE, warning=FALSE}
+library(org.Mm.eg.db)
+library(GO.db)
+library(dplyr)
+gsets = AnnotationDbi::as.list(org.Mm.egGO2ALLEGS)
+gsets = sapply(gsets, function(gset) intersect(rownames(Eoi), unique(as.character(gset))))
+gsetindex = dplyr::bind_rows(lapply(AnnotationDbi::as.list(GOTERM[names(gsets)]), function(goinfo) {
+  tibble(name=Term(goinfo), definition=Definition(goinfo), ontology=Ontology(goinfo), gsetid = GOID(goinfo))
+}))
+gsets = gsets[gsetindex %>% filter(ontology == "BP") %>% .$gsetid]
+```
+
+We now test whether a gene set is specifically upregulated in a particular direction. This can be run in parallel using the mc.cores parameters (not available on Windows).
+```{r}
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 8)
+scores = left_join(scores, gsetindex, by="gsetid") %>% filter(qval < 0.05) %>% arrange(qval, z)
+```
+
+Results from GO enrichment tend to include a lot of redundancy because of large overlaps between individual GO terms. To improve interpretability, Triwise uses the "model-based gene set analysis" method 
+```{r}
+scores = scores[(scores$qval < 0.05) & (scores$z > 0.15), ]
+scores$redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
+```
+
+Non-redundant gene sets are upregulated in different directions.
+```{r}
+plotPvalplot(scores %>% top_n(20, redundancy), colnames(Eoi))
+```
+
+Individual gene sets can then again be plotted on a dotplot.
+```{r}
+gsetid = gsetindex$gsetid[gsetindex$name == "DNA replication"]
+cowplot::plot_grid(
+  plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]]) + ggplot2::theme(legend.position = "none"), 
+  plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]])
+)
+```
+
+We can also have a look at the top enriched gene sets.
+```{r, fig.width=10, fig.height=5}
+plots = lapply(scores %>% top_n(8, redundancy) %>% .$gsetid, function(gsetid) {
+  plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], showlabels = F) + 
+    ggplot2::theme(legend.position = "none") + 
+    ggplot2::ggtitle(gsetindex$name[match(gsetid, gsetindex$gsetid)] %>% strwrap(40) %>% paste(collapse="\n")) + 
+    ggplot2::theme(axis.text=ggplot2::element_text(size=14), plot.title=ggplot2::element_text(size=8,face="bold"))
+})
+
+cowplot::plot_grid(plotlist=plots, ncol=4)
+
+plots = lapply(scores %>% top_n(8, redundancy) %>% .$gsetid, function(gsetid) {
+  plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], showlabels = F) + 
+    ggplot2::theme(legend.position = "none") + 
+    ggplot2::ggtitle(gsetindex$name[match(gsetid, gsetindex$gsetid)] %>% strwrap(40) %>% paste(collapse="\n")) + 
+    ggplot2::theme(axis.text=ggplot2::element_text(size=14), plot.title=ggplot2::element_text(size=8,face="bold"))
+})
+
+cowplot::plot_grid(plotlist=plots, ncol=4)
+```
+
+It is for example clear that genes related to cell cycle initiation are upregulated in both monocytes, while genes associated with viral responses are downregulated in the FL monocyte.
+```{r}
+plotDotplot(barycoords, Gdiffexp, gsets[scores %>% top_n(3, redundancy) %>% .$gsetid])
+```
+
+# Visualizing changes in differential expression between pairs of biological conditions
+We can also visualize what happens to the expression differences when these three progenitor cells are transferred to the lungs (leading to them becoming alveolar macrophages).
+
+We first select those genes which are differentially expressed both between the original progenitor cells and between the transferred cells.
+```{r}
+diffexp <- function(E_replicates, c1, c2) {
+  design = as(phenoData(E_replicates)[phenoData(E_replicates)$celltype %in% c(c1,c2),], "data.frame")
+  design$celltype = factor(as.character(design$celltype), levels=c(c2, c1)) # relevel so that contrast is in the right direction
+  designmat = model.matrix(~0+celltype, design)
+  colnames(designmat) <- c("A","B")
+  fit <- lmFit(E_replicates[,rownames(design)[design$celltype %in% c(c1,c2)]],designmat)
+  contrastmat <- makeContrasts("B-A", levels=designmat)
+  fit = contrasts.fit(fit, contrastmat)
+  fit = eBayes(fit)
+  top = topTable(fit, p.value=0.1, lfc=1, number=Inf, sort.by = "none")
+  
+  list(up = rownames(top)[top$logFC > 1], down=rownames(top)[top$logFC < -1])
+}
+
+Goi = list(
+  YSup = intersect(diffexp(vandelaar, "YS_MF_AMF", "FL_mono_AMF")$up, diffexp(vandelaar, "YS_MF_AMF", "BM_mono_AMF")$up),
+  YSdown = intersect(diffexp(vandelaar, "YS_MF_AMF", "FL_mono_AMF")$down, diffexp(vandelaar, "YS_MF_AMF", "BM_mono_AMF")$down),
+  FLup = intersect(diffexp(vandelaar, "FL_mono_AMF", "BM_mono_AMF")$up, diffexp(vandelaar, "FL_mono_AMF", "YS_MF_AMF")$up),
+  FLdown = intersect(diffexp(vandelaar, "FL_mono_AMF", "BM_mono_AMF")$down, diffexp(vandelaar, "FL_mono_AMF", "YS_MF_AMF")$down),
+  BMup = intersect(diffexp(vandelaar, "BM_mono_AMF", "FL_mono_AMF")$up, diffexp(vandelaar, "BM_mono_AMF", "YS_MF_AMF")$up),
+  BMdown = intersect(diffexp(vandelaar, "BM_mono_AMF", "FL_mono_AMF")$down, diffexp(vandelaar, "BM_mono_AMF", "YS_MF_AMF")$down)
+)
+Goi = Filter(function(x) length(x>0), Goi)
+```
+
+We can now supply a second barycoords to the plotDotplot function. It is clear that the direction of upregulation of certain genes remains stable before and after transfer to the lungs. For other genes the specificity changes.
+```{r, fig.width=8, fig.height=5}
+Eoi2_replicates <- vandelaar[, phenoData(vandelaar)$celltype %in% c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
+Eoi2 <- limma::avearrays(Eoi2_replicates, phenoData(Eoi2_replicates)$celltype)
+Eoi2 = Eoi2[,c("YS_MF_AMF", "FL_mono_AMF", "BM_mono_AMF")]
+barycoords2 <- transformBarycentric(Eoi2)
+
+plotDotplot(barycoords, unlist(Goi), Goi=Goi, barycoords2 = barycoords2) + ggplot2::theme(legend.position="none")
+```
+
+# Session info
+```{r}
+sessionInfo()
+```
+
+# References

@@ -2,16 +2,16 @@
 % Please edit documentation in R/visualize.R
 \name{plotRoseplot}
 \alias{plotRoseplot}
-\title{plotRoseplot}
+\title{Plot the directional distribution of genes}
 \usage{
 plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
   Goi = rownames(barycoords), size = "surface", relative = T,
   showlabels = T, Coi = attr(barycoords, "conditions"), nbins = 12,
-  bincolors = rainbow(nbins, start = 0, v = 0.8, s = 0.6), rmax = "auto",
-  baseangle = 0)
+  bincolors = grDevices::rainbow(nbins, start = 0, v = 0.8, s = 0.6),
+  rmax = "auto", baseangle = 0)
 }
 \arguments{
-\item{barycoords}{Dataframe containing barycentric coordinates as returned by `transformBarycentric`}
+\item{barycoords}{Dataframe containing barycentric coordinates as returned by `r packagedocs::rd_link(transformBarycentric())`}
 
 \item{Gdiffexp}{List of differentially expressed genes}
 

@@ -2,9 +2,9 @@
 % Please edit documentation in R/analyze.R
 \name{testEnrichment}
 \alias{testEnrichment}
-\title{Simple test for enrichment in a given set of genes of interest (Goi)}
+\title{Simple fisher's exact test for enrichment in a given set of genes of interest (Goi)}
 \usage{
-testEnrichment(Goi, gsets, background, minknown = 2, minfound = 2,
+testEnrichment(Goi, gsets, background, minknown = 2, mindiffexp = 2,
   maxknown = 500)
 }
 \arguments{
@@ -13,6 +13,12 @@ testEnrichment(Goi, gsets, background, minknown = 2, minfound = 2,
 \item{gsets}{a GeneSetCollection or a}
 
 \item{background}{character vector}
+
+\item{minknown}{Minimal number of genes within a gene set for it to be considered for enrichment}
+
+\item{mindiffexp}{Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment}
+
+\item{maxknown}{Maximal number of genes within a gene set for it to be considered for enrichment}
 }
 \value{
 Dataframe containing for every gene set which passed the filtering: \itemize{
@@ -22,6 +28,6 @@ Dataframe containing for every gene set which passed the filtering: \itemize{
 }
 }
 \description{
-Simple test for enrichment in a given set of genes of interest (Goi)
+Simple fisher's exact test for enrichment in a given set of genes of interest (Goi)
 }
 

@@ -1,17 +1,17 @@
 #' Interactive triwise dotplot
 #'
-#' Draw an interactive triwise dotplot
+#' Draw an interactive triwise dotplot using a html widget
 #'
-#' @import htmlwidgets
-#'
+#' @inheritParams plotDotplot
 #' @param Eoi Expression matrix with the three conditions in the columns
-#' @param Gdiffexp Differentially expressed genes
-#' @param Goi List with genes of interest
 #' @param Glabels Labels for every gene if different from the rownames of `Eoi`
-#' @param Gpin Pinned genes
+#' @param Gpin Pinned genes, if `NULL` will automatically choose the top 20 most differentially expressed genes
+#' @param plotLocalEnrichment Whether to plot local enrichment as a ring around the dotplot
+#' @param width Width of the plot
+#' @param height Height of the plot
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=attr(barycoords, "conditions"), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=F, width = NULL, height = NULL) {
-  Eoi = Eoi[,c(1,3,2)]
+interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=colnames(Eoi), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=F, width = NULL, height = NULL) {
+  Eoi = Eoi[,c(1,3,2)] # reorder so that ordering corresponds to the ordering of plotDotplot
 
   barycoords = transformBarycentric(Eoi)
   barycoords = addPolar(barycoords)
@@ -31,7 +31,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glab
     }
   }
 
-  Gmap = setNames(seq(0, nrow(Eoi)), rownames(Eoi))
+  Gmap = stats::setNames(seq(0, nrow(Eoi)), rownames(Eoi))
 
   params <- list(
     Eoi = list(
@@ -48,7 +48,6 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glab
   )
   attr(params, 'TOJSON_FUNC') <- function(x) {jsonlite::toJSON(x, matrix="columnmajor")}
 
-  print(height)
   # create widget
   htmlwidgets::createWidget(
     'dotplot',
@@ -59,22 +58,22 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(barycoords), Goi=c(), Glab
   )
 }
 
-## pval plot
-
-#' <Add Title>
+#' Interactive plot of p-values
 #'
-#' <Add Description>
+#' Draw a dotplot of p-values using a htmlwidget
 #'
-#' @import htmlwidgets
-#'
+#' @inheritParams plotPvalplot
+#' @param gsetlabels Names of the gene sets, used for hovering
+#' @param width Width of the plot
+#' @param height Height of the plot
 #' @export
-interactivePvalplot <- function(scores, gsetlabels, labels, width = NULL, height = NULL) {
+interactivePvalplot <- function(scores, gsetlabels, Coi, width = NULL, height = NULL) {
   scores$logqval_unidir = log10(scores$qval)
   scores$logqval_unidir[is.infinite(log10(scores$qval))] = "-Inf"
   params <- list(
     scores = scores,
     gsetlabels = gsetlabels,
-    labels = labels
+    labels = Coi
   )
   attr(params, 'TOJSON_FUNC') <- function(x) {jsonlite::toJSON(x, matrix="columnmajor")}
 

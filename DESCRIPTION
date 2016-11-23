@@ -16,7 +16,13 @@ Imports:
     Rcpp,
     mgsa,
     ggplot2,
-    cowplot
+    cowplot,
+    dplyr,
+    MASS,
+    RColorBrewer,
+    jsonlite,
+    plyr,
+    scales
 RoxygenNote: 5.0.1
 Suggests: testthat,
     knitr,

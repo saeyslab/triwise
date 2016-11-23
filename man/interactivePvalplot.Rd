@@ -2,11 +2,22 @@
 % Please edit documentation in R/interactive.R
 \name{interactivePvalplot}
 \alias{interactivePvalplot}
-\title{<Add Title>}
+\title{Interactive plot of p-values}
 \usage{
-interactivePvalplot(scores, gsetlabels, labels, width = NULL, height = NULL)
+interactivePvalplot(scores, gsetlabels, Coi, width = NULL, height = NULL)
+}
+\arguments{
+\item{scores}{Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle}
+
+\item{gsetlabels}{Names of the gene sets, used for hovering}
+
+\item{Coi}{Names of the three biological conditions, only used for labelling}
+
+\item{width}{Width of the plot}
+
+\item{height}{Height of the plot}
 }
 \description{
-<Add Description>
+Draw a dotplot of p-values using a htmlwidget
 }
 

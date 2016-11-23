@@ -1,9 +1,6 @@
-#' @importFrom Rcpp evalCpp
-#' @useDynLib triwise
-
-#' @title Barycentric transformation matrix
+#' Barycentric transformation matrix
 #'
-#' @description Get the matrix for the barycentric transformation
+#' Get the matrix for the barycentric transformation
 #'
 #' @param anglebase Number of radians the first barycentric direction should be rotated anticlockwise
 #' @export
@@ -41,7 +38,7 @@ clipHexagon <- function(barypoints, rmax, baseangle=0) {
 
 areColors <- function(x) {
   sapply(x, function(X) {
-    tryCatch(is.matrix(col2rgb(X)),
+    tryCatch(is.matrix(grDevices::col2rgb(X)),
              error = function(e) FALSE)
   })
 }
@@ -50,7 +47,6 @@ betweenCircular <- function(angle, angle1, angle2) {
   (angle-angle1)%%(pi*2) < (angle2-angle1)
 }
 
-#' @export
 diffCircular <- function(a, b) {
   diff = (a-b)%%(2*pi)
   if (diff > pi) {
@@ -60,37 +56,31 @@ diffCircular <- function(a, b) {
   }
 }
 
-#' @export
 circularMean <- function(angles, rs=1){
   atan2(mean(sin(angles) * rs), mean(cos(angles) * rs))
 }
 
-#' @export
 circularZ <- function(angles) {
   sqrt(sum(cos(angles))**2 + sum(sin(angles))**2)/length(angles)
 }
 
-#' @export
-circularZ <- function(angles, rs) {
+circularZ <- function(angles, rs=1) {
   sqrt(sum(cos(angles) * rs)**2 + sum(sin(angles) * rs)**2)/length(angles)
 }
 
-
-
-#' @export
 jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}
 
 
 #' make a named list using the variable names (avoids repeating the same name twice)
+#' @param ... Arguments
 named.list <- function(...) {
   l <- list(...)
   names(l) <- sapply(substitute(list(...)), deparse)[-1]
   l
 }
 
-#'
 seqClosed <- function(a=0, b, length) {
-  head(seq(a, b, length=length+1), -1)
+  utils::head(seq(a, b, length=length+1), -1)
 }
 
 
