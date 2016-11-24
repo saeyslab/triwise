@@ -312,10 +312,10 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, 
 
   if (!is.null(colorby)) {
     scores$colorby = scores[,colorby]
-    color = scale_color_continuous()
+    color = ggplot2::scale_color_continuous()
   } else {
     scores$colorby = factor(1)
-    color = scale_color_manual(values=c(`1`="#333333"))
+    color = ggplot2::scale_color_manual(values=c(`1`="#333333"))
   }
 
   plot = plot + ggplot2::geom_point(ggplot2::aes(x=x, y=y, color=colorby), data=scores, size=1) + color

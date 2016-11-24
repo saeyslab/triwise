@@ -13,6 +13,7 @@ using namespace Rcpp;
 //' @param samplesize
 //' @param nangles
 //' @param bw
+//' @export
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
 List backgroundModel2(NumericVector angles, NumericVector R, int nsamples, int samplesize, NumericVector anglesoi, double bw) {

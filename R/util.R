@@ -1,3 +1,7 @@
+#' @importFrom Rcpp evalCpp
+#' @useDynLib triwise
+
+
 #' Barycentric transformation matrix
 #'
 #' Get the matrix for the barycentric transformation

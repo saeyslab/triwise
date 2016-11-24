@@ -110,7 +110,7 @@ gsets = gsets[gsetindex %>% filter(ontology == "BP") %>% .$gsetid]
 
 We now test whether a gene set is specifically upregulated in a particular direction. This can be run in parallel using the mc.cores parameters (not available on Windows).
 ```{r}
-scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 8)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 1)
 scores = left_join(scores, gsetindex, by="gsetid") %>% filter(qval < 0.05) %>% arrange(qval, z)
 ```
 
