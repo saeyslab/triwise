@@ -19,4 +19,15 @@ Numeric vector containing for every gene set (in the same order the scores dataf
 \description{
 Wrapper around the `mgsa` method
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+barycoords = transformBarycentric(Eoi)
+Gdiffexp = (1:1000)[barycoords$r > 1]
+
+gsets = list(a=1:50, b=c(1:50, 100:110), c=200:500) # a and b are redundant, but a is stronger enriched
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
+scores$redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
+scores[scores$gsetid == "a", "redundancy"] > scores[scores$gsetid == "b", "redundancy"]
+}
 

@@ -17,4 +17,10 @@ Dataframe containing for every original point its new coordinates in `d-1` dimen
 \description{
 Converts the expression matrix containing three biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 1
+barycoords = transformBarycentric(Eoi)
+hist(barycoords$angle)
+}
 

@@ -1,5 +1,7 @@
 #' @importFrom Rcpp evalCpp
 #' @useDynLib triwise
+x <- 1
+
 
 
 #' Barycentric transformation matrix
@@ -74,7 +76,6 @@ circularZ <- function(angles, rs=1) {
 
 jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}
 
-
 #' make a named list using the variable names (avoids repeating the same name twice)
 #' @param ... Arguments
 named.list <- function(...) {
@@ -86,8 +87,6 @@ named.list <- function(...) {
 seqClosed <- function(a=0, b, length) {
   utils::head(seq(a, b, length=length+1), -1)
 }
-
-
 
 roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10)) {
   if(length(x) != 1) stop("'x' must be of length 1")

@@ -63,6 +63,13 @@ drawGridBasis <- function() {
 #' @param rmax Number or "auto" (default), denotes the maximal radius of the grid.
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @return A ggplot2 plot, which can be used to further customize the plot
+#' @examples
+#' Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+#' Eoi[1:100,1] = Eoi[1:100,1] + 1
+#' barycoords = transformBarycentric(Eoi)
+#' plotRoseplot(barycoords)
+#' plotRoseplot(barycoords, (1:1000)[barycoords$r > 1])
+#' plotRoseplot(barycoords, (1:1000)[barycoords$r > 1], 1:100)
 #' @export
 plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=grDevices::rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
   deltaalpha = pi*2/nbins
@@ -219,10 +226,19 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @examples
 #' data(vandelaar)
-#' Eoi <- limma::avearrays(vandelaar, phenoData(vandelaar)$celltype)
+#' Eoi <- limma::avearrays(vandelaar, Biobase::phenoData(vandelaar)$celltype)
 #' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 #' barycoords = transformBarycentric(Eoi)
 #' plotDotplot(barycoords)
+#'
+#' Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+#' Eoi[1:100,1] = Eoi[1:100,1] + 1
+#' barycoords = transformBarycentric(Eoi)
+#' Gdiffexp =(1:1000)[barycoords$r > 1]
+#' plotDotplot(barycoords)
+#' plotDotplot(barycoords, Gdiffexp)
+#' plotDotplot(barycoords, Gdiffexp, 1:100)
+#' plotDotplot(barycoords, Gdiffexp, list(a=1:100, b=sample(100:1000, 50)))
 #'
 #' @return A ggplot2 plot, which can be used for further customization
 #' @export
@@ -301,6 +317,15 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #' @param colorby Column in `scores` used for coloring
 #' @param showlabels Whether to show labels on the grid
 #' @param baseangle The angle by which to rotate the whole plot (default to `0`)
+#' @examples
+#' Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+#' Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+#' barycoords = transformBarycentric(Eoi)
+#'
+#' gsets = list(a=1:50, b=80:150, c=200:500)
+#' scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
+#'
+#' plotPvalplot(scores)
 #' @export
 plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")

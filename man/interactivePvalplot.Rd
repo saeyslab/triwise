@@ -20,4 +20,14 @@ interactivePvalplot(scores, gsetlabels, Coi, width = NULL, height = NULL)
 \description{
 Draw a dotplot of p-values using a htmlwidget
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+barycoords = transformBarycentric(Eoi)
+
+gsets = list(a=1:50, b=80:150, c=200:500)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
+
+interactivePvalplot(scores, as.list(setNames(names(gsets), names(gsets))), 1:3)
+}
 

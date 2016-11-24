@@ -17,4 +17,11 @@ Matrix containing for every gene original expression values centered around 0
 \description{
 Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant for each gene).
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 1
+barycoords = transformBarycentric(Eoi)
+reversebarycoords = transformReverseBarycentric(barycoords)
+all.equal(scale(t(Eoi)), scale(t(reversebarycoords)), check.attributes=FALSE)
+}
 

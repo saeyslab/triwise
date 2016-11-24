@@ -10,9 +10,9 @@ testEnrichment(Goi, gsets, background, minknown = 2, mindiffexp = 2,
 \arguments{
 \item{Goi}{character vector containing the genes tested for enrichment}
 
-\item{gsets}{a GeneSetCollection or a}
+\item{gsets}{List of character vectors, each containing a set of genes (gene identifiers)}
 
-\item{background}{character vector}
+\item{background}{character vector containing background gene identifiers}
 
 \item{minknown}{Minimal number of genes within a gene set for it to be considered for enrichment}
 
@@ -29,5 +29,11 @@ Dataframe containing for every gene set which passed the filtering: \itemize{
 }
 \description{
 Simple fisher's exact test for enrichment in a given set of genes of interest (Goi)
+}
+\examples{
+Goi = 1:50
+gsets = list(a= 20:70, b = 45:80)
+background = 1:100
+testEnrichment(Goi, gsets, background)
 }
 

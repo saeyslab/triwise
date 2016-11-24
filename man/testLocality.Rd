@@ -17,7 +17,19 @@ testLocality(Goi, Gdiffexp, angles, deltangle = pi/24, bandwidth = pi/3)
 
 \item{bandwidth}{Bandwidth of angles}
 }
+\value{
+Corrected p-values for enrichment around every angle
+}
 \description{
 Tests for local upregulation locally in certain directions
+}
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+barycoords = transformBarycentric(Eoi)
+
+Goi = 1:50
+qvals = testLocality(Goi, Gdiffexp=(1:1000)[barycoords$r > 1], barycoords)
+plot(attr(qvals, "anglesoi"), qvals)
 }
 

@@ -39,4 +39,12 @@ A ggplot2 plot, which can be used to further customize the plot
 \description{
 A rose plot shows the distribution of a given set of genes in different directions.
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 1
+barycoords = transformBarycentric(Eoi)
+plotRoseplot(barycoords)
+plotRoseplot(barycoords, (1:1000)[barycoords$r > 1])
+plotRoseplot(barycoords, (1:1000)[barycoords$r > 1], 1:100)
+}
 

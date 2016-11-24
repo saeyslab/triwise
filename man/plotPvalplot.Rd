@@ -21,4 +21,14 @@ plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL, showlabels = T,
 \description{
 Plots each enriched gene set as a dot on a dotplot
 }
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+barycoords = transformBarycentric(Eoi)
+
+gsets = list(a=1:50, b=80:150, c=200:500)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
+
+plotPvalplot(scores)
+}
 

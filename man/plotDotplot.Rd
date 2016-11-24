@@ -48,10 +48,19 @@ Plot a dotplot
 }
 \examples{
 data(vandelaar)
-Eoi <- limma::avearrays(vandelaar, phenoData(vandelaar)$celltype)
+Eoi <- limma::avearrays(vandelaar, Biobase::phenoData(vandelaar)$celltype)
 Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 barycoords = transformBarycentric(Eoi)
 plotDotplot(barycoords)
+
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 1
+barycoords = transformBarycentric(Eoi)
+Gdiffexp =(1:1000)[barycoords$r > 1]
+plotDotplot(barycoords)
+plotDotplot(barycoords, Gdiffexp)
+plotDotplot(barycoords, Gdiffexp, 1:100)
+plotDotplot(barycoords, Gdiffexp, list(a=1:100, b=sample(100:1000, 50)))
 
 }
 

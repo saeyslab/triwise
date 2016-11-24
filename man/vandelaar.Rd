@@ -13,7 +13,7 @@ vandelaar
 }
 \description{
 This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice
-Note that due to size restrictions of Bioconductor, some non-differentially expressed genes are not included in the dataset
+Note that due to size restrictions of Bioconductor, half of non-differentially expressed genes are not included in the dataset
 }
 \keyword{datasets}
 

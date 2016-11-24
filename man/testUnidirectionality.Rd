@@ -16,14 +16,14 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
 \item{Gdiffexp}{Differentially expressed genes}
 
 \item{statistic}{A string denoting the measure used for the strength of upregulation of a particular gene. \itemize{
-  \item diffexp: Wheter a gene is differentially expressed (1 versus 0)
+  \item diffexp: Whether a gene is differentially expressed (1 versus 0)
   \item rank: The rank of the maximal log fold-change
   \item r: The maximal log fold-change
   \item z: Custom using the z-column within barycoords
   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
 }}
 
-\item{bm}{Previously calculated background model using the `generateBackgroundModel` function}
+\item{bm}{Previously calculated background model using the `generateBackgroundModel`}
 
 \item{minknown}{Minimal number of genes within a gene set for it to be considered for enrichment}
 
@@ -31,7 +31,7 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
 
 \item{maxknown}{Maximal number of genes within a gene set for it to be considered for enrichment}
 
-\item{mc.cores}{Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows}
+\item{mc.cores}{Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows}
 }
 \value{
 Dataframe containing for every gene set which passed the filtering: \itemize{
@@ -42,5 +42,13 @@ Dataframe containing for every gene set which passed the filtering: \itemize{
 }
 \description{
 Test gene sets for unidirectional enrichment
+}
+\examples{
+Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
+Eoi[1:100,1] = Eoi[1:100,1] + 4 # the first 100 genes are more upregulated in the first condition
+barycoords = transformBarycentric(Eoi)
+
+gsets = list(a=1:50, b=80:150, c=200:500)
+testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
 }
 
