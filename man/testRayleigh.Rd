@@ -16,7 +16,7 @@ P-value of unidirectionality under the uniformity null hypothesis
 Rayleigh z-test implementation
 }
 \examples{
-testRayleigh(as.numeric(circular::rvonmises(10, 1, 2)))
+testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))
 testRayleigh(seq(0, 2*pi, 0.1))
 }
 

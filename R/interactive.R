@@ -14,16 +14,21 @@
 #' Eoi <- limma::avearrays(vandelaar, Biobase::phenoData(vandelaar)$celltype)
 #' Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 #' barycoords = transformBarycentric(Eoi)
+#' \dontrun{
 #' interactiveDotplot(barycoords)
+#' }
 #'
 #' Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
 #' Eoi[1:100,1] = Eoi[1:100,1] + 1
 #' barycoords = transformBarycentric(Eoi)
 #' Gdiffexp =(1:1000)[barycoords$r > 1]
+#'
+#' \dontrun{
 #' interactiveDotplot(Eoi)
 #' interactiveDotplot(Eoi, Gdiffexp)
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000))
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
+#' }
 #' @export
 interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=colnames(Eoi), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=F, width = NULL, height = NULL) {
   Eoi = Eoi[,c(1,3,2)] # reorder so that ordering corresponds to the ordering of plotDotplot
@@ -88,8 +93,9 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=row
 #'
 #' gsets = list(a=1:50, b=80:150, c=200:500)
 #' scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
-#'
+#' \dontrun{
 #' interactivePvalplot(scores, as.list(setNames(names(gsets), names(gsets))), 1:3)
+#' }
 #' @export
 interactivePvalplot <- function(scores, gsetlabels, Coi, width = NULL, height = NULL) {
   scores$logqval_unidir = log10(scores$qval)

@@ -27,7 +27,8 @@ barycoords = transformBarycentric(Eoi)
 
 gsets = list(a=1:50, b=80:150, c=200:500)
 scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
-
+\dontrun{
 interactivePvalplot(scores, as.list(setNames(names(gsets), names(gsets))), 1:3)
+}
 }
 

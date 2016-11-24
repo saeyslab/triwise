@@ -49,15 +49,20 @@ data(vandelaar)
 Eoi <- limma::avearrays(vandelaar, Biobase::phenoData(vandelaar)$celltype)
 Eoi = Eoi[,c("YS_MF", "FL_mono", "BM_mono")]
 barycoords = transformBarycentric(Eoi)
+\dontrun{
 interactiveDotplot(barycoords)
+}
 
 Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
 Eoi[1:100,1] = Eoi[1:100,1] + 1
 barycoords = transformBarycentric(Eoi)
 Gdiffexp =(1:1000)[barycoords$r > 1]
+
+\dontrun{
 interactiveDotplot(Eoi)
 interactiveDotplot(Eoi, Gdiffexp)
 interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000))
 interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
+}
 }
 

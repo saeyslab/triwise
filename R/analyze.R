@@ -53,7 +53,7 @@ transformReverseBarycentric = function(barycoords, transfomatrix=NULL) {
 #' @param angles Numeric vector containing angles in radians
 #' @return P-value of unidirectionality under the uniformity null hypothesis
 #' @examples
-#' testRayleigh(as.numeric(circular::rvonmises(10, 1, 2)))
+#' testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))
 #' testRayleigh(seq(0, 2*pi, 0.1))
 #' @export
 testRayleigh = function(angles) {
