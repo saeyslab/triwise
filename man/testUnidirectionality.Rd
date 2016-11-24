@@ -23,7 +23,7 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
 }}
 
-\item{bm}{Previously calculated background model using the `generateBackgroundModel`}
+\item{bm}{Previously calculated background model using the `r packagedocs::rd_link(generateBackgroundModel())`}
 
 \item{minknown}{Minimal number of genes within a gene set for it to be considered for enrichment}
 

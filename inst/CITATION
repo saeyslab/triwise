@@ -1,19 +1,15 @@
-
-@article{vandelaar_yolk_2016,
-  title = {Yolk Sac Macrophages, Fetal Liver, and Adult Monocytes Can Colonize an Empty Niche and Develop into Functional Tissue-Resident Macrophages},
-  volume = {44},
-  issn = {1074-7613},
-  doi = {10.1016/j.immuni.2016.02.017},
-  abstract = {Summary
-Tissue-resident macrophages can derive from yolk sac macrophages (YS-Macs), fetal liver monocytes (FL-MOs), or adult bone-marrow monocytes (BM-MOs). The relative capacity of these precursors to colonize a niche, self-maintain, and perform tissue-specific functions is unknown. We simultaneously transferred traceable YS-Macs, FL-MOs, and BM-MOs into the empty alveolar macrophage (AM) niche of neonatal Csf2rb-/- mice. All subsets produced AMs, but in competition preferential outgrowth of FL-MOs was observed, correlating with their superior granulocyte macrophage-colony stimulating factor (GM-CSF) reactivity and proliferation capacity. When transferred separately, however, all precursors efficiently colonized the alveolar niche and generated AMs that were transcriptionally almost identical, self-maintained, and durably prevented alveolar proteinosis. Mature liver, peritoneal, or colon macrophages could not efficiently colonize the empty AM niche, whereas mature AMs could. Thus, precursor origin does not affect the development of functional self-maintaining tissue-resident macrophages and the plasticity of the mononuclear phagocyte system is largest at the precursor stage.},
-  timestamp = {2016-11-21T13:47:46Z},
-  number = {4},
-  urldate = {2016-11-21},
-  journal = {Immunity},
-  author = {{van~de~Laar}, Lianne and Saelens, Wouter and De~Prijck, Sofie and Martens, Liesbet and Scott, Charlotte~L. and Van~Isterdael, Gert and Hoffmann, Eik and Beyaert, Rudi and Saeys, Yvan and Lambrecht, Bart~N. and Guilliams, Martin},
-  month = apr,
-  year = {2016},
-  pages = {755--768}
-}
-
-
+citHeader("To cite the triwise package in publications, use:")
+citEntry(entry="Article",
+    author = personList(as.person("Lianne van de Laar"), as.person("Wouter Saelens"), as.person("Sofie De Prijck"), as.person("Liesbet Martens"), as.person("Charlotte L. Scott"), as.person("Gert Van Isterdael"), as.person("Eik Hoffmann"), as.person("Rudi Beyaert"), as.person("Yvan Saeys"), as.person("Bart N. Lambrecht"), as.person("Martin Guilliams")),
+    journal = "Immunity",
+    year=2016,
+    volume=44,
+    issn="1074-7613",
+    doi="10.1016/j.immuni.2016.02.017",
+    title="Yolk Sac Macrophages, Fetal Liver, and Adult Monocytes Can Colonize an Empty Niche and Develop into Functional Tissue-Resident Macrophages.",
+    abstract = "Tissue-resident macrophages can derive from yolk sac macrophages (YS-Macs), fetal liver monocytes (FL-MOs), or adult bone-marrow monocytes (BM-MOs). The relative capacity of these precursors to colonize a niche, self-maintain, and perform tissue-specific functions is unknown. We simultaneously transferred traceable YS-Macs, FL-MOs, and BM-MOs into the empty alveolar macrophage (AM) niche of neonatal Csf2rb-/- mice. All subsets produced AMs, but in competition preferential outgrowth of FL-MOs was observed, correlating with their superior granulocyte macrophage-colony stimulating factor (GM-CSF) reactivity and proliferation capacity. When transferred separately, however, all precursors efficiently colonized the alveolar niche and generated AMs that were transcriptionally almost identical, self-maintained, and durably prevented alveolar proteinosis. Mature liver, peritoneal, or colon macrophages could not efficiently colonize the empty AM niche, whereas mature AMs could. Thus, precursor origin does not affect the development of functional self-maintaining tissue-resident macrophages and the plasticity of the mononuclear phagocyte system is largest at the precursor stage.",
+    number=4,
+    mont="apr",
+    pages="755--768",
+    textVersion="Yolk Sac Macrophages, Fetal Liver, and Adult Monocytes Can Colonize an Empty Niche and Develop into Functional Tissue-Resident Macrophages. van de Laar, Lianne et al. Immunity, Volume 44, Issue 4, 755 - 768"
+)
