@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc" />
+
+    <meta name="author" content="Wouter Saelens" />
+  
+  
+  <title>Triwise</title>
+
+    <script src="index_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="index_files/bootstrap-3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="index_files/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+  <script src="index_files/bootstrap-3.3.2/shim/html5shiv.min.js"></script>
+  <script src="index_files/bootstrap-3.3.2/shim/respond.min.js"></script>
+  <link href="index_files/highlight-8.4/tomorrow.css" rel="stylesheet" />
+  <script src="index_files/highlight-8.4/highlight.pack.js"></script>
+  <link href="index_files/fontawesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+  <script src="index_files/stickykit-1.1.1/sticky-kit.min.js"></script>
+  <script src="index_files/jqueryeasing-1.3/jquery.easing.min.js"></script>
+  <link href="index_files/recliner-0.2.2/recliner.css" rel="stylesheet" />
+  <script src="index_files/recliner-0.2.2/recliner.min.js"></script>
+  <script src="index_files/recliner-0.2.2/onload.js"></script>
+  <link href="index_files/packagedocs-0.0.1/pd.css" rel="stylesheet" />
+  <script src="index_files/packagedocs-0.0.1/pd.js"></script>
+  <script src="index_files/packagedocs-0.0.1/pd-sticky-toc.js"></script>
+  
+  
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+<body>
+
+  
+  <header class="navbar navbar-white navbar-fixed-top" role="banner" id="header">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                <a href="index.html" class="navbar-brand page-scroll">
+        Triwise - Overview
+        </a>
+      </div>
+            <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav nav-pills pull-right">
+<li class="active">
+<a href='index.html'>Overview</a>
+</li>
+<li>
+<a href='vignette.html'>Vignette</a>
+</li>
+<li>
+<a href='rd.html'>Reference</a>
+</li>
+<li>
+<a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a>
+</li>
+        </ul>
+      </nav>
+          </div>
+  </header>
+
+  <!-- Begin Body -->
+  <div class="container">
+    <div class="row">
+            <div class="col-md-3" id="sidebar-col">
+        <div id="toc">
+          <ul>
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#funding">Funding</a></li>
+          <li><a href="#references">References</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9" id="content-col">
+      
+<div id="content-top"></div>
+<div class="figure">
+<img src="logo_small.png" />
+
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Triwise is an R package to visualize and analyze gene expression data among three biological conditions. Triwise allows the generation of publication-ready plots to give a general overview of the expression differences between the three conditions and certain genes of interest. Triwise can also be used to detect functional gene sets coherently upregulated in one or two of the biological conditions. One application of this method can be found in <a href="http://www.ncbi.nlm.nih.gov/pubmed/26992565">this study</a> <span class="citation">(van de Laar et al. 2016)</span>, which is further worked out in the <a href="vignette.html">vignette</a>.</p>
+<div class="figure">
+<img src="interactive.png" title="Example of a triwise plot with annotated genes" />
+
+</div>
+<p>The three biological conditions can be related in different ways:</p>
+<div class="figure">
+<img src="setups.png" title="Possible experimental set-ups" />
+
+</div>
+<ul>
+<li>One progenitor cell population and two alternative daughter cell populations</li>
+<li>One normal condition and two alternative genetic or environmental perturbations</li>
+<li>Two population which are of prime interest but one “reference” population. This would allow you to find the common genes between the two populations of interest compared with the reference, but also what genes are specific to one population.</li>
+<li>Three different biological conditions. A worked out example of this can be found in the <a href="vignette.html">vignette</a></li>
+</ul>
+</div>
+<div id="funding" class="section level1">
+<h1>Funding</h1>
+<p><a href="http://www.fwo.be"><img src="fwo_small.png" /></a> <a href="http://www.ugent.be"><img src="logo_UGent_EN_RGB_2400_color-on-white_small.png" /></a> <a href="http://irc.ugent.be"><img src="VIB-IRC-logo-compact_small.jpg" /></a></p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-vandelaar_yolk_2016">
+<p>van de Laar, Lianne, Wouter Saelens, Sofie De Prijck, Liesbet Martens, Charlotte L. Scott, Gert Van Isterdael, Eik Hoffmann, et al. 2016. “Yolk Sac Macrophages, Fetal Liver, and Adult Monocytes Can Colonize an Empty Niche and Develop into Functional Tissue-Resident Macrophages.” <em>Immunity</em> 44 (4): 755–68. doi:<a href="https://doi.org/10.1016/j.immuni.2016.02.017">10.1016/j.immuni.2016.02.017</a>.</p>
+</div>
+</div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <div class="col-md-6">
+                <p>&copy; GPL-3, 2016</p>
+              </div>
+      <div class="col-md-6">
+        <p class="pull-right">created with <a href="https://github.com/hafen/packagedocs">packagedocs</a>
+                  </p>
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+</html>

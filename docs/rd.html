@@ -1,0 +1,1088 @@
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc" />
+
+    <meta name="author" content="Wouter Saelens" />
+  
+  
+  <title>Triwise</title>
+
+    <script src="rd_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="rd_files/bootstrap-3.3.2/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="rd_files/bootstrap-3.3.2/js/bootstrap.min.js"></script>
+  <script src="rd_files/bootstrap-3.3.2/shim/html5shiv.min.js"></script>
+  <script src="rd_files/bootstrap-3.3.2/shim/respond.min.js"></script>
+  <link href="rd_files/highlight-8.4/tomorrow.css" rel="stylesheet" />
+  <script src="rd_files/highlight-8.4/highlight.pack.js"></script>
+  <link href="rd_files/fontawesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+  <script src="rd_files/stickykit-1.1.1/sticky-kit.min.js"></script>
+  <script src="rd_files/jqueryeasing-1.3/jquery.easing.min.js"></script>
+  <link href="rd_files/recliner-0.2.2/recliner.css" rel="stylesheet" />
+  <script src="rd_files/recliner-0.2.2/recliner.min.js"></script>
+  <script src="rd_files/recliner-0.2.2/onload.js"></script>
+  <link href="rd_files/packagedocs-0.0.1/pd.css" rel="stylesheet" />
+  <script src="rd_files/packagedocs-0.0.1/pd.js"></script>
+  <script src="rd_files/packagedocs-0.0.1/pd-sticky-toc.js"></script>
+  
+  
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+
+<body>
+
+  
+  <header class="navbar navbar-white navbar-fixed-top" role="banner" id="header">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+                <a href="index.html" class="navbar-brand page-scroll">
+        Triwise - Reference
+        </a>
+      </div>
+            <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav nav-pills pull-right">
+<li>
+<a href='index.html'>Overview</a>
+</li>
+<li>
+<a href='vignette.html'>Vignette</a>
+</li>
+<li class="active">
+<a href='rd.html'>Reference</a>
+</li>
+<li>
+<a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a>
+</li>
+        </ul>
+      </nav>
+          </div>
+  </header>
+
+  <!-- Begin Body -->
+  <div class="container">
+    <div class="row">
+            <div class="col-md-3" id="sidebar-col">
+        <div id="toc">
+          <ul>
+          <li><a href="#datasets-available-by-data">Datasets available by data()</a><ul>
+          <li><a href="#vandelaar">vandelaar</a></li>
+          </ul></li>
+          <li><a href="#package-functions">Package Functions</a><ul>
+          <li><a href="#estimateredundancy">estimateRedundancy</a></li>
+          <li><a href="#generatebackgroundmodel">generateBackgroundModel</a></li>
+          <li><a href="#gettransformationmatrix">getTransformationMatrix</a></li>
+          <li><a href="#interactivedotplot">interactiveDotplot</a></li>
+          <li><a href="#interactivepvalplot">interactivePvalplot</a></li>
+          <li><a href="#named.list">named.list</a></li>
+          <li><a href="#plotdotplot">plotDotplot</a></li>
+          <li><a href="#plotpvalplot">plotPvalplot</a></li>
+          <li><a href="#plotroseplot">plotRoseplot</a></li>
+          <li><a href="#testenrichment">testEnrichment</a></li>
+          <li><a href="#testlocality">testLocality</a></li>
+          <li><a href="#testrayleigh">testRayleigh</a></li>
+          <li><a href="#testunidirectionality">testUnidirectionality</a></li>
+          <li><a href="#transformbarycentric">transformBarycentric</a></li>
+          <li><a href="#transformreversebarycentric">transformReverseBarycentric</a></li>
+          </ul></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-9" id="content-col">
+      
+<div id="content-top"></div>
+<h1>
+Gene expression changes in three biological conditions
+</h1>
+<p>
+<strong>Authors:</strong> <a href="mailto:wouter.saelens@gmail.com">Wouter Saelens</a> [aut, cre]
+</p>
+<p>
+<strong>Version:</strong> 0.0.0.9000
+</p>
+<p>
+<strong>License:</strong> GPL-3
+</p>
+<h4>
+Description
+</h4>
+<p>
+The triwise package provides function to analyze and visualize gene expression in three biological conditions. Gene expression is converted to a barycentric representation allowing the representation of each gene in a 2D plane.
+</p>
+<h4>
+Depends
+</h4>
+<p>
+R (&gt;= 3.2.3)
+</p>
+<h4>
+Imports
+</h4>
+<p>
+htmlwidgets, GSEABase, circular, limma, tidyverse, Rcpp, mgsa, ggplot2, cowplot, dplyr, MASS, RColorBrewer, jsonlite, plyr, scales
+</p>
+<h4>
+Suggests
+</h4>
+<p>
+testthat, knitr, rmarkdown, BiocStyle, packagedocs
+</p>
+<div id="datasets-available-by-data" class="section level1">
+<h1>Datasets available by data()</h1>
+<div id="vandelaar" class="section level2">
+<h2>vandelaar</h2>
+<a id="vandelaar_alias"></a>
+<h3>
+Expression dataset from van de Laar et al. 2016
+</h3>
+<p class="rd-p">
+This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice Note that due to size restrictions of Bioconductor, some non-differentially expressed genes are not included in the dataset
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>vandelaar</div></code></pre>
+<h4>
+Format
+</h4>
+<p class="rd-p">
+An object of class <code>ExpressionSet</code> with 11679 rows and 24 columns.
+</p>
+<h4>
+Source
+</h4>
+<p class="rd-p">
+<a href = https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76999>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76999</a>
+</p>
+</div>
+</div>
+<div id="package-functions" class="section level1">
+<h1>Package Functions</h1>
+<div id="estimateredundancy" class="section level2">
+<h2>estimateRedundancy</h2>
+<a id="estimateRedundancy_alias"></a>
+<h3>
+Estimates the redundancy of enriched gene sets
+</h3>
+<p class="rd-p">
+Wrapper around the <code>mgsa</code> method
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>estimateRedundancy(scores, gsets, Gdiffexp)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+scores
+</dt>
+<dd class="rd-dd">
+Dataframe from <code><a href='rd.html#testUnidirectionality_alias'>testUnidirectionality</a>()</code> containing the filtered enrichment scores for every gene set
+</dd>
+<dt>
+gsets
+</dt>
+<dd class="rd-dd">
+Named list containing character vectors for each gene set
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+Character vector of differentially expressed genes
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+Numeric vector containing for every gene set (in the same order the scores dataframe) its relevance compared with other gene sets, higher is better
+</dl>
+</p>
+</div>
+<div id="generatebackgroundmodel" class="section level2">
+<h2>generateBackgroundModel</h2>
+<a id="generateBackgroundModel_alias"></a>
+<h3>
+Generate background models
+</h3>
+<p class="rd-p">
+Generates a background model by randomly resampling genes at different <code>n</code> (number of genes) and angles and calculating z distributions
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>generateBackgroundModel(barycoords, noi&nbsp;=&nbsp;seq(5, 100, 5), anglesoi&nbsp;=&nbsp;seqClosed(0, 2 * pi, 24), nsamples&nbsp;=&nbsp;1e+05, bw&nbsp;=&nbsp;20, mc.cores&nbsp;=&nbsp;getOption("mc.cores", default&nbsp;=&nbsp;1))</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+barycoords
+</dt>
+<dd class="rd-dd">
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+</dd>
+<dt>
+noi
+</dt>
+<dd class="rd-dd">
+Integer vector denoting the number of genes at which to sample, the larger the more accurate the p-values
+</dd>
+<dt>
+anglesoi
+</dt>
+<dd class="rd-dd">
+Numeric vector denoting the angles (in radians) at which to pre-calculate null distribution, the larger the more accurate the p-values
+</dd>
+<dt>
+nsamples
+</dt>
+<dd class="rd-dd">
+Number of samples, higher for more accurate and stable p-values
+</dd>
+<dt>
+bw
+</dt>
+<dd class="rd-dd">
+Bandwidth of the von-mises distribution for weighing the samples. A higher bandwidth leads to a more accurate p-value estimate as long as <code>nsamples</code> is high enough
+</dd>
+<dt>
+mc.cores
+</dt>
+<dd class="rd-dd">
+Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows
+</dd>
+</dl>
+</div>
+<div id="gettransformationmatrix" class="section level2">
+<h2>getTransformationMatrix</h2>
+<a id="getTransformationMatrix_alias"></a>
+<h3>
+Barycentric transformation matrix
+</h3>
+<p class="rd-p">
+Get the matrix for the barycentric transformation
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>getTransformationMatrix(anglebase&nbsp;=&nbsp;0)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+anglebase
+</dt>
+<dd class="rd-dd">
+Number of radians the first barycentric direction should be rotated anticlockwise
+</dd>
+</dl>
+</div>
+<div id="interactivedotplot" class="section level2">
+<h2>interactiveDotplot</h2>
+<a id="interactiveDotplot_alias"></a>
+<h3>
+Interactive triwise dotplot
+</h3>
+<p class="rd-p">
+Draw an interactive triwise dotplot using a html widget
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>interactiveDotplot(Eoi, Gdiffexp&nbsp;=&nbsp;rownames(Eoi), Goi&nbsp;=&nbsp;c(), Glabels&nbsp;=&nbsp;rownames(Eoi), Gpin&nbsp;=&nbsp;c(), Coi&nbsp;=&nbsp;colnames(Eoi), colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, sizevalues&nbsp;=&nbsp;c(T&nbsp;=&nbsp;2, F&nbsp;=&nbsp;0.5), alphavalues&nbsp;=&nbsp;c(T&nbsp;=&nbsp;0.8, F&nbsp;=&nbsp;0.8), plotLocalEnrichment&nbsp;=&nbsp;F, width&nbsp;=&nbsp;NULL, height&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+Eoi
+</dt>
+<dd class="rd-dd">
+Expression matrix with the three conditions in the columns
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+Differentially expressed genes
+</dd>
+<dt>
+Goi
+</dt>
+<dd class="rd-dd">
+Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
+</dd>
+<dt>
+Glabels
+</dt>
+<dd class="rd-dd">
+Labels for every gene if different from the rownames of <code>Eoi</code>
+</dd>
+<dt>
+Gpin
+</dt>
+<dd class="rd-dd">
+Pinned genes, if <code>NULL</code> will automatically choose the top 20 most differentially expressed genes
+</dd>
+<dt>
+Coi
+</dt>
+<dd class="rd-dd">
+Character vector specifying the names of the three biological conditions, used for labelling
+</dd>
+<dt>
+colorvalues
+</dt>
+<dd class="rd-dd">
+Color values, different syntax depending on the colorby parameter:
+<ul>
+<li>
+diffexp: Named list with colors. First part of the name denotes whether a gene is differentially expressed (<code>diffexp</code> or <code>nodiffexp</code>). The second part denotes the name of the gene set. Genes not within a gene set are denoted by <code>all</code>. For example: list(diffexpall=“#000000”, nodiffexpall=“#AAAAAA”, nodiffexpgset=“#FFAAAA”, diffexpgset=“#FF0000”)
+</li>
+<li>
+z: A character vector of color values, used to generate the color gradient
+</li>
+</ul>
+</dd>
+<dt>
+rmax
+</dt>
+<dd class="rd-dd">
+Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.
+</dd>
+<dt>
+sizevalues
+</dt>
+<dd class="rd-dd">
+Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)
+</dd>
+<dt>
+alphavalues
+</dt>
+<dd class="rd-dd">
+Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)
+</dd>
+<dt>
+plotLocalEnrichment
+</dt>
+<dd class="rd-dd">
+Whether to plot local enrichment as a ring around the dotplot
+</dd>
+<dt>
+width
+</dt>
+<dd class="rd-dd">
+Width of the plot
+</dd>
+<dt>
+height
+</dt>
+<dd class="rd-dd">
+Height of the plot
+</dd>
+</dl>
+</div>
+<div id="interactivepvalplot" class="section level2">
+<h2>interactivePvalplot</h2>
+<a id="interactivePvalplot_alias"></a>
+<h3>
+Interactive plot of p-values
+</h3>
+<p class="rd-p">
+Draw a dotplot of p-values using a htmlwidget
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>interactivePvalplot(scores, gsetlabels, Coi, width&nbsp;=&nbsp;NULL, height&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+scores
+</dt>
+<dd class="rd-dd">
+Dataframe as returned by <code>testUnidirectionality</code> containing for every gene set a q-value and an associated angle
+</dd>
+<dt>
+gsetlabels
+</dt>
+<dd class="rd-dd">
+Names of the gene sets, used for hovering
+</dd>
+<dt>
+Coi
+</dt>
+<dd class="rd-dd">
+Names of the three biological conditions, only used for labelling
+</dd>
+<dt>
+width
+</dt>
+<dd class="rd-dd">
+Width of the plot
+</dd>
+<dt>
+height
+</dt>
+<dd class="rd-dd">
+Height of the plot
+</dd>
+</dl>
+</div>
+<div id="named.list" class="section level2">
+<h2>named.list</h2>
+<a id="named.list_alias"></a>
+<h3>
+make a named list using the variable names (avoids repeating the same name twice)
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>named.list(...)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+…
+</dt>
+<dd class="rd-dd">
+Arguments
+</dd>
+</dl>
+</div>
+<div id="plotdotplot" class="section level2">
+<h2>plotDotplot</h2>
+<a id="plotDotplot_alias"></a>
+<h3>
+Creating a dotplot
+</h3>
+<p class="rd-p">
+Plot a dotplot
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>plotDotplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;NULL, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), colorby&nbsp;=&nbsp;"diffexp", colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, showlabels&nbsp;=&nbsp;T, sizevalues&nbsp;=&nbsp;stats::setNames(c(0.5, 2), c(F, T)), alphavalues&nbsp;=&nbsp;stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2&nbsp;=&nbsp;NULL, baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+barycoords
+</dt>
+<dd class="rd-dd">
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+Differentially expressed genes
+</dd>
+<dt>
+Goi
+</dt>
+<dd class="rd-dd">
+Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
+</dd>
+<dt>
+Coi
+</dt>
+<dd class="rd-dd">
+Character vector specifying the names of the three biological conditions, used for labelling
+</dd>
+<dt>
+colorby
+</dt>
+<dd class="rd-dd">
+Color by differential expression (“diffexp”) or by log fold-change (“z”)
+</dd>
+<dt>
+colorvalues
+</dt>
+<dd class="rd-dd">
+Color values, different syntax depending on the colorby parameter:
+<ul>
+<li>
+diffexp: Named list with colors. First part of the name denotes whether a gene is differentially expressed (<code>diffexp</code> or <code>nodiffexp</code>). The second part denotes the name of the gene set. Genes not within a gene set are denoted by <code>all</code>. For example: list(diffexpall=“#000000”, nodiffexpall=“#AAAAAA”, nodiffexpgset=“#FFAAAA”, diffexpgset=“#FF0000”)
+</li>
+<li>
+z: A character vector of color values, used to generate the color gradient
+</li>
+</ul>
+</dd>
+<dt>
+rmax
+</dt>
+<dd class="rd-dd">
+Number denoting the maximal radius of the grid. All points outside of the grid will be clipped on the boundaries.
+</dd>
+<dt>
+showlabels
+</dt>
+<dd class="rd-dd">
+Whether to show labels on the grid
+</dd>
+<dt>
+sizevalues
+</dt>
+<dd class="rd-dd">
+Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)
+</dd>
+<dt>
+alphavalues
+</dt>
+<dd class="rd-dd">
+Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)
+</dd>
+<dt>
+barycoords2
+</dt>
+<dd class="rd-dd">
+Dataframe containing for every gene a second set of barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>. An arrow will be drawn from the coordinates in <code>barycoords</code> to those in <code>barycoords2</code>
+</dd>
+<dt>
+baseangle
+</dt>
+<dd class="rd-dd">
+The angle by which to rotate the whole plot (default to 0)
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A ggplot2 plot, which can be used for further customization
+</dl>
+</p>
+<h4>
+Examples
+</h4>
+<pre class="r"><code>data(vandelaar)
+Eoi &lt;- limma::avearrays(vandelaar, phenoData(vandelaar)$celltype)
+Eoi = Eoi[,c(&quot;YS_MF&quot;, &quot;FL_mono&quot;, &quot;BM_mono&quot;)]
+barycoords = transformBarycentric(Eoi)
+plotDotplot(barycoords)</code></pre>
+<p><img src="rd_files/figure-html/plotDotplot_id_8-1.png" width="624" /></p>
+</div>
+<div id="plotpvalplot" class="section level2">
+<h2>plotPvalplot</h2>
+<a id="plotPvalplot_alias"></a>
+<h3>
+Plot results from unidirectional enrichment
+</h3>
+<p class="rd-p">
+Plots each enriched gene set as a dot on a dotplot
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>plotPvalplot(scores, Coi&nbsp;=&nbsp;c("", "", ""), colorby&nbsp;=&nbsp;NULL, showlabels&nbsp;=&nbsp;T, baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+scores
+</dt>
+<dd class="rd-dd">
+Dataframe as returned by <code>testUnidirectionality</code> containing for every gene set a q-value and an associated angle
+</dd>
+<dt>
+Coi
+</dt>
+<dd class="rd-dd">
+Names of the three biological conditions, only used for labelling
+</dd>
+<dt>
+colorby
+</dt>
+<dd class="rd-dd">
+Column in <code>scores</code> used for coloring
+</dd>
+<dt>
+showlabels
+</dt>
+<dd class="rd-dd">
+Whether to show labels on the grid
+</dd>
+<dt>
+baseangle
+</dt>
+<dd class="rd-dd">
+The angle by which to rotate the whole plot (default to <code>0</code>)
+</dd>
+</dl>
+</div>
+<div id="plotroseplot" class="section level2">
+<h2>plotRoseplot</h2>
+<a id="plotRoseplot_alias"></a>
+<h3>
+Plot the directional distribution of genes
+</h3>
+<p class="rd-p">
+A rose plot shows the distribution of a given set of genes in different directions.
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>plotRoseplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;rownames(barycoords), size&nbsp;=&nbsp;"surface", relative&nbsp;=&nbsp;T, showlabels&nbsp;=&nbsp;T, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), nbins&nbsp;=&nbsp;12, bincolors&nbsp;=&nbsp;grDevices::rainbow(nbins, start&nbsp;=&nbsp;0, v&nbsp;=&nbsp;0.8, s&nbsp;=&nbsp;0.6), rmax&nbsp;=&nbsp;"auto", baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+barycoords
+</dt>
+<dd class="rd-dd">
+Dataframe containing barycentric coordinates as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+List of differentially expressed genes
+</dd>
+<dt>
+Goi
+</dt>
+<dd class="rd-dd">
+List of genes of interest
+</dd>
+<dt>
+size
+</dt>
+<dd class="rd-dd">
+Should the <code>radius</code> or the <code>surface</code> of a circle sector denote the number of genes differentially expressed in a particular direction
+</dd>
+<dt>
+relative
+</dt>
+<dd class="rd-dd">
+Whether to show the relative number of genes or the absolute number of genes
+</dd>
+<dt>
+showlabels
+</dt>
+<dd class="rd-dd">
+Whether to label the grid
+</dd>
+<dt>
+Coi
+</dt>
+<dd class="rd-dd">
+Names of the three biological conditions, used for labelling
+</dd>
+<dt>
+nbins
+</dt>
+<dd class="rd-dd">
+Number of bins, should be a multiple of 3 to make sense
+</dd>
+<dt>
+bincolors
+</dt>
+<dd class="rd-dd">
+Colors of every bin, defaults to a rainbow palette
+</dd>
+<dt>
+rmax
+</dt>
+<dd class="rd-dd">
+Number or “auto” (default), denotes the maximal radius of the grid.
+</dd>
+<dt>
+baseangle
+</dt>
+<dd class="rd-dd">
+The angle by which to rotate the whole plot (default to 0)
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A ggplot2 plot, which can be used to further customize the plot
+</dl>
+</p>
+</div>
+<div id="testenrichment" class="section level2">
+<h2>testEnrichment</h2>
+<a id="testEnrichment_alias"></a>
+<h3>
+Simple fisher’s exact test for enrichment in a given set of genes of interest (Goi)
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>testEnrichment(Goi, gsets, background, minknown&nbsp;=&nbsp;2, mindiffexp&nbsp;=&nbsp;2, maxknown&nbsp;=&nbsp;500)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+Goi
+</dt>
+<dd class="rd-dd">
+character vector containing the genes tested for enrichment
+</dd>
+<dt>
+gsets
+</dt>
+<dd class="rd-dd">
+a GeneSetCollection or a
+</dd>
+<dt>
+background
+</dt>
+<dd class="rd-dd">
+character vector
+</dd>
+<dt>
+minknown
+</dt>
+<dd class="rd-dd">
+Minimal number of genes within a gene set for it to be considered for enrichment
+</dd>
+<dt>
+mindiffexp
+</dt>
+<dd class="rd-dd">
+Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
+</dd>
+<dt>
+maxknown
+</dt>
+<dd class="rd-dd">
+Maximal number of genes within a gene set for it to be considered for enrichment
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+Dataframe containing for every gene set which passed the filtering:
+<ul>
+<li>
+p-value of enrichment
+</li>
+<li>
+q-value of enrichment (p-value corrected for multiple testing)
+</li>
+<li>
+estimated odds score of enrichment, how much more likely is a given gene set to be part of
+</li>
+</ul>
+</p>
+<p class="rd-p">
+</dl>
+</p>
+</div>
+<div id="testlocality" class="section level2">
+<h2>testLocality</h2>
+<a id="testLocality_alias"></a>
+<h3>
+Test local upregulation
+</h3>
+<p class="rd-p">
+Tests for local upregulation locally in certain directions
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>testLocality(Goi, Gdiffexp, angles, deltangle&nbsp;=&nbsp;pi/24, bandwidth&nbsp;=&nbsp;pi/3)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+Goi
+</dt>
+<dd class="rd-dd">
+Gene set for which to test enrichment
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+Differentially expressed genes
+</dd>
+<dt>
+angles
+</dt>
+<dd class="rd-dd">
+Numeric vector with angles of all genes or a dataframe as returned by <code>transformBarycentric</code>
+</dd>
+<dt>
+deltangle
+</dt>
+<dd class="rd-dd">
+Stepsize of angles
+</dd>
+<dt>
+bandwidth
+</dt>
+<dd class="rd-dd">
+Bandwidth of angles
+</dd>
+</dl>
+</div>
+<div id="testrayleigh" class="section level2">
+<h2>testRayleigh</h2>
+<a id="testRayleigh_alias"></a>
+<h3>
+Rayleigh z-test implementation
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>testRayleigh(angles)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+angles
+</dt>
+<dd class="rd-dd">
+Numeric vector containing angles in radians
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+P-value of unidirectionality under the uniformity null hypothesis
+</dl>
+</p>
+</div>
+<div id="testunidirectionality" class="section level2">
+<h2>testUnidirectionality</h2>
+<a id="testUnidirectionality_alias"></a>
+<h3>
+Test gene sets for unidirectional enrichment
+</h3>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>testUnidirectionality(barycoords, gsets, Gdiffexp&nbsp;=&nbsp;NULL, statistic&nbsp;=&nbsp;"diffexp", bm&nbsp;=&nbsp;NULL, minknown&nbsp;=&nbsp;5, mindiffexp&nbsp;=&nbsp;0, maxknown&nbsp;=&nbsp;1500, mc.cores&nbsp;=&nbsp;getOption("mc.cores", default&nbsp;=&nbsp;1))</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+barycoords
+</dt>
+<dd class="rd-dd">
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+</dd>
+<dt>
+gsets
+</dt>
+<dd class="rd-dd">
+List of character vectors, each containing a set of genes (gene identifiers)
+</dd>
+<dt>
+Gdiffexp
+</dt>
+<dd class="rd-dd">
+Differentially expressed genes
+</dd>
+<dt>
+statistic
+</dt>
+<dd class="rd-dd">
+A string denoting the measure used for the strength of upregulation of a particular gene.
+<ul>
+<li>
+diffexp: Wheter a gene is differentially expressed (1 versus 0)
+</li>
+<li>
+rank: The rank of the maximal log fold-change
+</li>
+<li>
+r: The maximal log fold-change
+</li>
+<li>
+z: Custom using the z-column within barycoords
+</li>
+<li>
+angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
+</li>
+</ul>
+</dd>
+<dt>
+bm
+</dt>
+<dd class="rd-dd">
+Previously calculated background model using the <code>generateBackgroundModel</code> function
+</dd>
+<dt>
+minknown
+</dt>
+<dd class="rd-dd">
+Minimal number of genes within a gene set for it to be considered for enrichment
+</dd>
+<dt>
+mindiffexp
+</dt>
+<dd class="rd-dd">
+Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
+</dd>
+<dt>
+maxknown
+</dt>
+<dd class="rd-dd">
+Maximal number of genes within a gene set for it to be considered for enrichment
+</dd>
+<dt>
+mc.cores
+</dt>
+<dd class="rd-dd">
+Number of processor cores to use, due to limitations of the parallel package, this does not work on Windows
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+Dataframe containing for every gene set which passed the filtering:
+<ul>
+<li>
+p-value of unidirectionality
+</li>
+<li>
+q-value of unidirectionality (p-value corrected for multiple testing)
+</li>
+<li>
+average angle
+</li>
+</ul>
+</p>
+<p class="rd-p">
+</dl>
+</p>
+</div>
+<div id="transformbarycentric" class="section level2">
+<h2>transformBarycentric</h2>
+<a id="transformBarycentric_alias"></a>
+<h3>
+Conversion to barycentric coordinates
+</h3>
+<p class="rd-p">
+Converts the expression matrix containing three biological conditions to barycentric coordinates, reducing its dimensionality by one while retaining information of differential expression.
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>transformBarycentric(E, transfomatrix&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+E
+</dt>
+<dd class="rd-dd">
+Expression matrix
+</dd>
+<dt>
+transfomatrix
+</dt>
+<dd class="rd-dd">
+<code>NULL</code> (default) or a numeric matrix containing the transformation matrix
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+Dataframe containing for every original point its new coordinates in <code>d-1</code> dimensions
+</dl>
+</p>
+</div>
+<div id="transformreversebarycentric" class="section level2">
+<h2>transformReverseBarycentric</h2>
+<a id="transformReverseBarycentric_alias"></a>
+<h3>
+Convert from barycentric coordinates back to original expression values
+</h3>
+<p class="rd-p">
+Converts a dataframe contain barycentric coordinates in the x and y columns back to original coordinates (apart from a constant for each gene).
+</p>
+<h4>
+Usage
+</h4>
+<pre class="r"><code><div>transformReverseBarycentric(barycoords, transfomatrix&nbsp;=&nbsp;NULL)</div></code></pre>
+<h4>
+Arguments
+</h4>
+<dl class="rd-dl">
+<dt>
+barycoords
+</dt>
+<dd class="rd-dd">
+Dataframe of barycentric coordinates with x and y in separate columns
+</dd>
+<dt>
+transfomatrix
+</dt>
+<dd class="rd-dd">
+<code>NULL</code> (default) or a numeric matrix containing the transformation matrix
+</dd>
+</dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+Matrix containing for every gene original expression values centered around 0
+</dl>
+</p>
+</div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <div class="col-md-6">
+                <p>&copy; GPL-3, 2016</p>
+              </div>
+      <div class="col-md-6">
+        <p class="pull-right">created with <a href="https://github.com/hafen/packagedocs">packagedocs</a>
+                  </p>
+      </div>
+    </div>
+  </div>
+
+  
+</body>
+</html>
