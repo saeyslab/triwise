@@ -865,10 +865,10 @@ barycoords = transformBarycentric(Eoi)
 
 gsets = list(a=1:50, b=80:150, c=200:500)
 testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r &gt; 1])</code></pre>
-<pre><code>##         pval    angle   n gsetid          z       qval
-## 1 0.00000000 6.259902  50      a 0.98794189 0.00000000
-## 2 0.00705335 6.197782  71      b 0.25008356 0.01058002
-## 3 0.40935805 2.456213 301      c 0.03700598 0.40935805</code></pre>
+<pre><code>##           pval    angle   n gsetid          z         qval
+## 1 0.0000000000 6.241040  50      a 0.98683449 0.0000000000
+## 2 0.0002717273 6.226569  71      b 0.29034730 0.0004075909
+## 3 0.1807895294 3.745113 301      c 0.05413067 0.1807895294</code></pre>
 </div>
 <div id="generatebackgroundmodel" class="section level2">
 <h2>generateBackgroundModel</h2>
@@ -976,7 +976,7 @@ P-value of unidirectionality under the uniformity null hypothesis
 Examples
 </h4>
 <pre class="r"><code>testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))</code></pre>
-<pre><code>## [1] 0.001566494</code></pre>
+<pre><code>## [1] 0.004029063</code></pre>
 <pre class="r"><code>testRayleigh(seq(0, 2*pi, 0.1))</code></pre>
 <pre><code>## [1] 0.9995545</code></pre>
 </div>

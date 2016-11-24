@@ -39,8 +39,8 @@ The three biological conditions can be related in different ways:
 
 # Funding
 [![](fwo_small.png)](http://www.fwo.be)
-[![](logo_UGent_EN_RGB_2400_color-on-white_small.png)](http://www.ugent.be)
-[![](VIB-IRC-logo-compact_small.jpg)](http://irc.ugent.be)
+[![](ugent_small.png)](http://www.ugent.be)
+[![](irc_small.png)](http://www.irc.ugent.be)
 
 
 # References

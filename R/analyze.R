@@ -168,7 +168,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 #'   \item z: Custom using the z-column within barycoords
 #'   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
 #' }
-#' @param bm Previously calculated background model using the `generateBackgroundModel`
+#' @param bm Previously calculated background model using the `r packagedocs::rd_link(generateBackgroundModel())`
 #' @param minknown Minimal number of genes within a gene set for it to be considered for enrichment
 #' @param mindiffexp Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
 #' @param maxknown Maximal number of genes within a gene set for it to be considered for enrichment
