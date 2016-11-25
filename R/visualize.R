@@ -312,7 +312,7 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #'
 #' Plots each enriched gene set as a dot on a dotplot
 #'
-#' @param scores Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle
+#' @param scores Dataframe as returned by \code{\link[triwise]{testUnidirectionality}} containing for every gene set a q-value and an associated angle
 #' @param Coi Names of the three biological conditions, only used for labelling
 #' @param colorby Column in `scores` used for coloring
 #' @param showlabels Whether to show labels on the grid
