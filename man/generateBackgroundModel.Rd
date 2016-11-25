@@ -9,7 +9,7 @@ generateBackgroundModel(barycoords, noi = seq(5, 100, 5),
   mc.cores = getOption("mc.cores", default = 1))
 }
 \arguments{
-\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. Will use the `z` column as test statistic, or if this column is not given the `r` column}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}. Will use the \code{z} column as test statistic, or if this column is not given the `r` column}
 
 \item{noi}{Integer vector denoting the number of genes at which to sample, the larger the more accurate the p-values}
 
@@ -20,6 +20,19 @@ generateBackgroundModel(barycoords, noi = seq(5, 100, 5),
 \item{bw}{Bandwidth of the von-mises distribution for weighing the samples. A higher bandwidth leads to a more accurate p-value estimate as long as `nsamples` is high enough}
 
 \item{mc.cores}{Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows}
+}
+\value{
+A list containing: \itemize{
+\item noi: number of genes, in the same order as the elements in \code{backmodels}
+\item anglesoi: angles at which weights were calculated using the von-mises distribution
+\item nsamples: number of samples for each \code{n}
+\item bw: bandwidth
+\item backmodels: for each \code{n} a second list containing: \itemize{
+  \item angles: mean angle of a sample
+  \item z: strength of unidirectional upregulation
+  \item weights: weight from von-mises distribution for every sample and angle in \code{anglesoi}, these weights will be used to calculate the p-value
+  }
+}
 }
 \description{
 Generates a background model by randomly resampling genes at different `n` (number of genes) and angles and calculating z distributions

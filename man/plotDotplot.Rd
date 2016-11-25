@@ -6,13 +6,13 @@
 \usage{
 plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
   Coi = attr(barycoords, "conditions"), colorby = "diffexp",
-  colorvalues = NULL, rmax = 5, showlabels = T,
-  sizevalues = stats::setNames(c(0.5, 2), c(F, T)),
-  alphavalues = stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2 = NULL,
-  baseangle = 0)
+  colorvalues = NULL, rmax = 5, showlabels = TRUE,
+  sizevalues = stats::setNames(c(0.5, 2), c(FALSE, TRUE)),
+  alphavalues = stats::setNames(c(0.8, 0.8), c(FALSE, TRUE)),
+  barycoords2 = NULL, baseangle = 0)
 }
 \arguments{
-\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}}
 
 \item{Gdiffexp}{Differentially expressed genes}
 
@@ -36,7 +36,7 @@ plotDotplot(barycoords, Gdiffexp = rownames(barycoords), Goi = NULL,
 
 \item{alphavalues}{Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)}
 
-\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
+\item{barycoords2}{Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`}
 
 \item{baseangle}{The angle by which to rotate the whole plot (default to 0)}
 }

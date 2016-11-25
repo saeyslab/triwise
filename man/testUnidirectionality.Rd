@@ -9,7 +9,7 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
   maxknown = 1500, mc.cores = getOption("mc.cores", default = 1))
 }
 \arguments{
-\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`}
+\item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}}
 
 \item{gsets}{List of character vectors, each containing a set of genes (gene identifiers)}
 
@@ -23,7 +23,7 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
 }}
 
-\item{bm}{Previously calculated background model using the `r packagedocs::rd_link(generateBackgroundModel())`}
+\item{bm}{Previously calculated background model using the \code{\link[triwise]{generateBackgroundModel}}}
 
 \item{minknown}{Minimal number of genes within a gene set for it to be considered for enrichment}
 

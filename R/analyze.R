@@ -114,7 +114,7 @@ testEnrichment = function(Goi, gsets, background, minknown=2, mindiffexp=2, maxk
 #' Generate background models
 #' @description Generates a background model by randomly resampling genes at different `n` (number of genes) and angles and calculating z distributions
 #' @inheritParams testUnidirectionality
-#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. Will use the `z` column as test statistic, or if this column is not given the `r` column
+#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}. Will use the \code{z} column as test statistic, or if this column is not given the `r` column
 #' @param noi Integer vector denoting the number of genes at which to sample, the larger the more accurate the p-values
 #' @param anglesoi Numeric vector denoting the angles (in radians) at which to pre-calculate null distribution, the larger the more accurate the p-values
 #' @param nsamples Number of samples, higher for more accurate and stable p-values
@@ -134,6 +134,17 @@ testEnrichment = function(Goi, gsets, background, minknown=2, mindiffexp=2, maxk
 #' # the whole distribution (and therefore also the p-value) also depends on the mean angle
 #' plotdata = data.frame(angle = cut(bm$backmodels[[1]]$angles, 10), z = bm$backmodels[[1]]$z)
 #' ggplot2::ggplot(plotdata) + ggplot2::geom_violin(ggplot2::aes(angle, z))
+#' @return A list containing: \itemize{
+#' \item noi: number of genes, in the same order as the elements in \code{backmodels}
+#' \item anglesoi: angles at which weights were calculated using the von-mises distribution
+#' \item nsamples: number of samples for each \code{n}
+#' \item bw: bandwidth
+#' \item backmodels: for each \code{n} a second list containing: \itemize{
+#'   \item angles: mean angle of a sample
+#'   \item z: strength of unidirectional upregulation
+#'   \item weights: weight from von-mises distribution for every sample and angle in \code{anglesoi}, these weights will be used to calculate the p-value
+#'   }
+#' }
 #' @export
 generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi = seqClosed(0, 2*pi, 24), nsamples=100000, bw=20, mc.cores=getOption("mc.cores", default = 1)) {
   if (length(noi) == 1) {
@@ -158,7 +169,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 
 #' Test gene sets for unidirectional enrichment
 #'
-#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`
+#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}
 #' @param gsets List of character vectors, each containing a set of genes (gene identifiers)
 #' @param Gdiffexp Differentially expressed genes
 #' @param statistic A string denoting the measure used for the strength of upregulation of a particular gene. \itemize{
@@ -168,7 +179,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 #'   \item z: Custom using the z-column within barycoords
 #'   \item angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within the gene set
 #' }
-#' @param bm Previously calculated background model using the `r packagedocs::rd_link(generateBackgroundModel())`
+#' @param bm Previously calculated background model using the \code{\link[triwise]{generateBackgroundModel}}
 #' @param minknown Minimal number of genes within a gene set for it to be considered for enrichment
 #' @param mindiffexp Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
 #' @param maxknown Maximal number of genes within a gene set for it to be considered for enrichment

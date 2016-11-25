@@ -17,6 +17,9 @@ interactivePvalplot(scores, gsetlabels, Coi, width = NULL, height = NULL)
 
 \item{height}{Height of the plot}
 }
+\value{
+A htmlwidget object, which can be exported to an svg using \code{\link[htmlwidgets]{saveWidget}}
+}
 \description{
 Draw a dotplot of p-values using a htmlwidget
 }

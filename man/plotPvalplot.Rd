@@ -4,8 +4,8 @@
 \alias{plotPvalplot}
 \title{Plot results from unidirectional enrichment}
 \usage{
-plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL, showlabels = T,
-  baseangle = 0)
+plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL,
+  showlabels = TRUE, baseangle = 0)
 }
 \arguments{
 \item{scores}{Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle}
@@ -17,6 +17,9 @@ plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL, showlabels = T,
 \item{showlabels}{Whether to show labels on the grid}
 
 \item{baseangle}{The angle by which to rotate the whole plot (default to `0`)}
+}
+\value{
+A ggplot2 plot, which can be used for further customization
 }
 \description{
 Plots each enriched gene set as a dot on a dotplot

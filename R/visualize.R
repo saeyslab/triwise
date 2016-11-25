@@ -51,7 +51,7 @@ drawGridBasis <- function() {
 #'
 #' A rose plot shows the distribution of a given set of genes in different directions.
 #'
-#' @param barycoords Dataframe containing barycentric coordinates as returned by `r packagedocs::rd_link(transformBarycentric())`
+#' @param barycoords Dataframe containing barycentric coordinates as returned by \code{\link[triwise]{transformBarycentric}}.
 #' @param Gdiffexp List of differentially expressed genes
 #' @param Goi List of genes of interest
 #' @param size Should the `radius` or the `surface` of a circle sector denote the number of genes differentially expressed in a particular direction
@@ -208,7 +208,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #'
 #' Plot a dotplot
 #'
-#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`
+#' @param barycoords Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}
 #' @param Gdiffexp Differentially expressed genes
 #' @param Goi Genes of interest, a character or numeric vector to plot one set of genes, a named list containing different such vectors to plot multiple gene sets
 #' @param Coi Character vector specifying the names of the three biological conditions, used for labelling
@@ -222,7 +222,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #' @param showlabels Whether to show labels on the grid
 #' @param sizevalues Named list with the size of each dot if differentially expressed (TRUE) or not (FALSE)
 #' @param alphavalues Named list with the alpha value of each dot if differentially expressed (TRUE) or not (FALSE)
-#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by `r packagedocs::rd_link(transformBarycentric())`. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
+#' @param barycoords2 Dataframe containing for every gene a second set of barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}. An arrow will be drawn from the coordinates in `barycoords` to those in `barycoords2`
 #' @param baseangle The angle by which to rotate the whole plot (default to 0)
 #' @examples
 #' data(vandelaar)
@@ -326,6 +326,7 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #' scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
 #'
 #' plotPvalplot(scores)
+#' @return A ggplot2 plot, which can be used for further customization
 #' @export
 plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=TRUE, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")

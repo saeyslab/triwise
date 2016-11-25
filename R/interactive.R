@@ -29,6 +29,7 @@
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000))
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
 #' }
+#' @return A htmlwidget object, which can be exported to an svg using \code{\link[htmlwidgets]{saveWidget}}
 #' @export
 interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=colnames(Eoi), colorvalues=NULL, rmax=5, sizevalues=c(`TRUE`=2, `FALSE`=0.5), alphavalues=c(`TRUE`=0.8, `FALSE`=0.8), plotLocalEnrichment=FALSE, width = NULL, height = NULL) {
   Eoi = Eoi[,c(1,3,2)] # reorder so that ordering corresponds to the ordering of plotDotplot
@@ -96,6 +97,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=row
 #' \dontrun{
 #' interactivePvalplot(scores, as.list(setNames(names(gsets), names(gsets))), 1:3)
 #' }
+#' @return A htmlwidget object, which can be exported to an svg using \code{\link[htmlwidgets]{saveWidget}}
 #' @export
 interactivePvalplot <- function(scores, gsetlabels, Coi, width = NULL, height = NULL) {
   scores$logqval_unidir = log10(scores$qval)

@@ -111,7 +111,7 @@ Gene expression changes in three biological conditions
 <strong>Authors:</strong> <a href="mailto:wouter.saelens@gmail.com">Wouter Saelens</a> [aut, cre]
 </p>
 <p>
-<strong>Version:</strong> 0.0.0.9000
+<strong>Version:</strong> 0.99.0
 </p>
 <p>
 <strong>License:</strong> GPL-3
@@ -126,7 +126,7 @@ The triwise package provides function to analyze and visualize gene expression i
 Depends
 </h4>
 <p>
-R (&gt;= 3.2.3), Biobase, BiocGenerics
+R (&gt;= 3.3), Biobase, BiocGenerics
 </p>
 <h4>
 Imports
@@ -277,7 +277,7 @@ Plot a dotplot
 <h4>
 Usage
 </h4>
-<pre class="r"><code><div>plotDotplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;NULL, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), colorby&nbsp;=&nbsp;"diffexp", colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, showlabels&nbsp;=&nbsp;T, sizevalues&nbsp;=&nbsp;stats::setNames(c(0.5, 2), c(F, T)), alphavalues&nbsp;=&nbsp;stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2&nbsp;=&nbsp;NULL, baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<pre class="r"><code><div>plotDotplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;NULL, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), colorby&nbsp;=&nbsp;"diffexp", colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, showlabels&nbsp;=&nbsp;TRUE, sizevalues&nbsp;=&nbsp;stats::setNames(c(0.5, 2), c(FALSE, TRUE)), alphavalues&nbsp;=&nbsp;stats::setNames(c(0.8, 0.8), c(FALSE, TRUE)), barycoords2&nbsp;=&nbsp;NULL, baseangle&nbsp;=&nbsp;0)</div></code></pre>
 <h4>
 Arguments
 </h4>
@@ -286,7 +286,7 @@ Arguments
 barycoords
 </dt>
 <dd class="rd-dd">
-Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/transformBarycentric>transformBarycentric</a></code>
 </dd>
 <dt>
 Gdiffexp
@@ -354,7 +354,7 @@ Named list with the alpha value of each dot if differentially expressed (TRUE) o
 barycoords2
 </dt>
 <dd class="rd-dd">
-Dataframe containing for every gene a second set of barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>. An arrow will be drawn from the coordinates in <code>barycoords</code> to those in <code>barycoords2</code>
+Dataframe containing for every gene a second set of barycentric coordinates, as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/transformBarycentric>transformBarycentric</a></code>. An arrow will be drawn from the coordinates in <code>barycoords</code> to those in <code>barycoords2</code>
 </dd>
 <dt>
 baseangle
@@ -405,7 +405,7 @@ A rose plot shows the distribution of a given set of genes in different directio
 <h4>
 Usage
 </h4>
-<pre class="r"><code><div>plotRoseplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;rownames(barycoords), size&nbsp;=&nbsp;"surface", relative&nbsp;=&nbsp;T, showlabels&nbsp;=&nbsp;T, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), nbins&nbsp;=&nbsp;12, bincolors&nbsp;=&nbsp;grDevices::rainbow(nbins, start&nbsp;=&nbsp;0, v&nbsp;=&nbsp;0.8, s&nbsp;=&nbsp;0.6), rmax&nbsp;=&nbsp;"auto", baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<pre class="r"><code><div>plotRoseplot(barycoords, Gdiffexp&nbsp;=&nbsp;rownames(barycoords), Goi&nbsp;=&nbsp;rownames(barycoords), size&nbsp;=&nbsp;"surface", relative&nbsp;=&nbsp;TRUE, showlabels&nbsp;=&nbsp;TRUE, Coi&nbsp;=&nbsp;attr(barycoords, "conditions"), nbins&nbsp;=&nbsp;12, bincolors&nbsp;=&nbsp;grDevices::rainbow(nbins, start&nbsp;=&nbsp;0, v&nbsp;=&nbsp;0.8, s&nbsp;=&nbsp;0.6), rmax&nbsp;=&nbsp;"auto", baseangle&nbsp;=&nbsp;0)</div></code></pre>
 <h4>
 Arguments
 </h4>
@@ -414,7 +414,7 @@ Arguments
 barycoords
 </dt>
 <dd class="rd-dd">
-Dataframe containing barycentric coordinates as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+Dataframe containing barycentric coordinates as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/transformBarycentric>transformBarycentric</a></code>.
 </dd>
 <dt>
 Gdiffexp
@@ -510,7 +510,7 @@ Plots each enriched gene set as a dot on a dotplot
 <h4>
 Usage
 </h4>
-<pre class="r"><code><div>plotPvalplot(scores, Coi&nbsp;=&nbsp;c("", "", ""), colorby&nbsp;=&nbsp;NULL, showlabels&nbsp;=&nbsp;T, baseangle&nbsp;=&nbsp;0)</div></code></pre>
+<pre class="r"><code><div>plotPvalplot(scores, Coi&nbsp;=&nbsp;c("", "", ""), colorby&nbsp;=&nbsp;NULL, showlabels&nbsp;=&nbsp;TRUE, baseangle&nbsp;=&nbsp;0)</div></code></pre>
 <h4>
 Arguments
 </h4>
@@ -547,6 +547,14 @@ The angle by which to rotate the whole plot (default to <code>0</code>)
 </dd>
 </dl>
 <h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A ggplot2 plot, which can be used for further customization
+</dl>
+</p>
+<h4>
 Examples
 </h4>
 <pre class="r"><code>Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
@@ -571,7 +579,7 @@ Draw an interactive triwise dotplot using a html widget
 <h4>
 Usage
 </h4>
-<pre class="r"><code><div>interactiveDotplot(Eoi, Gdiffexp&nbsp;=&nbsp;rownames(Eoi), Goi&nbsp;=&nbsp;c(), Glabels&nbsp;=&nbsp;rownames(Eoi), Gpin&nbsp;=&nbsp;c(), Coi&nbsp;=&nbsp;colnames(Eoi), colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, sizevalues&nbsp;=&nbsp;c(T&nbsp;=&nbsp;2, F&nbsp;=&nbsp;0.5), alphavalues&nbsp;=&nbsp;c(T&nbsp;=&nbsp;0.8, F&nbsp;=&nbsp;0.8), plotLocalEnrichment&nbsp;=&nbsp;F, width&nbsp;=&nbsp;NULL, height&nbsp;=&nbsp;NULL)</div></code></pre>
+<pre class="r"><code><div>interactiveDotplot(Eoi, Gdiffexp&nbsp;=&nbsp;rownames(Eoi), Goi&nbsp;=&nbsp;c(), Glabels&nbsp;=&nbsp;rownames(Eoi), Gpin&nbsp;=&nbsp;c(), Coi&nbsp;=&nbsp;colnames(Eoi), colorvalues&nbsp;=&nbsp;NULL, rmax&nbsp;=&nbsp;5, sizevalues&nbsp;=&nbsp;c(`TRUE`&nbsp;=&nbsp;2, `FALSE`&nbsp;=&nbsp;0.5), alphavalues&nbsp;=&nbsp;c(`TRUE`&nbsp;=&nbsp;0.8, `FALSE`&nbsp;=&nbsp;0.8), plotLocalEnrichment&nbsp;=&nbsp;FALSE, width&nbsp;=&nbsp;NULL, height&nbsp;=&nbsp;NULL)</div></code></pre>
 <h4>
 Arguments
 </h4>
@@ -664,6 +672,14 @@ Height of the plot
 </dd>
 </dl>
 <h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A htmlwidget object, which can be exported to an svg using <code><a href=http://www.rdocumentation.org/packages/htmlwidgets/topics/saveWidget>saveWidget</a></code>
+</dl>
+</p>
+<h4>
 Examples
 </h4>
 <pre class="r"><code>data(vandelaar)
@@ -735,6 +751,14 @@ Height of the plot
 </dd>
 </dl>
 <h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A htmlwidget object, which can be exported to an svg using <code><a href=http://www.rdocumentation.org/packages/htmlwidgets/topics/saveWidget>saveWidget</a></code>
+</dl>
+</p>
+<h4>
 Examples
 </h4>
 <pre class="r"><code>Eoi = matrix(rnorm(1000*3, sd=0.5), 1000, 3, dimnames=list(1:1000, c(1,2,3)))
@@ -768,7 +792,7 @@ Arguments
 barycoords
 </dt>
 <dd class="rd-dd">
-Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/transformBarycentric>transformBarycentric</a></code>
 </dd>
 <dt>
 gsets
@@ -809,7 +833,7 @@ angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within
 bm
 </dt>
 <dd class="rd-dd">
-Previously calculated background model using the <code><a href='rd.html#generateBackgroundModel_alias'>generateBackgroundModel</a>()</code>
+Previously calculated background model using the <code><a href=http://www.rdocumentation.org/packages/triwise/topics/generateBackgroundModel>generateBackgroundModel</a></code>
 </dd>
 <dt>
 minknown
@@ -866,10 +890,10 @@ barycoords = transformBarycentric(Eoi)
 
 gsets = list(a=1:50, b=80:150, c=200:500)
 testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r &gt; 1])</code></pre>
-<pre><code>##          pval      angle   n gsetid          z        qval
-## 1 0.000000000 0.01332829  50      a 0.98801685 0.000000000
-## 2 0.001146021 6.01125090  71      b 0.27890170 0.001719031
-## 3 0.885318290 4.05063762 301      c 0.01478032 0.885318290</code></pre>
+<pre><code>##           pval      angle   n gsetid          z         qval
+## 1 0.0000000000 6.27586894  50      a 0.98934426 0.0000000000
+## 2 0.0003000921 0.02325635  71      b 0.29629628 0.0004501381
+## 3 0.5522316815 4.34146084 301      c 0.03628936 0.5522316815</code></pre>
 </div>
 <div id="generatebackgroundmodel" class="section level2">
 <h2>generateBackgroundModel</h2>
@@ -892,7 +916,7 @@ Arguments
 barycoords
 </dt>
 <dd class="rd-dd">
-Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href='rd.html#transformBarycentric_alias'>transformBarycentric</a>()</code>. Will use the <code>z</code> column as test statistic, or if this column is not given the <code>r</code> column
+Dataframe containing for every gene its barycentric coordinates, as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/transformBarycentric>transformBarycentric</a></code>. Will use the <code>z</code> column as test statistic, or if this column is not given the <code>r</code> column
 </dd>
 <dt>
 noi
@@ -925,6 +949,46 @@ mc.cores
 Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows
 </dd>
 </dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+A list containing:
+<ul>
+<li>
+noi: number of genes, in the same order as the elements in <code>backmodels</code>
+</li>
+<li>
+anglesoi: angles at which weights were calculated using the von-mises distribution
+</li>
+<li>
+nsamples: number of samples for each <code>n</code>
+</li>
+<li>
+bw: bandwidth
+</li>
+<li>
+backmodels: for each <code>n</code> a second list containing:
+<ul>
+<li>
+angles: mean angle of a sample
+</li>
+<li>
+z: strength of unidirectional upregulation
+</li>
+<li>
+weights: weight from von-mises distribution for every sample and angle in <code>anglesoi</code>, these weights will be used to calculate the p-value
+</li>
+</ul>
+</p>
+<p class="rd-p">
+</li>
+</ul>
+</p>
+<p class="rd-p">
+</dl>
+</p>
 <h4>
 Examples
 </h4>
@@ -977,7 +1041,7 @@ P-value of unidirectionality under the uniformity null hypothesis
 Examples
 </h4>
 <pre class="r"><code>testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))</code></pre>
-<pre><code>## [1] 0.0001340199</code></pre>
+<pre><code>## [1] 0.01647697</code></pre>
 <pre class="r"><code>testRayleigh(seq(0, 2*pi, 0.1))</code></pre>
 <pre><code>## [1] 0.9995545</code></pre>
 </div>

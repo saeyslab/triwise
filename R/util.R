@@ -76,8 +76,6 @@ circularZ <- function(angles, rs=1) {
 
 jaccard= function(a, b) {length(intersect(a, b))/length(union(a, b))}
 
-#' make a named list using the variable names (avoids repeating the same name twice)
-#' @param ... Arguments
 named.list <- function(...) {
   l <- list(...)
   names(l) <- sapply(substitute(list(...)), deparse)[-1]

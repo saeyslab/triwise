@@ -6,8 +6,8 @@
 \usage{
 interactiveDotplot(Eoi, Gdiffexp = rownames(Eoi), Goi = c(),
   Glabels = rownames(Eoi), Gpin = c(), Coi = colnames(Eoi),
-  colorvalues = NULL, rmax = 5, sizevalues = c(T = 2, F = 0.5),
-  alphavalues = c(T = 0.8, F = 0.8), plotLocalEnrichment = F,
+  colorvalues = NULL, rmax = 5, sizevalues = c(`TRUE` = 2, `FALSE` = 0.5),
+  alphavalues = c(`TRUE` = 0.8, `FALSE` = 0.8), plotLocalEnrichment = FALSE,
   width = NULL, height = NULL)
 }
 \arguments{
@@ -40,6 +40,9 @@ interactiveDotplot(Eoi, Gdiffexp = rownames(Eoi), Goi = c(),
 \item{width}{Width of the plot}
 
 \item{height}{Height of the plot}
+}
+\value{
+A htmlwidget object, which can be exported to an svg using \code{\link[htmlwidgets]{saveWidget}}
 }
 \description{
 Draw an interactive triwise dotplot using a html widget
