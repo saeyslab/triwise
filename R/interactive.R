@@ -30,7 +30,7 @@
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
 #' }
 #' @export
-interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=colnames(Eoi), colorvalues=NULL, rmax=5, sizevalues=c(T=2, F=0.5), alphavalues=c(T=0.8, F=0.8), plotLocalEnrichment=F, width = NULL, height = NULL) {
+interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=rownames(Eoi), Gpin = c(), Coi=colnames(Eoi), colorvalues=NULL, rmax=5, sizevalues=c(`TRUE`=2, `FALSE`=0.5), alphavalues=c(`TRUE`=0.8, `FALSE`=0.8), plotLocalEnrichment=FALSE, width = NULL, height = NULL) {
   Eoi = Eoi[,c(1,3,2)] # reorder so that ordering corresponds to the ordering of plotDotplot
 
   barycoords = transformBarycentric(Eoi)
@@ -47,7 +47,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=row
   if (is.null(Gpin)) {
     Gpin = intersect(Goi, Gdiffexp)
     if (length(Gpin) > 20) {
-      Gpin = Gpin[order(barycoords[Gpin,"r"], decreasing=T)[1:20]]
+      Gpin = Gpin[order(barycoords[Gpin,"r"], decreasing=TRUE)[1:20]]
     }
   }
 

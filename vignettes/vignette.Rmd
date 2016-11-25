@@ -1,5 +1,5 @@
 ---
-title: "Triwise"
+title: "<img src='logo.png' width=100 style='display: inline;'>"
 subtitle: "Analysis from van de Laar et al. 2016"
 author: "Wouter Saelens"
 copyright: "GPL-3"
@@ -7,6 +7,9 @@ output:
   packagedocs::package_docs:
     toc: true
     toc_collapse: false
+  html_document:
+    css: custom.css
+css: custom.css
 redirect: Zouter/triwise/vignette.html
 vignette: |
   %\VignetteIndexEntry{triwise Documentation}

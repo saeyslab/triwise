@@ -1,5 +1,5 @@
 ---
-title: "Triwise"
+title: "<img src='logo.png' width=100 style='display: inline;'>"
 subtitle: "Reference"
 author: "Wouter Saelens"
 copyright: "GPL-3"
@@ -7,6 +7,8 @@ output:
   packagedocs::package_docs_rd:
     toc: true
     toc_collapse: false
+  html_document:
+    css: custom.css
 redirect: http://git@github.com:Zouter/triwise.github.io/git@github.com:Zouter/triwise/rd.html
 vignette: |
   %\VignetteIndexEntry{triwise Package Reference}
@@ -16,6 +18,7 @@ navpills: |
   <li><a href='vignette.html'>Vignette</a></li>
   <li class="active"><a href='rd.html'>Reference</a></li>
   <li><a href='https://github.com/saeyslab/triwise'>Github <i class='fa fa-github'></i></a></li>
+css: custom.css
 ---
 
 ```{r auto-gen-child, child="auto-generated-rd.Rmd"}

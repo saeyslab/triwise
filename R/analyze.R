@@ -239,7 +239,7 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
       pval = testRayleigh(angles_gset_filtered)
     }
 
-    data.frame(pval=pval, angle=angle, n=length(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=F)
+    data.frame(pval=pval, angle=angle, n=length(rs_gset), gsetid=gsetid,z=circularZ(angles_gset, rs_gset), stringsAsFactors=FALSE)
   }, mc.cores = mc.cores))
   if (nrow(scores) > 0) {
     scores$qval = stats::p.adjust(scores$pval, method="fdr")

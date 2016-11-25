@@ -7,7 +7,7 @@
     <meta name="author" content="Wouter Saelens" />
   
   
-  <title>Triwise</title>
+  <title></title>
 
     <script src="rd_files/jquery-1.11.3/jquery.min.js"></script>
   <link href="rd_files/bootstrap-3.3.2/css/bootstrap.min.css" rel="stylesheet" />
@@ -29,6 +29,7 @@
   
   
   
+    <link rel="stylesheet" href="custom.css" type="text/css" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
@@ -46,7 +47,7 @@
           <span class="icon-bar"></span>
         </button>
                 <a href="index.html" class="navbar-brand page-scroll">
-        Triwise - Reference
+        <img src='logo.png' width=100 style='display: inline;'> - Reference
         </a>
       </div>
             <nav class="collapse navbar-collapse" role="navigation">
@@ -808,7 +809,7 @@ angle: Uses a rayleigh z-test ignoring non-differentially expressed genes within
 bm
 </dt>
 <dd class="rd-dd">
-Previously calculated background model using the <code>generateBackgroundModel</code>
+Previously calculated background model using the <code><a href='rd.html#generateBackgroundModel_alias'>generateBackgroundModel</a>()</code>
 </dd>
 <dt>
 minknown
@@ -865,10 +866,10 @@ barycoords = transformBarycentric(Eoi)
 
 gsets = list(a=1:50, b=80:150, c=200:500)
 testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r &gt; 1])</code></pre>
-<pre><code>##           pval    angle   n gsetid          z         qval
-## 1 0.0000000000 6.241040  50      a 0.98683449 0.0000000000
-## 2 0.0002717273 6.226569  71      b 0.29034730 0.0004075909
-## 3 0.1807895294 3.745113 301      c 0.05413067 0.1807895294</code></pre>
+<pre><code>##          pval      angle   n gsetid          z        qval
+## 1 0.000000000 0.01332829  50      a 0.98801685 0.000000000
+## 2 0.001146021 6.01125090  71      b 0.27890170 0.001719031
+## 3 0.885318290 4.05063762 301      c 0.01478032 0.885318290</code></pre>
 </div>
 <div id="generatebackgroundmodel" class="section level2">
 <h2>generateBackgroundModel</h2>
@@ -976,7 +977,7 @@ P-value of unidirectionality under the uniformity null hypothesis
 Examples
 </h4>
 <pre class="r"><code>testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))</code></pre>
-<pre><code>## [1] 0.004029063</code></pre>
+<pre><code>## [1] 0.0001340199</code></pre>
 <pre class="r"><code>testRayleigh(seq(0, 2*pi, 0.1))</code></pre>
 <pre><code>## [1] 0.9995545</code></pre>
 </div>
@@ -1199,7 +1200,7 @@ plot(attr(qvals, &quot;anglesoi&quot;), qvals)</code></pre>
 Expression dataset from van de Laar et al. 2016
 </h3>
 <p class="rd-p">
-This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice Note that due to size restrictions of Bioconductor, half of non-differentially expressed genes are not included in the dataset
+This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice. Note that due to size restrictions of Bioconductor, half of non-differentially expressed genes are not included in the dataset.
 </p>
 <h4>
 Usage

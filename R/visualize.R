@@ -1,4 +1,4 @@
-drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) {
+drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=TRUE, baseangle=0) {
   radii = seq_len(rmax)
   hexagonpoints <- plyr::ldply(seq(0, pi*2-0.001, pi/3), function(angle) data.frame(x=cos(angle+baseangle), y=sin(angle+baseangle)))
   gridData <- dplyr::bind_rows(lapply(radii, function(r) data.frame(r=r, x=hexagonpoints$x * r, y =hexagonpoints$y * r)))
@@ -14,7 +14,7 @@ drawHexagonGrid <- function(rmax=5, color="#999999", showlabels=T, baseangle=0) 
   plot
 }
 
-drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squared=F, showlabels=T, labeller=function(x) x) {
+drawCircleGrid <- function(rmax=1, rstep=0.2, rbase=rstep, color="#999999", squared=FALSE, showlabels=TRUE, labeller=function(x) x) {
   circlepoints <- plyr::ldply(seq(0, pi*2-0.001, pi/100), function(angle) data.frame(x=cos(angle), y=sin(angle)))
 
   radii = seq(rbase, rmax, rstep)
@@ -71,7 +71,7 @@ drawGridBasis <- function() {
 #' plotRoseplot(barycoords, (1:1000)[barycoords$r > 1])
 #' plotRoseplot(barycoords, (1:1000)[barycoords$r > 1], 1:100)
 #' @export
-plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=T, showlabels=T, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=grDevices::rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
+plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(barycoords), size="surface", relative=TRUE, showlabels=TRUE, Coi=attr(barycoords, "conditions"), nbins=12, bincolors=grDevices::rainbow(nbins, start=0, v=0.8, s=0.6), rmax="auto", baseangle=0) {
   deltaalpha = pi*2/nbins
 
   Goidiffexp = intersect(Goi, Gdiffexp)
@@ -102,10 +102,10 @@ plotRoseplot = function(barycoords, Gdiffexp=rownames(barycoords), Goi=rownames(
   if (rmax == "auto") {
     #rmax = 10^(ceiling(log10(max(percschange))))
     rmax = roundUpNice(max(percschange))
-    ticks = grDevices::axisTicks(c(0, rmax), F, nint=4)
+    ticks = grDevices::axisTicks(c(0, rmax), FALSE, nint=4)
     rmax = ticks[length(ticks)]
   }
-  ticks = grDevices::axisTicks(c(0, rmax), F, nint=4)
+  ticks = grDevices::axisTicks(c(0, rmax), FALSE, nint=4)
 
   labeller = if(relative) {scales::percent} else {itself}
   plot = drawCircleGrid(rmax, ticks[[2]] - ticks[[1]], squared=(size=="surface"), showlabels=showlabels, labeller=labeller)
@@ -242,7 +242,7 @@ drawConnectionplot <- function(barypoints, barypoints2, rmax=5, order=NULL, base
 #'
 #' @return A ggplot2 plot, which can be used for further customization
 #' @export
-plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=T, sizevalues=stats::setNames(c(0.5,2), c(F,T)), alphavalues=stats::setNames(c(0.8, 0.8), c(F, T)), barycoords2=NULL, baseangle=0) {
+plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi=attr(barycoords, "conditions"), colorby="diffexp", colorvalues=NULL, rmax=5, showlabels=TRUE, sizevalues=stats::setNames(c(0.5,2), c(FALSE,TRUE)), alphavalues=stats::setNames(c(0.8, 0.8), c(FALSE, TRUE)), barycoords2=NULL, baseangle=0) {
   if (!is.list(Goi)) {
     Goi = list(gset=Goi)
   }
@@ -252,11 +252,11 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
   #barypoints = addPolar(barypoints)
 
   barypoints$diffexp = rownames(barypoints) %in% Gdiffexp
-  barypoints$ingset = F
+  barypoints$ingset = FALSE
   barypoints$gsetname = "all"
   if(is.null(names(Goi))) names(Goi) = 1:length(Goi)
   for (gsetname in names(Goi)) {
-    barypoints[Goi[[gsetname]], "ingset"] = T
+    barypoints[Goi[[gsetname]], "ingset"] = TRUE
     barypoints[Goi[[gsetname]], "gsetname"] = gsetname
   }
   barypoints$type = paste0(ifelse(barypoints$diffexp, "diff", "nodiff"), barypoints$gsetname)
@@ -280,16 +280,16 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 
     color = ggplot2::scale_colour_continuous()
     barypoints$colorby = barypoints$z
-    barypoints$alphaby = T
-    barypoints$sizeby = T
+    barypoints$alphaby = TRUE
+    barypoints$sizeby = TRUE
   } else {
     color = ggplot2::scale_colour_continuous()
     barypoints$colorby = barypoints$r
-    barypoints$alphaby = T
-    barypoints$sizeby = T
+    barypoints$alphaby = TRUE
+    barypoints$sizeby = TRUE
   }
-  alpha = ggplot2::scale_alpha_manual(values=stats::setNames(c(0.8,0.8), c(F,T)), name="diffexp")
-  size = ggplot2::scale_size_manual(values=stats::setNames(c(0.5,2), c(F,T)), name="ingset")
+  alpha = ggplot2::scale_alpha_manual(values=stats::setNames(c(0.8,0.8), c(FALSE,TRUE)), name="diffexp")
+  size = ggplot2::scale_size_manual(values=stats::setNames(c(0.5,2), c(FALSE,TRUE)), name="ingset")
 
   order = with(barypoints, order(ingset, diffexp))
 
@@ -327,7 +327,7 @@ plotDotplot <- function(barycoords, Gdiffexp=rownames(barycoords), Goi=NULL, Coi
 #'
 #' plotPvalplot(scores)
 #' @export
-plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=T, baseangle=0) {
+plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=TRUE, baseangle=0) {
   labeller = function(x) paste0("10^-", x, "")
   plot = drawCircleGrid(5, 1, showlabels=showlabels, labeller=labeller) + drawDirections(5, Coi, type="circular", baseangle=baseangle)
 
