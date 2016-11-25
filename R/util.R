@@ -9,6 +9,11 @@ x <- 1
 #' Get the matrix for the barycentric transformation
 #'
 #' @param anglebase Number of radians the first barycentric direction should be rotated anticlockwise
+#'
+#' @examples
+#' plot(t(getTransformationMatrix(0)), asp=1)
+#' plot(t(getTransformationMatrix(pi/2)), asp=1)
+#' plot(t(getTransformationMatrix(pi)), asp=1)
 #' @export
 getTransformationMatrix <- function(anglebase=0) {
   matrix(
