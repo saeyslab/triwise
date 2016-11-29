@@ -18,14 +18,9 @@ License: GPL-3
 LazyData: true
 Imports:
     htmlwidgets,
-    GSEABase,
-    circular,
-    limma,
-    tidyverse,
     Rcpp,
     mgsa,
     ggplot2,
-    cowplot,
     dplyr,
     MASS,
     RColorBrewer,
@@ -37,7 +32,12 @@ Suggests: testthat,
     knitr,
     rmarkdown,
     BiocStyle,
-    packagedocs
+    packagedocs,
+    GSEABase,
+    circular,
+    tidyverse,
+    cowplot,
+    limma
 LinkingTo: Rcpp, RcppArmadillo
 VignetteBuilder: knitr,
     packagedocs

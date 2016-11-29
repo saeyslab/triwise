@@ -27,7 +27,8 @@
 #' interactiveDotplot(Eoi)
 #' interactiveDotplot(Eoi, Gdiffexp)
 #' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000))
-#' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
+#' interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000),
+#'    c(50, 200))
 #' }
 #' @return A htmlwidget object, which can be exported to an svg using \code{\link[htmlwidgets]{saveWidget}}
 #' @export

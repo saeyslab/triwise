@@ -9,7 +9,15 @@ getTransformationMatrix(anglebase = 0)
 \arguments{
 \item{anglebase}{Number of radians the first barycentric direction should be rotated anticlockwise}
 }
+\value{
+2 by 3 matrix
+}
 \description{
 Get the matrix for the barycentric transformation
+}
+\examples{
+plot(t(getTransformationMatrix(0)), asp=1)
+plot(t(getTransformationMatrix(pi/2)), asp=1)
+plot(t(getTransformationMatrix(pi)), asp=1)
 }
 

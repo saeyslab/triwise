@@ -11,6 +11,9 @@
 \usage{
 vandelaar
 }
+\value{
+ExpressionSet with 11679 genes and 24 samples.
+}
 \description{
 This dataset contains, among others, gene expression data from the three main macrophage progenitor populations in mice.
 Note that due to size restrictions of Bioconductor, half of non-differentially expressed genes are not included in the dataset.

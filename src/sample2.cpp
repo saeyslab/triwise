@@ -2,7 +2,7 @@
 #include "RcppArmadilloExtensions/sample.h"
 #include <math.h>
 #include <cmath>
-#include "prob.h"
+#include "prob2.h"
 
 using namespace Rcpp;
 

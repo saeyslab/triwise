@@ -64,9 +64,11 @@ These barycentric coordinates can then be plotted in a 2D dotplot. In this plot 
 ```{r, fig.width=8, fig.height=5}
 plotDotplot(barycoords)
 ```
+
 Overall, the main difference in expression seems to be between the two monocytes (`FL_mono` and `BM_mono`) and the yolk sac macrophage (`YS_MF`). However, one can also appreciate the number of genes which are specifically upregulated in one of the two monocytes, or are shared between one monocyte and the yolk sac macrophage.
 
 We can use limma to determine which genes are differentially expressed in any of the three conditions and visualize these genes on the dotplot. The differentially expressed genes are shown in black.
+
 ```{r}
 design = as(phenoData(Eoi_replicates), "data.frame")
 design$celltype = factor(as.character(design$celltype))
@@ -84,11 +86,13 @@ plotDotplot(barycoords, Gdiffexp)
 ```
 
 We can also plot this as a rose plot, a polar histogram showing the directional distribution of the differentially expressed genes. When plotting all genes in this way it can give you a sense of the main expression changes between populations. As we will see later, it can also be used to visualize individual sets of genes.
+
 ```{r}
 plotRoseplot(barycoords, Gdiffexp, relative = F)
 ```
 
 The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image. Within the widget, genes of interest can be selected to show their labels on the outside of the plot.
+
 ```{r, fig.width=8, fig.height=6}
 dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
 dotplot
@@ -113,11 +117,11 @@ gsets = gsets[gsetindex %>% filter(ontology == "BP") %>% .$gsetid]
 
 We now test whether a gene set is specifically upregulated in a particular direction. This can be run in parallel using the mc.cores parameters (not available on Windows).
 ```{r}
-scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "diffexp", mc.cores = 1)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "rank", mc.cores = 8, nsamples=1e+6)
 scores = left_join(scores, gsetindex, by="gsetid") %>% filter(qval < 0.05) %>% arrange(qval, z)
 ```
 
-Results from GO enrichment tend to include a lot of redundancy because of large overlaps between individual GO terms. To improve interpretability, Triwise uses the "model-based gene set analysis" method 
+Results from GO enrichment tend to include a lot of redundancy because of large overlaps between individual GO terms. To improve interpretability, Triwise therefore uses the "model-based gene set analysis" method [@bauer_going_2010] which selects those gene sets optimally explaining the differentially expressed genes in the dataset.
 ```{r}
 scores = scores[(scores$qval < 0.05) & (scores$z > 0.15), ]
 scores$redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
@@ -132,8 +136,8 @@ Individual gene sets can then again be plotted on a dotplot.
 ```{r}
 gsetid = gsetindex$gsetid[gsetindex$name == "DNA replication"]
 cowplot::plot_grid(
-  plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]]) + ggplot2::theme(legend.position = "none"), 
-  plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]])
+  plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], showlabels = F, Coi=c("")) + ggplot2::theme(legend.position = "none"), 
+  plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], relative = T, showlabels = F, Coi=c(""))
 )
 ```
 
@@ -177,7 +181,7 @@ diffexp <- function(E_replicates, c1, c2) {
   contrastmat <- makeContrasts("B-A", levels=designmat)
   fit = contrasts.fit(fit, contrastmat)
   fit = eBayes(fit)
-  top = topTable(fit, p.value=0.1, lfc=1, number=Inf, sort.by = "none")
+  top = topTable(fit, p.value=0.05, lfc=1, number=Inf, sort.by = "none")
   
   list(up = rownames(top)[top$logFC > 1], down=rownames(top)[top$logFC < -1])
 }

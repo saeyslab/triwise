@@ -132,13 +132,13 @@ R (&gt;= 3.3), Biobase, BiocGenerics
 Imports
 </h4>
 <p>
-htmlwidgets, GSEABase, circular, limma, tidyverse, Rcpp, mgsa, ggplot2, cowplot, dplyr, MASS, RColorBrewer, jsonlite, plyr, scales
+htmlwidgets, Rcpp, mgsa, ggplot2, dplyr, MASS, RColorBrewer, jsonlite, plyr, scales
 </p>
 <h4>
 Suggests
 </h4>
 <p>
-testthat, knitr, rmarkdown, BiocStyle, packagedocs
+testthat, knitr, rmarkdown, BiocStyle, packagedocs, GSEABase, circular, tidyverse, cowplot, limma
 </p>
 <div id="transformation" class="section level1">
 <h1>Transformation</h1>
@@ -261,6 +261,23 @@ anglebase
 Number of radians the first barycentric direction should be rotated anticlockwise
 </dd>
 </dl>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+2 by 3 matrix
+</dl>
+</p>
+<h4>
+Examples
+</h4>
+<pre class="r"><code>plot(t(getTransformationMatrix(0)), asp=1)</code></pre>
+<p><img src="rd_files/figure-html/getTransformationMatrix_id_3-1.png" width="624" /></p>
+<pre class="r"><code>plot(t(getTransformationMatrix(pi/2)), asp=1)</code></pre>
+<p><img src="rd_files/figure-html/getTransformationMatrix_id_3-2.png" width="624" /></p>
+<pre class="r"><code>plot(t(getTransformationMatrix(pi)), asp=1)</code></pre>
+<p><img src="rd_files/figure-html/getTransformationMatrix_id_3-3.png" width="624" /></p>
 </div>
 </div>
 <div id="visualization" class="section level1">
@@ -519,7 +536,7 @@ Arguments
 scores
 </dt>
 <dd class="rd-dd">
-Dataframe as returned by <code>testUnidirectionality</code> containing for every gene set a q-value and an associated angle
+Dataframe as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/testUnidirectionality>testUnidirectionality</a></code> containing for every gene set a q-value and an associated angle
 </dd>
 <dt>
 Coi
@@ -723,7 +740,7 @@ Arguments
 scores
 </dt>
 <dd class="rd-dd">
-Dataframe as returned by <code>testUnidirectionality</code> containing for every gene set a q-value and an associated angle
+Dataframe as returned by <code><a href=http://www.rdocumentation.org/packages/triwise/topics/testUnidirectionality>testUnidirectionality</a></code> containing for every gene set a q-value and an associated angle
 </dd>
 <dt>
 gsetlabels
@@ -783,7 +800,7 @@ Test gene sets for unidirectional enrichment
 <h4>
 Usage
 </h4>
-<pre class="r"><code><div>testUnidirectionality(barycoords, gsets, Gdiffexp&nbsp;=&nbsp;NULL, statistic&nbsp;=&nbsp;"diffexp", bm&nbsp;=&nbsp;NULL, minknown&nbsp;=&nbsp;5, mindiffexp&nbsp;=&nbsp;0, maxknown&nbsp;=&nbsp;1500, mc.cores&nbsp;=&nbsp;getOption("mc.cores", default&nbsp;=&nbsp;1))</div></code></pre>
+<pre class="r"><code><div>testUnidirectionality(barycoords, gsets, Gdiffexp&nbsp;=&nbsp;NULL, statistic&nbsp;=&nbsp;"diffexp", bm&nbsp;=&nbsp;NULL, minknown&nbsp;=&nbsp;5, mindiffexp&nbsp;=&nbsp;0, maxknown&nbsp;=&nbsp;1500, mc.cores&nbsp;=&nbsp;getOption("mc.cores", default&nbsp;=&nbsp;1), ...)</div></code></pre>
 <h4>
 Arguments
 </h4>
@@ -859,6 +876,12 @@ mc.cores
 <dd class="rd-dd">
 Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows
 </dd>
+<dt>
+…
+</dt>
+<dd class="rd-dd">
+Parameters for <code><a href=http://www.rdocumentation.org/packages/triwise/topics/generateBackgroundModel>generateBackgroundModel</a></code>
+</dd>
 </dl>
 <h4>
 Value
@@ -890,10 +913,10 @@ barycoords = transformBarycentric(Eoi)
 
 gsets = list(a=1:50, b=80:150, c=200:500)
 testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r &gt; 1])</code></pre>
-<pre><code>##         pval     angle   n gsetid          z       qval
-## 1 0.00000000 0.0152909  50      a 0.98969284 0.00000000
-## 2 0.04600656 0.1952769  71      b 0.21404641 0.06900984
-## 3 0.99325325 6.2309583 301      c 0.02814531 0.99325325</code></pre>
+<pre><code>##           pval      angle   n gsetid          z         qval
+## 1 0.0000000000 0.01545295  50      a 0.98546551 0.0000000000
+## 2 0.0004658351 0.03248947  71      b 0.31799432 0.0006987526
+## 3 0.9927447804 5.92573169 301      c 0.02986189 0.9927447804</code></pre>
 </div>
 <div id="generatebackgroundmodel" class="section level2">
 <h2>generateBackgroundModel</h2>
@@ -1041,7 +1064,7 @@ P-value of unidirectionality under the uniformity null hypothesis
 Examples
 </h4>
 <pre class="r"><code>testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))</code></pre>
-<pre><code>## [1] 0.001343349</code></pre>
+<pre><code>## [1] 0.004219547</code></pre>
 <pre class="r"><code>testRayleigh(seq(0, 2*pi, 0.1))</code></pre>
 <pre><code>## [1] 0.9995545</code></pre>
 </div>
@@ -1281,6 +1304,14 @@ Source
 </h4>
 <p class="rd-p">
 <a href = https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76999>https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE76999</a>
+</p>
+<h4>
+Value
+</h4>
+<p class="rd-p">
+<dl>
+ExpressionSet with 11679 genes and 24 samples.
+</dl>
 </p>
 </div>
 </div>

@@ -8,7 +8,7 @@ plotPvalplot(scores, Coi = c("", "", ""), colorby = NULL,
   showlabels = TRUE, baseangle = 0)
 }
 \arguments{
-\item{scores}{Dataframe as returned by `testUnidirectionality` containing for every gene set a q-value and an associated angle}
+\item{scores}{Dataframe as returned by \code{\link[triwise]{testUnidirectionality}} containing for every gene set a q-value and an associated angle}
 
 \item{Coi}{Names of the three biological conditions, only used for labelling}
 

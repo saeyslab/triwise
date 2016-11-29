@@ -6,7 +6,7 @@
 \usage{
 testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
   statistic = "diffexp", bm = NULL, minknown = 5, mindiffexp = 0,
-  maxknown = 1500, mc.cores = getOption("mc.cores", default = 1))
+  maxknown = 1500, mc.cores = getOption("mc.cores", default = 1), ...)
 }
 \arguments{
 \item{barycoords}{Dataframe containing for every gene its barycentric coordinates, as returned by \code{\link[triwise]{transformBarycentric}}}
@@ -32,6 +32,8 @@ testUnidirectionality(barycoords, gsets, Gdiffexp = NULL,
 \item{maxknown}{Maximal number of genes within a gene set for it to be considered for enrichment}
 
 \item{mc.cores}{Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows}
+
+\item{...}{Parameters for \code{\link[triwise]{generateBackgroundModel}}}
 }
 \value{
 Dataframe containing for every gene set which passed the filtering: \itemize{

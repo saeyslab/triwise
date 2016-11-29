@@ -128,7 +128,8 @@ testEnrichment = function(Goi, gsets, background, minknown=2, mindiffexp=2, maxk
 #'
 #' bm = generateBackgroundModel(barycoords)
 #'
-#' # the distribution of mean angle of the samples is not uniform due to the non-uniform distribution of the angles of individual genes
+#' # the distribution of mean angle of the samples is not uniform due to the
+#' # non-uniform distribution of the angles of individual genes
 #' hist(bm$backmodels[[1]]$angles)
 #'
 #' # the whole distribution (and therefore also the p-value) also depends on the mean angle
@@ -184,6 +185,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 #' @param mindiffexp Minimal number of genes differentially expressed within a gene set for it to be considered for enrichment
 #' @param maxknown Maximal number of genes within a gene set for it to be considered for enrichment
 #' @param mc.cores Number of processor cores to use. Due to limitations of the parallel package, this does not work on Windows
+#' @param ... Parameters for \code{\link[triwise]{generateBackgroundModel}}
 #' @return Dataframe containing for every gene set which passed the filtering: \itemize{
 #'  \item p-value of unidirectionality
 #'  \item q-value of unidirectionality (p-value corrected for multiple testing)
@@ -197,7 +199,7 @@ generateBackgroundModel <- function(barycoords, noi = seq(5, 100, 5), anglesoi =
 #' gsets = list(a=1:50, b=80:150, c=200:500)
 #' testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r > 1])
 #' @export
-testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=0, maxknown=1500, mc.cores=getOption("mc.cores", default=1)) {
+testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="diffexp", bm=NULL, minknown=5, mindiffexp=0, maxknown=1500, mc.cores=getOption("mc.cores", default=1), ...) {
   if(!is.data.frame(barycoords)) stop("barycoords should be a data.frame")
   if(!all(c("x", "y", "angle", "r") %in% colnames(barycoords))) stop("barycoords should contain x, y, angle and r columns")
 
@@ -219,7 +221,7 @@ testUnidirectionality = function(barycoords, gsets, Gdiffexp=NULL, statistic="di
   }
 
   if(is.null(bm) && statistic != "angle") {
-    bm = generateBackgroundModel(barycoords, mc.cores=mc.cores)
+    bm = generateBackgroundModel(barycoords, mc.cores=mc.cores, ...)
   }
 
   background = rownames(barycoords)

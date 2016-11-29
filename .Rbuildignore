@@ -9,3 +9,4 @@
 ^.*\.jshintrc$
 ^.*\.bowerrc
 ^examples/.*$
+^.*setups\.ai$
