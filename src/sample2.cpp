@@ -6,6 +6,7 @@
 
 using namespace Rcpp;
 
+// [[register]]
 //' @title backgroundModel2
 //' @description Generates a triwise background model, containing weights, z-values and angle p-values for a set of uniformly distributed reference angles
 //' @param angles
@@ -13,7 +14,6 @@ using namespace Rcpp;
 //' @param samplesize
 //' @param nangles
 //' @param bw
-//' @export
 // [[Rcpp::depends("RcppArmadillo")]]
 // [[Rcpp::export]]
 List backgroundModel2(NumericVector angles, NumericVector R, int nsamples, int samplesize, NumericVector anglesoi, double bw) {

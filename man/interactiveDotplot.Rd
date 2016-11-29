@@ -65,7 +65,8 @@ Gdiffexp =(1:1000)[barycoords$r > 1]
 interactiveDotplot(Eoi)
 interactiveDotplot(Eoi, Gdiffexp)
 interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000))
-interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000), c(50, 200))
+interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character(1:1000),
+   c(50, 200))
 }
 }
 

@@ -46,7 +46,8 @@ hist(barycoords$angle)
 
 bm = generateBackgroundModel(barycoords)
 
-# the distribution of mean angle of the samples is not uniform due to the non-uniform distribution of the angles of individual genes
+# the distribution of mean angle of the samples is not uniform due to the
+# non-uniform distribution of the angles of individual genes
 hist(bm$backmodels[[1]]$angles)
 
 # the whole distribution (and therefore also the p-value) also depends on the mean angle

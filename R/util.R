@@ -1,5 +1,5 @@
 #' @importFrom Rcpp evalCpp
-#' @useDynLib triwise
+#' @useDynLib triwise, .registration=TRUE
 x <- 1
 
 
