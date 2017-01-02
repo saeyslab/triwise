@@ -7,3 +7,4 @@ examples/*
 inst/doc
 _gh-pages
 src/*.o
+src/*.so
