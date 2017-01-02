@@ -117,7 +117,7 @@ gsets = gsets[gsetindex %>% filter(ontology == "BP") %>% .$gsetid]
 
 We now test whether a gene set is specifically upregulated in a particular direction. This can be run in parallel using the mc.cores parameters (not available on Windows).
 ```{r}
-scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "rank", mc.cores = 1, nsamples=1e+5)
+scores = testUnidirectionality(barycoords, gsets, Gdiffexp, statistic = "rank", mc.cores = 8, nsamples=1e+5)
 scores = left_join(scores, gsetindex, by="gsetid") %>% filter(qval < 0.05) %>% arrange(qval, z)
 ```
 
@@ -134,7 +134,9 @@ plotPvalplot(scores %>% top_n(20, redundancy), colnames(Eoi))
 
 Individual gene sets can then again be plotted on a dotplot.
 ```{r}
+gsetid = gsetindex$gsetid[gsetindex$name == "tRNA aminoacylation for protein translation"]
 gsetid = gsetindex$gsetid[gsetindex$name == "DNA replication"]
+gsetid = "GO:0034340"
 cowplot::plot_grid(
   plotDotplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], showlabels = F, Coi=c("")) + ggplot2::theme(legend.position = "none"), 
   plotRoseplot(barycoords, Gdiffexp, Goi=gsets[[gsetid]], relative = T, showlabels = F, Coi=c(""))

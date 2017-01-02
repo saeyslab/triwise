@@ -6,3 +6,4 @@ examples/*
 .Rproj.user
 inst/doc
 _gh-pages
+src/*.o
