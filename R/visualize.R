@@ -338,13 +338,17 @@ plotPvalplot <- function(scores, Coi=c("", "", ""), colorby=NULL, showlabels=TRU
 
   if (!is.null(colorby)) {
     scores$colorby = scores[,colorby]
-    color = ggplot2::scale_color_continuous()
+    if(is.factor(scores$colorby)) {
+      color = ggplot2::scale_color_discrete()
+    } else {
+      color = ggplot2::scale_color_continuous()
+    }
   } else {
     scores$colorby = factor(1)
     color = ggplot2::scale_color_manual(values=c(`1`="#333333"))
   }
 
-  plot = plot + ggplot2::geom_point(ggplot2::aes(x=x, y=y, color=colorby), data=scores, size=1) + color
+  plot = plot + ggplot2::geom_point(ggplot2::aes(x=x, y=y, color=colorby), data=scores, size=4) + color
 
   plot
 }
