@@ -52,6 +52,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=row
       Gpin = Gpin[order(barycoords[Gpin,"r"], decreasing=TRUE)[1:20]]
     }
   }
+  Gpin = unique(Gpin)
 
   Gmap = stats::setNames(seq(0, nrow(Eoi)), rownames(Eoi))
 
