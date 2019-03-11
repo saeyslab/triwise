@@ -25,8 +25,7 @@ HTMLWidgets.widget({
     Gpin = data.Gpin;
     logpvals = data.logpvals;
     options = data.options;
-    rmax = options.rmax;
-    console.log("waaaaaaaaaaaa")
+    rmax = data.rmax;
     d3.select("div.dotplot").append("div").style("position", "relative").style("left", "10px").style("top", "50px").classed("awesomplete", true).append("input").attr("id", "genesearch").attr("placeholder", "search gene...");
     genesearch_input = document.getElementById("genesearch");
     genesearch = new Awesomplete(genesearch_input, {
