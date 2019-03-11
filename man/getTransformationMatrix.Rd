@@ -20,4 +20,3 @@ plot(t(getTransformationMatrix(0)), asp=1)
 plot(t(getTransformationMatrix(pi/2)), asp=1)
 plot(t(getTransformationMatrix(pi)), asp=1)
 }
-

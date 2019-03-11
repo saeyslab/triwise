@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // backgroundModel2
 List backgroundModel2(NumericVector angles, NumericVector R, int nsamples, int samplesize, NumericVector anglesoi, double bw);
-RcppExport SEXP triwise_backgroundModel2(SEXP anglesSEXP, SEXP RSEXP, SEXP nsamplesSEXP, SEXP samplesizeSEXP, SEXP anglesoiSEXP, SEXP bwSEXP) {
+RcppExport SEXP _triwise_backgroundModel2(SEXP anglesSEXP, SEXP RSEXP, SEXP nsamplesSEXP, SEXP samplesizeSEXP, SEXP anglesoiSEXP, SEXP bwSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,4 +21,14 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(backgroundModel2(angles, R, nsamples, samplesize, anglesoi, bw));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_triwise_backgroundModel2", (DL_FUNC) &_triwise_backgroundModel2, 6},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_triwise(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

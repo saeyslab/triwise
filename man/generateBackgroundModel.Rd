@@ -54,4 +54,3 @@ hist(bm$backmodels[[1]]$angles)
 plotdata = data.frame(angle = cut(bm$backmodels[[1]]$angles, 10), z = bm$backmodels[[1]]$z)
 ggplot2::ggplot(plotdata) + ggplot2::geom_violin(ggplot2::aes(angle, z))
 }
-

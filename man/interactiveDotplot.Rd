@@ -6,9 +6,9 @@
 \usage{
 interactiveDotplot(Eoi, Gdiffexp = rownames(Eoi), Goi = c(),
   Glabels = rownames(Eoi), Gpin = c(), Coi = colnames(Eoi),
-  colorvalues = NULL, rmax = 5, sizevalues = c(`TRUE` = 2, `FALSE` = 0.5),
-  alphavalues = c(`TRUE` = 0.8, `FALSE` = 0.8), plotLocalEnrichment = FALSE,
-  width = NULL, height = NULL)
+  colorvalues = NULL, rmax = 5, sizevalues = c(`TRUE` = 2, `FALSE` =
+  0.5), alphavalues = c(`TRUE` = 0.8, `FALSE` = 0.8),
+  plotLocalEnrichment = FALSE, width = NULL, height = NULL)
 }
 \arguments{
 \item{Eoi}{Expression matrix with the three conditions in the columns}
@@ -69,4 +69,3 @@ interactiveDotplot(Eoi, as.character(Gdiffexp), as.character(1:10), as.character
    c(50, 200))
 }
 }
-

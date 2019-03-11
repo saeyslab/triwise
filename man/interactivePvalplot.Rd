@@ -4,7 +4,8 @@
 \alias{interactivePvalplot}
 \title{Interactive plot of p-values}
 \usage{
-interactivePvalplot(scores, gsetlabels, Coi, width = NULL, height = NULL)
+interactivePvalplot(scores, gsetlabels, Coi, width = NULL,
+  height = NULL)
 }
 \arguments{
 \item{scores}{Dataframe as returned by \code{\link[triwise]{testUnidirectionality}} containing for every gene set a q-value and an associated angle}
@@ -34,4 +35,3 @@ scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r
 interactivePvalplot(scores, as.list(setNames(names(gsets), names(gsets))), 1:3)
 }
 }
-

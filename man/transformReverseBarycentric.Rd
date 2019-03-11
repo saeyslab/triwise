@@ -24,4 +24,3 @@ barycoords = transformBarycentric(Eoi)
 reversebarycoords = transformReverseBarycentric(barycoords)
 all.equal(scale(t(Eoi)), scale(t(reversebarycoords)), check.attributes=FALSE)
 }
-

@@ -25,6 +25,8 @@ HTMLWidgets.widget({
 
         options = data.options
 
+        rmax = data.rmax
+
         ## add searchbar
         d3.select("div.dotplot")
             .append("div")
@@ -61,7 +63,6 @@ HTMLWidgets.widget({
                 row.goi = false
 
         ## dot plot
-        rmax = 4
         scale = (x) -> x * (h-0)/(rmax*2)
 
         ax = d3.select("div.dotplot")

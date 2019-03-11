@@ -36,4 +36,3 @@ gsets = list(a= 20:70, b = 45:80)
 background = 1:100
 testEnrichment(Goi, gsets, background)
 }
-

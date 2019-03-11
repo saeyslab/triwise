@@ -19,4 +19,3 @@ This dataset contains, among others, gene expression data from the three main ma
 Note that due to size restrictions of Bioconductor, half of non-differentially expressed genes are not included in the dataset.
 }
 \keyword{datasets}
-

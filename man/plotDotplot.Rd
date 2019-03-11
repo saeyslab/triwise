@@ -63,4 +63,3 @@ plotDotplot(barycoords, Gdiffexp, 1:100)
 plotDotplot(barycoords, Gdiffexp, list(a=1:100, b=sample(100:1000, 50)))
 
 }
-

@@ -34,4 +34,3 @@ scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r
 
 plotPvalplot(scores)
 }
-

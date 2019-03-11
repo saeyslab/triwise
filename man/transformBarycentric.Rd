@@ -23,4 +23,3 @@ Eoi[1:100,1] = Eoi[1:100,1] + 1
 barycoords = transformBarycentric(Eoi)
 hist(barycoords$angle)
 }
-

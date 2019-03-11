@@ -19,4 +19,3 @@ Rayleigh z-test implementation
 testRayleigh(as.numeric(circular::rvonmises(10, circular::circular(1), 2)))
 testRayleigh(seq(0, 2*pi, 0.1))
 }
-

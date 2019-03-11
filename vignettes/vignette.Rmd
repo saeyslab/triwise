@@ -94,7 +94,7 @@ plotRoseplot(barycoords, Gdiffexp, relative = F)
 The dotplots can also be explored interactively using an htmlwidget. These can be saved as standalone html pages using `saveWidget(dotplot, file="dotplot.html")`. When using RStudio, the GUI can also be used to export the plot as a bitmap png image. Within the widget, genes of interest can be selected to show their labels on the outside of the plot.
 
 ```{r, fig.width=8, fig.height=6}
-dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez)
+dotplot = interactiveDotplot(Eoi, Gdiffexp, Glabels = featureData(vandelaar)$symbol, Goi=dplyr::top_n(top, 25, -adj.P.Val)$entrez, rmax = 6)
 dotplot
 ```
 

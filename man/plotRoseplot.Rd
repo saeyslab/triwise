@@ -6,9 +6,9 @@
 \usage{
 plotRoseplot(barycoords, Gdiffexp = rownames(barycoords),
   Goi = rownames(barycoords), size = "surface", relative = TRUE,
-  showlabels = TRUE, Coi = attr(barycoords, "conditions"), nbins = 12,
-  bincolors = grDevices::rainbow(nbins, start = 0, v = 0.8, s = 0.6),
-  rmax = "auto", baseangle = 0)
+  showlabels = TRUE, Coi = attr(barycoords, "conditions"),
+  nbins = 12, bincolors = grDevices::rainbow(nbins, start = 0, v = 0.8,
+  s = 0.6), rmax = "auto", baseangle = 0)
 }
 \arguments{
 \item{barycoords}{Dataframe containing barycentric coordinates as returned by \code{\link[triwise]{transformBarycentric}}.}
@@ -47,4 +47,3 @@ plotRoseplot(barycoords)
 plotRoseplot(barycoords, (1:1000)[barycoords$r > 1])
 plotRoseplot(barycoords, (1:1000)[barycoords$r > 1], 1:100)
 }
-

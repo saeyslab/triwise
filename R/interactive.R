@@ -66,7 +66,7 @@ interactiveDotplot <- function(Eoi, Gdiffexp=rownames(Eoi), Goi=c(), Glabels=row
     Goi = Gmap[Goi],
     Gpin = Gmap[Gpin],
     logpvals=log10(localpvals),
-    options = list(plotLocalEnrichment=plotLocalEnrichment)
+    options = list(plotLocalEnrichment=plotLocalEnrichment, rmax=rmax)
   )
   attr(params, 'TOJSON_FUNC') <- function(x) {jsonlite::toJSON(x, matrix="columnmajor")}
 

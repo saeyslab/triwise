@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 backgroundModel2 <- function(angles, R, nsamples, samplesize, anglesoi, bw) {
-    .Call('triwise_backgroundModel2', PACKAGE = 'triwise', angles, R, nsamples, samplesize, anglesoi, bw)
+    .Call(`_triwise_backgroundModel2`, angles, R, nsamples, samplesize, anglesoi, bw)
 }
 

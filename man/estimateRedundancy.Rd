@@ -31,4 +31,3 @@ scores = testUnidirectionality(barycoords, gsets, Gdiffexp=(1:1000)[barycoords$r
 scores$redundancy = estimateRedundancy(scores, gsets, Gdiffexp)
 scores[scores$gsetid == "a", "redundancy"] > scores[scores$gsetid == "b", "redundancy"]
 }
-

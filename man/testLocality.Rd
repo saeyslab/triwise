@@ -4,7 +4,8 @@
 \alias{testLocality}
 \title{Test local upregulation}
 \usage{
-testLocality(Goi, Gdiffexp, angles, deltangle = pi/24, bandwidth = pi/3)
+testLocality(Goi, Gdiffexp, angles, deltangle = pi/24,
+  bandwidth = pi/3)
 }
 \arguments{
 \item{Goi}{Gene set for which to test enrichment}
@@ -32,4 +33,3 @@ Goi = 1:50
 qvals = testLocality(Goi, Gdiffexp=(1:1000)[barycoords$r > 1], barycoords)
 plot(attr(qvals, "anglesoi"), qvals)
 }
-
